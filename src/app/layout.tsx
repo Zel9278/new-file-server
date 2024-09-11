@@ -1,5 +1,4 @@
 import type { Metadata } from "next"
-import { headers } from "next/headers"
 import "@/styles/globals.css"
 
 const siteName = process.env.NAME as string
@@ -9,7 +8,7 @@ export const metadata: Metadata = {
     default: siteName,
     template: `%s - ${siteName}`,
   },
-  description: "Ced's New File Server",
+  description: process.env.DESCRIPTION as string,
 }
 
 export default function RootLayout({

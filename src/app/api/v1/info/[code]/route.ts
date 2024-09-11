@@ -71,7 +71,7 @@ export async function GET(
 
   const info = {
     code,
-    url: `${process.env.URL}/files/${code}/${fileDir}`,
+    url: `${process.env.URL}/files/${code}`,
     rawName: fileDir,
     type: path.extname(`${filesDir}/${code}`).replace(".", ""),
     size: byteToData(fileStat.size),

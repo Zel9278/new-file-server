@@ -3,6 +3,7 @@ export default function Home() {
     <>
       <div className="flex justify-center items-center flex-col gap-2 w-auto h-full">
         <h1 className="text-4xl">{process.env.NAME}</h1>
+        <p>{process.env.DESCRIPTION}</p>
         <div className="flex gap-2">
           <a href="/pages/1">
             <button className="btn btn-success">File List</button>
