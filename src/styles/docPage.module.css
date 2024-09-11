@@ -1,0 +1,6 @@
+/* api-doc.module.css */
+
+.noDaisyUI * {
+  all: unset;
+  box-sizing: border-box;
+}
