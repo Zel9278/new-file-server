@@ -1,6 +1,8 @@
 import fs from "fs"
 import path from "path"
 import { notFound } from "next/navigation"
+import byteToData from "@/utils/byteToData"
+import { DateTime } from "luxon"
 
 type Props = {
   params: { page: string }
@@ -74,15 +76,48 @@ export default function Page({ params }: Props) {
 
   return (
     <>
-      <div className="flex justify-center items-center flex-col gap-2 w-auto h-full">
-        <div className="flex flex-col gap-2">
-          <h1>File List</h1>
-          <div className="flex gap-2 flex-wrap">
-            {filesOnPage.map((file) => (
-              <a key={file} href={`/files/${file}`} className="btn btn-info">
-                {file}
-              </a>
-            ))}
+      <div className="flex items-center flex-col gap-4 w-auto h-full">
+        <div className="flex flex-col gap-4">
+          <div className="flex flex-wrap gap-4 !items-center !justify-center">
+            {filesOnPage.map((file) => {
+              const fileDir = fs.readdirSync(
+                path.join(process.cwd(), "files", file),
+              )
+              const fileStat = fs.statSync(
+                path.join(process.cwd(), "files", file, fileDir[0]),
+              )
+
+              const fileSize = byteToData(fileStat.size)
+              const fileDate = DateTime.fromJSDate(fileStat.mtime).toFormat(
+                "yyyy-MM-dd HH:mm:ss",
+              )
+              const fileAgo = DateTime.fromJSDate(fileStat.mtime).toRelative()
+
+              return (
+                <div key={file} className="card bg-base-200 w-96 shadow-xl">
+                  <div className="card-body">
+                    <h2 className="card-title">{file}</h2>
+                    <div>
+                      <p>Original FileName: {fileDir[0]}</p>
+                      <p>Size: {fileSize}</p>
+                      <p>Date: {fileDate}</p>
+                      <p>Time Ago: {fileAgo}</p>
+                    </div>
+                    <div className="card-actions justify-end">
+                      <a
+                        className="btn btn-primary"
+                        href={`/api/v1/info/${file}`}
+                      >
+                        Info
+                      </a>
+                      <a className="btn btn-primary" href={`/files/${file}`}>
+                        View
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              )
+            })}
           </div>
         </div>
         <div className="join flex">
