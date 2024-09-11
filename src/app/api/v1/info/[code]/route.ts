@@ -75,9 +75,11 @@ export async function GET(
     rawName: fileDir,
     type: path.extname(`${filesDir}/${code}`).replace(".", ""),
     size: byteToData(fileStat.size),
-    date: DateTime.fromJSDate(fileStat.mtime).toFormat("yyyy-MM-dd HH:mm:ss"),
+    date: DateTime.fromJSDate(fileStat.mtime)
+      .setLocale("en")
+      .toFormat("yyyy-MM-dd HH:mm:ss"),
     unixDate: fileStat.mtime.getTime(),
-    ago: DateTime.fromJSDate(fileStat.mtime).toRelative(),
+    ago: DateTime.fromJSDate(fileStat.mtime).setLocale("en").toRelative(),
   }
 
   return Response.json(info)

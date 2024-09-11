@@ -88,10 +88,12 @@ export default function Page({ params }: Props) {
               )
 
               const fileSize = byteToData(fileStat.size)
-              const fileDate = DateTime.fromJSDate(fileStat.mtime).toFormat(
-                "yyyy-MM-dd HH:mm:ss",
-              )
-              const fileAgo = DateTime.fromJSDate(fileStat.mtime).toRelative()
+              const fileDate = DateTime.fromJSDate(fileStat.mtime)
+                .setLocale("en")
+                .toFormat("yyyy-MM-dd HH:mm:ss")
+              const fileAgo = DateTime.fromJSDate(fileStat.mtime)
+                .setLocale("en")
+                .toRelative()
 
               return (
                 <div key={file} className="card bg-base-200 w-96 shadow-xl">

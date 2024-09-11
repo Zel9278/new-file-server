@@ -58,9 +58,11 @@ export async function GET(request: NextRequest) {
       rawName: file,
       type: path.extname(`${filesDir}/${file}`).replace(".", ""),
       size: byteToData(fileStat.size),
-      date: DateTime.fromJSDate(fileStat.mtime).toFormat("yyyy-MM-dd HH:mm:ss"),
+      date: DateTime.fromJSDate(fileStat.mtime)
+        .setLocale("en")
+        .toFormat("yyyy-MM-dd HH:mm:ss"),
       unixDate: fileStat.mtime.getTime(),
-      ago: DateTime.fromJSDate(fileStat.mtime).toRelative(),
+      ago: DateTime.fromJSDate(fileStat.mtime).setLocale("en").toRelative(),
     }
   })
 
