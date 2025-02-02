@@ -57,7 +57,7 @@ export async function DELETE(request: NextRequest, { params }: Props) {
     discordPreloader("delete", code)
 
     return new Response("done")
-  } catch (error) {
+  } catch {
     return new Response("Internal Server Error", { status: 500 })
   }
 }
