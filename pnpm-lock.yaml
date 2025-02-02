@@ -21,8 +21,8 @@ importers:
         specifier: 4.0.6
         version: 4.0.6
       mime-type:
-        specifier: 5.0.0
-        version: 5.0.0
+        specifier: 5.0.2
+        version: 5.0.2
       next:
         specifier: 15.1.6
         version: 15.1.6(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
@@ -1736,8 +1736,8 @@ packages:
     resolution: {integrity: sha512-sPU4uV7dYlvtWJxwwxHD0PuihVNiE7TyAbQ5SWxDCB9mUYvOgroQOwYQQOKPJ8CIbE+1ETVlOoK1UC2nU3gYvg==}
     engines: {node: '>= 0.6'}
 
-  mime-type@5.0.0:
-    resolution: {integrity: sha512-bA14AmcvhoQIHS6TYi4Fx+eGRigNCwWDW1DkfjV6eAkLDCfrc70dk+kSHHdwOH0r+X/r7lVJbPWH/1SLCRcdiA==}
+  mime-type@5.0.2:
+    resolution: {integrity: sha512-OoPLlorKUS6vYxG57bqkU3RnPdVFALUUsKG5e6hgLa9eGPa1voPrfX1OgVvKLWAOYnP9t7iDyOTzEPh7lg5fvA==}
     engines: {node: '>= 8.6'}
 
   mime-types@2.1.35:
@@ -1968,8 +1968,8 @@ packages:
     resolution: {integrity: sha512-gDKb8aZMDeD/tZWs9P6+q0J9Mwkdl6xMV8TjnGP3qJVJ06bdMgkbBlLU8IdfOsIsFz2BW1rNVT3XuNEl8zPAvw==}
     engines: {node: '>=8'}
 
-  path.js@2.0.0:
-    resolution: {integrity: sha512-DbEpzgKCtQHALNvmm51JOL3VMX+1JZCGvfpst1veul4hBIOEzRx6lH9JNPd7DlnvW304aal43JfnlHub3oybRw==}
+  path.js@2.0.1:
+    resolution: {integrity: sha512-vMXZqQ9i6dAS9sU9lYqxtsc9HCY3i+Ca523+DWEp0nIRNQvRzMpoyMSu9lejp0lv4DLF0jsVpRVljnQ1zaqmGA==}
 
   peek-readable@5.3.1:
     resolution: {integrity: sha512-GVlENSDW6KHaXcd9zkZltB7tCLosKB/4Hg0fqBJkAoBgYG2Tn1xtMgXtSUuMU9AK/gCm/tTdT8mgAeF4YNeeqw==}
@@ -1984,6 +1984,10 @@ packages:
   picomatch@2.3.1:
     resolution: {integrity: sha512-JU3teHTNjmE2VCGFzuY8EXzCDVwEqB2a8fsIvwaStHhAWJEeVd1o1QD80CU6+ZdEXXSLbSsuLwJjkCBWqRQUVA==}
     engines: {node: '>=8.6'}
+
+  picomatch@4.0.2:
+    resolution: {integrity: sha512-M7BAV6Rlcy5u+m6oPhAPFgJTzAioX/6B0DxyvDlo9l8+T3nLKbrczg2WLUyzd45L8RqfUMyGPzekbMvX2Ldkwg==}
+    engines: {node: '>=12'}
 
   pify@2.3.0:
     resolution: {integrity: sha512-udgsAY+fTnvv7kI7aaxbqwWNb0AHiB0qBO89PZKPkoTmGOgdbrHDKD+0B2X4uTfJ/FT1R09r9gTsjUjNJotuog==}
@@ -2658,8 +2662,8 @@ packages:
   util-deprecate@1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
 
-  util-ex@2.0.0:
-    resolution: {integrity: sha512-CdVsXWgu5SIVsVTAQvQ7tT7pHJmKCsaPoid3+OkxyUSItTC/o4w4rq24A1zJHiljsyRnjfwAxAkj0uSz0wyCgQ==}
+  util-ex@2.1.0:
+    resolution: {integrity: sha512-VL9RLv9aXOSRlphqMkjePhgwiBopc8/c5vM/3YAhYuS5tT7RPyUl4q69pd/njO+P8s7EvhpSJEVoRwX9gQpGHg==}
     engines: {node: '>=8'}
 
   validator@13.12.0:
@@ -4929,11 +4933,11 @@ snapshots:
 
   mime-db@1.52.0: {}
 
-  mime-type@5.0.0:
+  mime-type@5.0.2:
     dependencies:
-      micromatch: 4.0.8
-      path.js: 2.0.0
-      util-ex: 2.0.0
+      path.js: 2.0.1
+      picomatch: 4.0.2
+      util-ex: 2.1.0
 
   mime-types@2.1.35:
     dependencies:
@@ -5165,10 +5169,10 @@ snapshots:
 
   path-type@4.0.0: {}
 
-  path.js@2.0.0:
+  path.js@2.0.1:
     dependencies:
       inherits-ex: 2.1.0
-      util-ex: 2.0.0
+      util-ex: 2.1.0
 
   peek-readable@5.3.1: {}
 
@@ -5177,6 +5181,8 @@ snapshots:
   picocolors@1.1.1: {}
 
   picomatch@2.3.1: {}
+
+  picomatch@4.0.2: {}
 
   pify@2.3.0: {}
 
@@ -5981,7 +5987,7 @@ snapshots:
 
   util-deprecate@1.0.2: {}
 
-  util-ex@2.0.0:
+  util-ex@2.1.0:
     dependencies:
       inherits-ex: 2.1.0
 
