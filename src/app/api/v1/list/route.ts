@@ -3,46 +3,6 @@ import path from "node:path"
 import byteToData from "@/utils/byteToData"
 import { DateTime } from "luxon"
 
-/**
- * @swagger
- * /api/v1/list:
- *   get:
- *     description: List all files
- *     responses:
- *       200:
- *         description: List of files
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                 type: object
- *                 properties:
- *                   code:
- *                     type: string
- *                     description: File code
- *                   url:
- *                     type: string
- *                     description: File URL
- *                   rawName:
- *                     type: string
- *                     description: File name
- *                   type:
- *                     type: string
- *                     description: File type
- *                   size:
- *                     type: string
- *                     description: File size
- *                   date:
- *                     type: string
- *                     description: File date
- *                   unixDate:
- *                     type: number
- *                     description: File date in unix time
- *                   ago:
- *                     type: string
- *                     description: File date in relative time
- */
 export async function GET() {
   const filesDir = path.join(process.cwd(), "files")
   const dirs = fs.readdirSync(filesDir)

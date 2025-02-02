@@ -9,24 +9,6 @@ type Props = {
   }>
 }
 
-/**
- * @swagger
- * /api/v1/raw/{code}:
- *   get:
- *     description: raw file
- *     parameters:
- *       - in: path
- *         name: code
- *         required: true
- *         description: File code
- *         schema:
- *           type: string
- *     responses:
- *       200:
- *         description: File content
- *       404:
- *         description: File not found
- */
 export async function GET(request: NextRequest, { params }: Props) {
   const code = (await params).code
 

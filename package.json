@@ -9,20 +9,19 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "lint": "eslint .",
-    "lint:fix": "eslint --fix ."
+    "lint:fix": "eslint --fix .",
+    "openapi": "openapi-typescript ./openapi.yml --output api.d.ts"
   },
   "dependencies": {
+    "@scalar/nextjs-api-reference": "0.5.5",
     "@tailwindcss/postcss": "4.0.3",
-    "@types/swagger-ui-react": "5.18.0",
     "file-type": "20.0.1",
     "luxon": "3.5.0",
     "mime": "4.0.6",
     "mime-type": "5.0.2",
     "next": "15.1.6",
-    "next-swagger-doc": "0.4.1",
     "react": "19.0.0",
-    "react-dom": "19.0.0",
-    "swagger-ui-react": "5.18.3"
+    "react-dom": "19.0.0"
   },
   "devDependencies": {
     "@types/luxon": "3.4.2",

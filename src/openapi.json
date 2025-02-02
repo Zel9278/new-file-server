@@ -1,0 +1,286 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Ced's File Server API Documentation",
+    "description": "API for uploading, downloading, and deleting files",
+    "url": "https://f.c30.life",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://f.c30.life",
+      "description": "Production server"
+    }
+  ],
+  "paths": {
+    "/api/v1/delete/{code}": {
+      "delete": {
+        "description": "Delete file",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "code",
+            "required": true,
+            "description": "File code",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "security": [
+          {
+            "tokenAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "File deleted",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "example": "done"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized, missing or invalid token"
+          },
+          "404": {
+            "description": "No file found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/v1/download/{code}": {
+      "get": {
+        "description": "Download file",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "code",
+            "required": true,
+            "description": "File code",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "File content"
+          },
+          "404": {
+            "description": "File not found"
+          }
+        }
+      }
+    },
+    "/api/v1/info/{code}": {
+      "get": {
+        "description": "List all files",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "code",
+            "required": true,
+            "description": "File code",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of files",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "description": "File code"
+                    },
+                    "url": {
+                      "type": "string",
+                      "description": "File URL"
+                    },
+                    "rawName": {
+                      "type": "string",
+                      "description": "File name"
+                    },
+                    "type": {
+                      "type": "string",
+                      "description": "File type"
+                    },
+                    "size": {
+                      "type": "string",
+                      "description": "File size"
+                    },
+                    "date": {
+                      "type": "string",
+                      "description": "File date"
+                    },
+                    "unixDate": {
+                      "type": "number",
+                      "description": "File date in unix time"
+                    },
+                    "ago": {
+                      "type": "string",
+                      "description": "File date in relative time"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
+    "/api/v1/list": {
+      "get": {
+        "description": "List all files",
+        "responses": {
+          "200": {
+            "description": "List of files",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "code": {
+                        "type": "string",
+                        "description": "File code"
+                      },
+                      "url": {
+                        "type": "string",
+                        "description": "File URL"
+                      },
+                      "rawName": {
+                        "type": "string",
+                        "description": "File name"
+                      },
+                      "type": {
+                        "type": "string",
+                        "description": "File type"
+                      },
+                      "size": {
+                        "type": "string",
+                        "description": "File size"
+                      },
+                      "date": {
+                        "type": "string",
+                        "description": "File date"
+                      },
+                      "unixDate": {
+                        "type": "number",
+                        "description": "File date in unix time"
+                      },
+                      "ago": {
+                        "type": "string",
+                        "description": "File date in relative time"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/raw/{code}": {
+      "get": {
+        "description": "raw file",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "code",
+            "required": true,
+            "description": "File code",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "File content"
+          },
+          "404": {
+            "description": "File not found"
+          }
+        }
+      }
+    },
+    "/api/v1/upload": {
+      "post": {
+        "description": "Upload file",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "File to upload"
+                  }
+                },
+                "required": ["file"]
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "tokenAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "URL of the uploaded file",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "example": "https://example.com/files/abc123"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized, missing or invalid token"
+          },
+          "400": {
+            "description": "No file found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "tokenAuth": {
+        "type": "apiKey",
+        "name": "Authorization",
+        "in": "header"
+      }
+    }
+  }
+}

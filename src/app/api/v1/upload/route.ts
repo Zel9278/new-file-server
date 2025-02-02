@@ -4,41 +4,6 @@ import path from "node:path"
 import fs from "node:fs/promises"
 import { DateTime } from "luxon"
 
-/**
- * @swagger
- * /api/v1/upload:
- *   post:
- *     description: Upload file
- *     requestBody:
- *       required: true
- *       content:
- *         multipart/form-data:
- *           schema:
- *             type: object
- *             properties:
- *               file:
- *                 type: string
- *                 format: binary
- *                 description: File to upload
- *             required:
- *               - file
- *     security:
- *       - tokenAuth: []
- *     responses:
- *       200:
- *         description: URL of the uploaded file
- *         content:
- *           text/plain:
- *             schema:
- *               type: string
- *               example: "https://example.com/files/abc123"
- *       401:
- *         description: Unauthorized, missing or invalid token
- *       400:
- *         description: No file found
- *       500:
- *         description: Internal Server Error
- */
 export async function POST(request: NextRequest) {
   if (request.headers.get("Authorization") !== process.env.AUTH_TOKEN) {
     return new Response("Unauthorized", { status: 401 })
