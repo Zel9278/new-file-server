@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@types/swagger-ui-react':
-        specifier: 4.18.3
-        version: 4.18.3
+        specifier: 4.19.0
+        version: 4.19.0
       file-type:
         specifier: 20.0.1
         version: 20.0.1
@@ -529,8 +529,8 @@ packages:
   '@types/swagger-jsdoc@6.0.4':
     resolution: {integrity: sha512-W+Xw5epcOZrF/AooUM/PccNMSAFOKWZA5dasNyMujTwsBkU74njSJBpvCCJhHAJ95XRMzQrrW844Btu0uoetwQ==}
 
-  '@types/swagger-ui-react@4.18.3':
-    resolution: {integrity: sha512-Mo/R7IjDVwtiFPs84pWvh5pI9iyNGBjmfielxqbOh2Jv+8WVSDVe8Nu25kb5BOuV2xmGS3o33jr6nwDJMBcX+Q==}
+  '@types/swagger-ui-react@4.19.0':
+    resolution: {integrity: sha512-uScp1xkLZJej0bt3/lO4U11ywWEBnI5CFCR0tqp+5Rvxl1Mj1v6VkGED0W70jJwqlBvbD+/a6bDiK8rjepCr8g==}
 
   '@types/unist@2.0.11':
     resolution: {integrity: sha512-CmBKiL6NNo/OqgmMn95Fk9Whlp2mtvIv+KNpQKN2F4SjvrEesubTRWGYSg+BnWZOnlCaSTU1sMpsBOzgbYhnsA==}
@@ -3397,7 +3397,7 @@ snapshots:
 
   '@types/swagger-jsdoc@6.0.4': {}
 
-  '@types/swagger-ui-react@4.18.3':
+  '@types/swagger-ui-react@4.19.0':
     dependencies:
       '@types/react': 19.0.8
 
