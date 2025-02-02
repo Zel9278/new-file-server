@@ -1,8 +1,9 @@
-import fs from "fs"
-import path from "path"
-import { Metadata } from "next"
+import fs from "node:fs"
+import path from "node:path"
+import type { Metadata } from "next"
 import { headers } from "next/headers"
 import { notFound } from "next/navigation"
+import Image from "next/image"
 
 const DOWNLOAD_URL = `${process.env.URL}/api/v1/download/`
 const RAW_URL = `${process.env.URL}/api/v1/raw/`
@@ -15,19 +16,21 @@ const USER_AGENTS = [
 ]
 
 type Props = {
-  params: { code: string }
+  params: Promise<{
+    code: string
+  }>
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const headersList = headers()
-  const userAgent = headersList.get("user-agent") || "Unknown"
+  const userAgent = (await headersList).get("user-agent") || "Unknown"
 
   if (USER_AGENTS.some((ua) => userAgent.includes(ua))) {
     const detectedUserAgent = USER_AGENTS.find((ua) => userAgent.includes(ua))
     console.log(`User-Agent detected: ${detectedUserAgent}`)
   }
 
-  const fileDir = path.join(process.cwd(), "files", params.code)
+  const fileDir = path.join(process.cwd(), "files", (await params).code)
   const file = fs.readdirSync(fileDir)
 
   if (!fs.existsSync(fileDir)) {
@@ -45,30 +48,30 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const fileName = file[0]
 
   let metadata: Metadata = {
-    title: params.code,
+    title: (await params).code,
     description: `Original Filename: ${fileName}`,
     openGraph: {
       siteName: process.env.NAME,
-      title: params.code,
+      title: (await params).code,
       description: `Original Filename: ${fileName}`,
-      images: `${RAW_URL}${params.code}`,
+      images: `${RAW_URL}${(await params).code}`,
     },
   }
 
-  if (params.code.match(/.mp4/)) {
+  if ((await params).code.match(/.mp4/)) {
     metadata = {
       ...metadata,
       twitter: {
         card: "player",
-        siteId: params.code,
-        title: params.code,
+        siteId: (await params).code,
+        title: (await params).code,
         description: `Original Filename: ${fileName}`,
         site: process.env.NAME,
         creator: process.env.AUTHOR,
         creatorId: process.env.AUTHOR_ID,
         players: [
           {
-            playerUrl: `${RAW_URL}${params.code}`,
+            playerUrl: `${RAW_URL}${(await params).code}`,
             streamUrl: "",
             width: 320,
             height: 180,
@@ -76,18 +79,18 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         ],
       },
     }
-  } else if (params.code.match(/.jpg|.jpeg|.png|.gif/)) {
+  } else if ((await params).code.match(/.jpg|.jpeg|.png|.gif/)) {
     metadata = {
       ...metadata,
       twitter: {
         card: "summary_large_image",
-        siteId: params.code,
-        title: params.code,
+        siteId: (await params).code,
+        title: (await params).code,
         site: process.env.NAME,
         creator: process.env.AUTHOR,
         creatorId: process.env.AUTHOR_ID,
         description: `Original Filename: ${fileName}`,
-        images: `${RAW_URL}${params.code}`,
+        images: `${RAW_URL}${(await params).code}`,
       },
     }
   }
@@ -95,14 +98,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return metadata
 }
 
-export default function Page({ params }: Props) {
-  if (!fs.existsSync(path.join(process.cwd(), "files", params.code))) {
+export default async function Page({ params }: Props) {
+  if (!fs.existsSync(path.join(process.cwd(), "files", (await params).code))) {
     return notFound()
   }
 
-  const downloadURL = `${DOWNLOAD_URL}${params.code}`
-  const rawURL = `${RAW_URL}${params.code}`
-  const fileExtension = path.extname(params.code)
+  const downloadURL = `${DOWNLOAD_URL}${(await params).code}`
+  const rawURL = `${RAW_URL}${(await params).code}`
+  const fileExtension = path.extname((await params).code)
   const cleanedFileExtension = fileExtension.replace(".", "")
 
   switch (cleanedFileExtension) {
@@ -112,9 +115,9 @@ export default function Page({ params }: Props) {
     case "gif":
       return (
         <>
-          <img
+          <Image
             src={downloadURL}
-            alt={params.code}
+            alt={(await params).code}
             className="w-full h-full object-contain"
           />
         </>
@@ -125,6 +128,13 @@ export default function Page({ params }: Props) {
         <>
           <video className="w-full h-full object-contain" controls>
             <source src={downloadURL} type="video/mp4" />
+            <track
+              src={`${downloadURL}.vtt`}
+              kind="captions"
+              srcLang="en"
+              label="English"
+              default
+            />
           </video>
         </>
       )
@@ -134,6 +144,13 @@ export default function Page({ params }: Props) {
         <>
           <audio className="w-full h-full object-contain" controls>
             <source src={downloadURL} />
+            <track
+              src={`${downloadURL}.vtt`}
+              kind="captions"
+              srcLang="en"
+              label="English"
+              default
+            />
           </audio>
         </>
       )
@@ -141,7 +158,11 @@ export default function Page({ params }: Props) {
       return (
         <>
           <div className="w-full h-full object-contain">
-            <iframe src={rawURL} className="w-full h-full" />
+            <iframe
+              src={rawURL}
+              className="w-full h-full"
+              title="File Content"
+            />
           </div>
         </>
       )

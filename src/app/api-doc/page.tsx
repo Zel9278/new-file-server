@@ -2,13 +2,15 @@ import { createSwaggerSpec } from "next-swagger-doc"
 import dynamic from "next/dynamic"
 import "swagger-ui-react/swagger-ui.css"
 
-const SwaggerUI = dynamic<{
-  spec: any
-  //@ts-ignore
-}>(() => import("swagger-ui-react"), { ssr: true })
+const SwaggerUI = dynamic(
+  () => import("swagger-ui-react").then((mod) => mod.default),
+  {
+    ssr: true,
+  },
+)
 
 function ApiDoc() {
-  const spec: Record<string, any> = createSwaggerSpec({
+  const spec = createSwaggerSpec({
     definition: {
       openapi: "3.0.0",
       info: {

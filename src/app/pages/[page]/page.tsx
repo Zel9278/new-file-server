@@ -1,11 +1,13 @@
-import fs from "fs"
-import path from "path"
+import fs from "node:fs"
+import path from "node:path"
 import { notFound } from "next/navigation"
 import byteToData from "@/utils/byteToData"
 import { DateTime } from "luxon"
 
 type Props = {
-  params: { page: string }
+  params: Promise<{
+    page: string
+  }>
 }
 
 type PageResult = {
@@ -46,7 +48,7 @@ function getPage(page: number, count: number, max: number): PageResult {
   }
 
   let startPage = Math.max(1, page - Math.floor(count / 2))
-  let endPage = Math.min(max, startPage + count - 1)
+  const endPage = Math.min(max, startPage + count - 1)
 
   startPage = Math.max(1, Math.min(startPage, max - count + 1))
 
@@ -57,14 +59,14 @@ function getPage(page: number, count: number, max: number): PageResult {
   return res
 }
 
-export default function Page({ params }: Props) {
-  if (Number.isNaN(Number(params.page))) {
+export default async function Page({ params }: Props) {
+  if (Number.isNaN(Number((await params).page))) {
     return notFound()
   }
 
   const files = fs.readdirSync(path.join(process.cwd(), "files"))
   const chunkedFiles = arrayChunk(files, 10)
-  const page = Number(params.page)
+  const page = Number((await params).page)
 
   if (page < 1 || page > chunkedFiles.length) {
     return notFound()

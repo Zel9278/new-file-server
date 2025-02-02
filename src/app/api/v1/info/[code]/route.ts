@@ -1,11 +1,13 @@
-import fs from "fs"
-import path from "path"
-import { NextRequest } from "next/server"
+import fs from "node:fs"
+import path from "node:path"
+import type { NextRequest } from "next/server"
 import byteToData from "@/utils/byteToData"
 import { DateTime } from "luxon"
 
-type Params = {
-  code: string
+type Props = {
+  params: Promise<{
+    code: string
+  }>
 }
 
 /**
@@ -55,11 +57,8 @@ type Params = {
  *       404:
  *         description: Not found
  */
-export async function GET(
-  request: NextRequest,
-  { params }: { params: Params },
-) {
-  const code = params.code
+export async function GET(request: NextRequest, { params }: Props) {
+  const code = (await params).code
   const filesDir = path.join(process.cwd(), "files")
 
   if (!fs.existsSync(`${filesDir}/${code}`)) {

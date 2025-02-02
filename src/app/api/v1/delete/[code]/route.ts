@@ -1,10 +1,12 @@
-import { NextRequest } from "next/server"
-import path from "path"
-import fs from "fs"
+import type { NextRequest } from "next/server"
+import path from "node:path"
+import fs from "node:fs"
 import discordPreloader from "@/utils/discord-preloader"
 
-type Params = {
-  code: string
+type Props = {
+  params: Promise<{
+    code: string
+  }>
 }
 
 /**
@@ -36,15 +38,12 @@ type Params = {
  *       500:
  *         description: Internal Server Error
  */
-export async function DELETE(
-  request: NextRequest,
-  { params }: { params: Params },
-) {
+export async function DELETE(request: NextRequest, { params }: Props) {
   if (request.headers.get("Authorization") !== process.env.AUTH_TOKEN) {
     return new Response("Unauthorized", { status: 401 })
   }
 
-  const code = params.code
+  const code = (await params).code
 
   const filesDir = path.join(process.cwd(), "files")
 

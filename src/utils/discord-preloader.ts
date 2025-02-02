@@ -1,9 +1,9 @@
 type DiscordPreloaderType = "upload" | "delete"
 
-export default (type: DiscordPreloaderType, text: string) => {
+function DiscordPreloader(type: DiscordPreloaderType, text: string) {
   if (!process.env.DISCORD_WEBHOOK) return
 
-  let messageData
+  let messageData: { content: string }
 
   switch (type) {
     case "upload":
@@ -26,3 +26,5 @@ export default (type: DiscordPreloaderType, text: string) => {
     body: JSON.stringify(messageData),
   })
 }
+
+export default DiscordPreloader

@@ -1,7 +1,7 @@
-import { NextRequest } from "next/server"
+import type { NextRequest } from "next/server"
 import discordPreloader from "@/utils/discord-preloader"
-import path from "path"
-import fs from "fs/promises"
+import path from "node:path"
+import fs from "node:fs/promises"
 import { DateTime } from "luxon"
 
 /**
@@ -80,10 +80,10 @@ async function tryNewFile(
   bufferStream: Uint8Array,
 ) {
   try {
-    let fileCode
-    let fileDir
-    let filePath
-    let url
+    let fileCode: string
+    let fileDir: string
+    let filePath: string
+    let url: string
 
     while (true) {
       fileCode = Math.random().toString(36).slice(2, 6) + path.extname(fileName)

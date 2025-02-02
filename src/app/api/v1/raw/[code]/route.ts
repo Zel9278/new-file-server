@@ -1,11 +1,14 @@
-import fs from "fs"
-import path from "path"
-import { NextRequest } from "next/server"
+import fs from "node:fs"
+import path from "node:path"
+import type { NextRequest } from "next/server"
 import mime from "mime"
 
-type Params = {
-  code: string
+type Props = {
+  params: Promise<{
+    code: string
+  }>
 }
+
 /**
  * @swagger
  * /api/v1/raw/{code}:
@@ -24,11 +27,8 @@ type Params = {
  *       404:
  *         description: File not found
  */
-export async function GET(
-  request: NextRequest,
-  { params }: { params: Params },
-) {
-  const code = params.code
+export async function GET(request: NextRequest, { params }: Props) {
+  const code = (await params).code
 
   const filesDir = path.join(process.cwd(), "files")
 

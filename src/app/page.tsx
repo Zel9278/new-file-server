@@ -1,3 +1,5 @@
+import Link from "next/link"
+
 export default function Home() {
   return (
     <>
@@ -5,12 +7,16 @@ export default function Home() {
         <h1 className="text-4xl">{process.env.NAME}</h1>
         <p>{process.env.DESCRIPTION}</p>
         <div className="flex gap-2">
-          <a href="/pages/1">
-            <button className="btn btn-success">File List</button>
-          </a>
-          <a href="/api-doc">
-            <button className="btn btn-success">API Doc</button>
-          </a>
+          <Link href="/pages/1">
+            <button type="button" className="btn btn-success">
+              File List
+            </button>
+          </Link>
+          <Link href="/api-doc">
+            <button type="button" className="btn btn-success">
+              API Doc
+            </button>
+          </Link>
         </div>
       </div>
     </>

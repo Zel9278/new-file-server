@@ -1,6 +1,5 @@
-import fs from "fs"
-import path from "path"
-import { NextRequest } from "next/server"
+import fs from "node:fs"
+import path from "node:path"
 import byteToData from "@/utils/byteToData"
 import { DateTime } from "luxon"
 
@@ -44,7 +43,7 @@ import { DateTime } from "luxon"
  *                     type: string
  *                     description: File date in relative time
  */
-export async function GET(request: NextRequest) {
+export async function GET() {
   const filesDir = path.join(process.cwd(), "files")
   const dirs = fs.readdirSync(filesDir)
   const files = dirs.filter((dir) => !["favicon.ico"].includes(dir))
