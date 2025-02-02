@@ -1,6 +1,25 @@
 import Link from "next/link"
+import Progressbar from "@/components/ProgressBar"
+import { check } from "diskusage"
+import byteToData from "@/utils/byteToData"
 
-export default function Home() {
+async function getStrageUsage(): Promise<{
+  usage: number
+  total: number
+  used: number
+  free: number
+}> {
+  const { free, total } = await check(process.cwd())
+
+  const used = total - free
+  const usage = Math.round((used / total) * 100)
+
+  return { usage, total, used, free }
+}
+
+export default async function Home() {
+  const { usage, total, used, free } = await getStrageUsage()
+
   return (
     <>
       <div className="flex justify-center items-center flex-col gap-2 w-auto h-full">
@@ -22,6 +41,14 @@ export default function Home() {
               API Doc
             </button>
           </Link>
+        </div>
+        <div>
+          <h2>Storage Usage</h2>
+          <Progressbar value={usage} />
+          <p>
+            Total: {byteToData(total)} Used: {byteToData(used)} Free:{" "}
+            {byteToData(free)}
+          </p>
         </div>
       </div>
     </>

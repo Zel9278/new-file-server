@@ -15,11 +15,13 @@
   "dependencies": {
     "@scalar/nextjs-api-reference": "0.5.5",
     "@tailwindcss/postcss": "4.0.3",
+    "diskusage": "1.2.0",
     "file-type": "20.0.1",
     "luxon": "3.5.0",
     "mime": "4.0.6",
     "mime-type": "5.0.2",
     "next": "15.1.6",
+    "node-df": "0.1.4",
     "react": "19.0.0",
     "react-dom": "19.0.0"
   },
@@ -32,6 +34,7 @@
     "daisyui": "5.0.0-beta.6",
     "eslint": "9.19.0",
     "eslint-config-next": "15.1.6",
+    "node-loader": "2.1.0",
     "postcss": "8.5.1",
     "prettier": "3.4.2",
     "prettier-plugin-tailwindcss": "0.6.11",
