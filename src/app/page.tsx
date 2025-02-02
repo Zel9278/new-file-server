@@ -12,6 +12,11 @@ export default function Home() {
               File List
             </button>
           </Link>
+          <Link href="/info">
+            <button type="button" className="btn btn-success">
+              Info
+            </button>
+          </Link>
           <Link href="/api-doc">
             <button type="button" className="btn btn-success">
               API Doc
