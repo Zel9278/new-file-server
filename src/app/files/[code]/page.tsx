@@ -4,6 +4,7 @@ import type { Metadata } from "next"
 import { headers } from "next/headers"
 import { notFound } from "next/navigation"
 import Image from "next/image"
+import { imageSize } from "image-size"
 
 const DOWNLOAD_URL = `${process.env.URL}/api/v1/download/`
 const RAW_URL = `${process.env.URL}/api/v1/raw/`
@@ -111,17 +112,28 @@ export default async function Page({ params }: Props) {
   switch (cleanedFileExtension) {
     case "jpg":
     case "jpeg":
+    case "webp":
+    case "svg":
     case "png":
-    case "gif":
+    case "gif": {
+      const fileDir = path.join(process.cwd(), "files", (await params).code)
+      const file = fs.readdirSync(fileDir)
+      const fileName = file[0]
+
+      const imageSizeData = imageSize(path.join(fileDir, fileName))
+
       return (
         <>
           <Image
             src={downloadURL}
             alt={(await params).code}
             className="w-full h-full object-contain"
+            width={imageSizeData.width}
+            height={imageSizeData.height}
           />
         </>
       )
+    }
     case "mp4":
     case "mkv":
       return (
@@ -140,6 +152,7 @@ export default async function Page({ params }: Props) {
       )
     case "wav":
     case "mp3":
+    case "ogg":
       return (
         <>
           <audio className="w-full h-full object-contain" controls>

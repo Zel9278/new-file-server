@@ -20,6 +20,9 @@ importers:
       file-type:
         specifier: 20.0.1
         version: 20.0.1
+      image-size:
+        specifier: 1.2.0
+        version: 1.2.0
       luxon:
         specifier: 3.5.0
         version: 3.5.0
@@ -1172,6 +1175,11 @@ packages:
     resolution: {integrity: sha512-hsBTNUqQTDwkWtcdYI2i06Y/nUBEsNEDJKjWdigLvegy8kDuJAS8uRlpkkcQpyEXL0Z/pjDy5HBmMjRCJ2gq+g==}
     engines: {node: '>= 4'}
 
+  image-size@1.2.0:
+    resolution: {integrity: sha512-4S8fwbO6w3GeCVN6OPtA9I5IGKkcDMPcKndtUlpJuCwu7JLjtj7JZpwqLuyY2nrmQT3AWsCJLSKPsc2mPBSl3w==}
+    engines: {node: '>=16.x'}
+    hasBin: true
+
   import-fresh@3.3.0:
     resolution: {integrity: sha512-veYYhQa+D1QBKznvhUHxb8faxlrwUnxseDAbAp457E0wLNio2bOSKnjYDhMj+YiAq61xrMGhQk9iXVk5FzgQMw==}
     engines: {node: '>=6'}
@@ -1183,6 +1191,9 @@ packages:
   inherits-ex@2.1.0:
     resolution: {integrity: sha512-lvIiDNc3vA/RjtYmXSNYaJU4z2JYijO90V0MDC63mDoCuwjGok67u1Cl6vN5xgYkY5m6sOzo3fCKRqSXLq00zA==}
     engines: {node: '>=12'}
+
+  inherits@2.0.4:
+    resolution: {integrity: sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==}
 
   internal-slot@1.1.0:
     resolution: {integrity: sha512-4gd7VpWNQNB4UKKCFFVcp1AVv+FMOgs9NKzjHKusc8jTMhd5eL1NqQqOpE0KzMds804/yHlglp3uxgluOqAPLw==}
@@ -1709,6 +1720,9 @@ packages:
 
   queue-microtask@1.2.3:
     resolution: {integrity: sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==}
+
+  queue@6.0.2:
+    resolution: {integrity: sha512-iHZWu+q3IdFZFX36ro/lKBkSvfkztY5Y7HMiPlOUjhupPcG2JMfst2KKEpu5XndviX/3UhFbRngUPNKtgvtZiA==}
 
   randombytes@2.1.0:
     resolution: {integrity: sha512-vYl3iOX+4CKUWuxGi9Ukhie6fsqXqS9FE2Zaic4tNFD2N2QQaXOMFbuKK4QmDHC0JO6B1Zp41J0LpT0oR68amQ==}
@@ -3322,6 +3336,10 @@ snapshots:
 
   ignore@5.3.2: {}
 
+  image-size@1.2.0:
+    dependencies:
+      queue: 6.0.2
+
   import-fresh@3.3.0:
     dependencies:
       parent-module: 1.0.1
@@ -3330,6 +3348,8 @@ snapshots:
   imurmurhash@0.1.4: {}
 
   inherits-ex@2.1.0: {}
+
+  inherits@2.0.4: {}
 
   internal-slot@1.1.0:
     dependencies:
@@ -3782,6 +3802,10 @@ snapshots:
   punycode@2.3.1: {}
 
   queue-microtask@1.2.3: {}
+
+  queue@6.0.2:
+    dependencies:
+      inherits: 2.0.4
 
   randombytes@2.1.0:
     dependencies:

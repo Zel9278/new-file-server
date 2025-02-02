@@ -44,10 +44,12 @@ export default async function Home() {
         </div>
         <div>
           <h2>Storage Usage</h2>
-          <Progressbar value={usage} />
+          <div className="flex items-center">
+            <Progressbar value={usage} className="w-full mx-2" />
+            <p>{usage}%</p>
+          </div>
           <p>
-            Total: {byteToData(total)} Used: {byteToData(used)} Free:{" "}
-            {byteToData(free)}
+            {byteToData(used)} / {byteToData(total)} | {byteToData(free)} free
           </p>
         </div>
       </div>
