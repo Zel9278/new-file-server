@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --port 37406",
+    "dev": "next dev --port 37407",
     "build": "next build",
-    "start": "next start --port 37406",
+    "start": "next start --port 37407",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "lint": "eslint .",
@@ -24,7 +24,8 @@
     "next": "15.1.6",
     "node-df": "0.1.4",
     "react": "19.0.0",
-    "react-dom": "19.0.0"
+    "react-dom": "19.0.0",
+    "swr": "2.3.0"
   },
   "devDependencies": {
     "@types/luxon": "3.4.2",

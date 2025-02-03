@@ -4,25 +4,12 @@ import type { NextRequest } from "next/server"
 import byteToData from "@/utils/byteToData"
 import { DateTime } from "luxon"
 import imageSize from "image-size"
+import type { FileInfo } from "@/types/fileserver"
 
 type Props = {
   params: Promise<{
     code: string
   }>
-}
-
-type Info = {
-  code: string
-  url: string
-  rawName: string
-  type: string
-  size: string
-  date: string
-  unixDate: number
-  ago: string | null
-  downloadCount: number
-  width?: number
-  height?: number
 }
 
 const IMG_EXT = [".png", ".jpg", ".jpeg", ".webp", ".gif", ".svg"]
@@ -41,12 +28,13 @@ export async function GET(request: NextRequest, { params }: Props) {
   const fileDir = fs.readdirSync(`${filesDir}/${code}`)[0]
   const fileStat = fs.statSync(`${filesDir}/${code}/${fileDir}`)
 
-  const info: Info = {
+  const info: FileInfo = {
     code,
     url: `${process.env.URL}/files/${code}`,
     rawName: fileDir,
     type: path.extname(`${filesDir}/${code}`).replace(".", ""),
     size: byteToData(fileStat.size),
+    rawSize: fileStat.size,
     date: DateTime.fromJSDate(fileStat.mtime)
       .setLocale("en")
       .toFormat("yyyy-MM-dd HH:mm:ss"),

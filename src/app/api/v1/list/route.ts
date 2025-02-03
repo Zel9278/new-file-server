@@ -21,6 +21,7 @@ export async function GET() {
       rawName: file,
       type: path.extname(`${filesDir}/${file}`).replace(".", ""),
       size: byteToData(fileStat.size),
+      rawSize: fileStat.size,
       date: DateTime.fromJSDate(fileStat.mtime)
         .setLocale("en")
         .toFormat("yyyy-MM-dd HH:mm:ss"),

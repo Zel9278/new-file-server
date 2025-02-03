@@ -1,130 +1,146 @@
-import fs from "node:fs"
-import path from "node:path"
-import { notFound } from "next/navigation"
-import byteToData from "@/utils/byteToData"
-import { DateTime } from "luxon"
+"use client"
+
+import { useState, useEffect, useCallback } from "react"
+import {
+  notFound,
+  useParams,
+  useRouter,
+  useSearchParams,
+} from "next/navigation"
+import useSWR from "swr"
+import type { PageResult, ShortFileInfo } from "@/types/fileserver"
 
 type Props = {
-  params: Promise<{
-    page: string
-  }>
+  page: string
 }
 
-type PageResult = {
-  prev: number | null
-  next: number | null
-  now: number
-  max: number
-  pages: number[]
+enum Sort {
+  NameUp = "NameUp",
+  NameDown = "NameDown",
+  CodeUp = "CodeUp",
+  CodeDown = "CodeDown",
+  SizeUp = "SizeUp",
+  SizeDown = "SizeDown",
+  DateUp = "DateUp",
+  DateDown = "DateDown",
 }
 
-function arrayChunk<T>(array: T[], size: number): T[][] {
-  if (size <= 0) return []
+const fetcher = <T,>(path: string): Promise<T> =>
+  fetch(path).then((res) => res.json())
 
-  const result: T[][] = []
-  for (let i = 0; i < array.length; i += size) {
-    result.push(array.slice(i, i + size))
-  }
+export default function Page() {
+  const [filesOnPage, setFilesOnPage] = useState<ShortFileInfo[]>([])
+  const [result, setResult] = useState<PageResult>({
+    prev: null,
+    next: null,
+    now: 1,
+    max: 1,
+    pages: [1],
+  })
 
-  return result
-}
+  const router = useRouter()
+  const params = useParams<Props>()
+  const searchParams = useSearchParams()
+  const page = Number(params.page)
+  const sortParam = searchParams.get("sort")
 
-function getPage(page: number, count: number, max: number): PageResult {
-  if (page < 1 || page > max)
-    return {
-      prev: null,
-      next: null,
-      now: 0,
-      max: 0,
-      pages: [1],
+  console.log(page, sortParam)
+
+  const createQueryString = useCallback(
+    (name: string, value: string) => {
+      const params = new URLSearchParams(searchParams.toString())
+      params.set(name, value)
+
+      return params.toString()
+    },
+    [searchParams],
+  )
+
+  const [sort, setSort] = useState<Sort>((sortParam as Sort) || Sort.CodeUp)
+
+  const { data, error, isLoading } = useSWR<{
+    filesOnPage: ShortFileInfo[]
+    result: PageResult
+  }>(`/api/pages/${page}/${sort}`, fetcher)
+
+  useEffect(() => {
+    if (data) {
+      console.log(data)
+      setFilesOnPage(data.filesOnPage)
+      setResult(data.result)
     }
+  }, [data])
 
-  const res: PageResult = {
-    prev: page > 1 ? page - 1 : null,
-    next: page < max ? page + 1 : null,
-    now: page,
-    max: max,
-    pages: [],
-  }
-
-  let startPage = Math.max(1, page - Math.floor(count / 2))
-  const endPage = Math.min(max, startPage + count - 1)
-
-  startPage = Math.max(1, Math.min(startPage, max - count + 1))
-
-  for (let i = startPage; i <= endPage; i++) {
-    res.pages.push(i)
-  }
-
-  return res
-}
-
-export default async function Page({ params }: Props) {
-  if (Number.isNaN(Number((await params).page))) {
+  if (error) {
     return notFound()
   }
 
-  const files = fs.readdirSync(path.join(process.cwd(), "files"))
-  const chunkedFiles = arrayChunk(files, 10)
-  const page = Number((await params).page)
-
-  if (page < 1 || page > chunkedFiles.length) {
-    return notFound()
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-full">
+        <span className="loading loading-infinity loading-xl" />
+      </div>
+    )
   }
-
-  const counterPath = path.join(process.cwd(), "src/.counter.json")
-  const counter = JSON.parse(fs.readFileSync(counterPath, "utf-8"))
-
-  const max = chunkedFiles.length
-  const result = getPage(page, 5, max)
-  const filesOnPage = chunkedFiles[page - 1]
 
   return (
     <>
+      <div className="flex">
+        <select
+          defaultValue={sort}
+          className="select select-xs"
+          onChange={(e) => {
+            setSort(e.target.value as Sort)
+            router.push(
+              `/pages/${page}?${createQueryString("sort", e.target.value)}`,
+            )
+          }}
+        >
+          <option value="NameUp">Name Up</option>
+          <option value="NameDown">Name Down</option>
+          <option value="CodeUp">Code Up</option>
+          <option value="CodeDown">Code Down</option>
+          <option value="SizeUp">Size Up</option>
+          <option value="SizeDown">Size Down</option>
+          <option value="DateUp">Date Up</option>
+          <option value="DateDown">Date Down</option>
+        </select>
+      </div>
       <div className="flex items-center flex-col gap-4 w-auto h-full">
         <div className="flex flex-col gap-4">
           <div className="flex flex-wrap gap-4 !items-center !justify-center">
             {filesOnPage.map((file) => {
-              const fileDir = fs.readdirSync(
-                path.join(process.cwd(), "files", file),
-              )
-              const fileStat = fs.statSync(
-                path.join(process.cwd(), "files", file, fileDir[0]),
-              )
-
-              const fileSize = byteToData(fileStat.size)
-              const fileDate = DateTime.fromJSDate(fileStat.mtime)
-                .setLocale("en")
-                .toFormat("yyyy-MM-dd HH:mm:ss")
-              const fileAgo = DateTime.fromJSDate(fileStat.mtime)
-                .setLocale("en")
-                .toRelative()
-
               return (
-                <div key={file} className="card bg-base-200 w-96 shadow-xl">
-                  <div className="card-body">
-                    <h2 className="card-title">{file}</h2>
+                <div
+                  key={file.code}
+                  className="card bg-base-200 w-96 shadow-xl"
+                >
+                  <div className="card-body p-6">
+                    <h2 className="card-title">{file.code}</h2>
                     <div>
-                      <p>Original FileName: {fileDir[0]}</p>
-                      <p>Size: {fileSize}</p>
-                      <p>Date: {fileDate}</p>
-                      <p>Time Ago: {fileAgo}</p>
-                      <p>Download Count: {counter[file] || 0}</p>
+                      <p>Original FileName: {file.rawName}</p>
+                      <p>Size: {file.size}</p>
+                      <p>Date: {file.date}</p>
+                      <p>Time Ago: {file.ago}</p>
+                      <p>Download Count: {file.downloads}</p>
                     </div>
                     <div className="card-actions justify-end">
                       <a
                         className="btn btn-primary"
-                        href={`/api/v1/info/${file}`}
+                        href={`/api/v1/info/${file.code}`}
                       >
                         Info
                       </a>
                       <a
                         className="btn btn-primary"
-                        href={`/api/v1/download/${file}`}
+                        href={`/api/v1/download/${file.code}`}
                       >
                         DL
                       </a>
-                      <a className="btn btn-primary" href={`/files/${file}`}>
+                      <a
+                        className="btn btn-primary"
+                        href={`/files/${file.code}`}
+                      >
                         View
                       </a>
                     </div>
@@ -136,7 +152,10 @@ export default async function Page({ params }: Props) {
         </div>
         <div className="join flex">
           {result.prev ? (
-            <a href={`/pages/${result.prev}`} className="join-item btn">
+            <a
+              href={`/pages/${result.prev}?${createQueryString("sort", sort)}`}
+              className="join-item btn"
+            >
               Prev
             </a>
           ) : (
@@ -149,14 +168,21 @@ export default async function Page({ params }: Props) {
                 {p}
               </span>
             ) : (
-              <a key={p} href={`/pages/${p}`} className="join-item btn">
+              <a
+                key={p}
+                href={`/pages/${p}?${createQueryString("sort", sort)}`}
+                className="join-item btn"
+              >
                 {p}
               </a>
             ),
           )}
 
           {result.next ? (
-            <a href={`/pages/${result.next}`} className="join-item btn">
+            <a
+              href={`/pages/${result.next}?${createQueryString("sort", sort)}`}
+              className="join-item btn"
+            >
               Next
             </a>
           ) : (
