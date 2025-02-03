@@ -20,6 +20,7 @@ type Info = {
   date: string
   unixDate: number
   ago: string | null
+  downloadCount: number
   width?: number
   height?: number
 }
@@ -33,6 +34,9 @@ export async function GET(request: NextRequest, { params }: Props) {
   if (!fs.existsSync(`${filesDir}/${code}`)) {
     return new Response("File Not found", { status: 404 })
   }
+
+  const counterPath = path.join(process.cwd(), "src/.counter.json")
+  const counter = JSON.parse(fs.readFileSync(counterPath, "utf-8"))
 
   const fileDir = fs.readdirSync(`${filesDir}/${code}`)[0]
   const fileStat = fs.statSync(`${filesDir}/${code}/${fileDir}`)
@@ -48,6 +52,7 @@ export async function GET(request: NextRequest, { params }: Props) {
       .toFormat("yyyy-MM-dd HH:mm:ss"),
     unixDate: fileStat.mtime.getTime(),
     ago: DateTime.fromJSDate(fileStat.mtime).setLocale("en").toRelative(),
+    downloadCount: counter[code] || 0,
   }
 
   if (IMG_EXT.includes(path.extname(fileDir))) {

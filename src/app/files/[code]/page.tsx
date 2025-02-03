@@ -104,8 +104,13 @@ export default async function Page({ params }: Props) {
     return notFound()
   }
 
+  const fileDir = path.join(process.cwd(), "files", (await params).code)
+  const file = fs.readdirSync(fileDir)
+  const fileName = file[0]
+
   const downloadURL = `${DOWNLOAD_URL}${(await params).code}`
   const rawURL = `${RAW_URL}${(await params).code}`
+  const infoURL = `${process.env.URL}/api/v1/info/${(await params).code}`
   const fileExtension = path.extname((await params).code)
   const cleanedFileExtension = fileExtension.replace(".", "")
 
@@ -182,10 +187,16 @@ export default async function Page({ params }: Props) {
     default:
       return (
         <>
-          <div className="w-full h-full object-contain">
-            <a className="btn btn-success " href={downloadURL} download>
-              Download
-            </a>
+          <div className="flex justify-center items-center flex-col gap-2 w-auto h-full">
+            <p>{fileName}</p>
+            <div className="flex gap-4">
+              <a className="btn btn-primary " href={downloadURL} download>
+                Download
+              </a>
+              <a className="btn btn-primary" href={infoURL}>
+                Info
+              </a>
+            </div>
           </div>
         </>
       )

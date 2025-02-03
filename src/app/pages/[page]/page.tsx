@@ -72,6 +72,9 @@ export default async function Page({ params }: Props) {
     return notFound()
   }
 
+  const counterPath = path.join(process.cwd(), "src/.counter.json")
+  const counter = JSON.parse(fs.readFileSync(counterPath, "utf-8"))
+
   const max = chunkedFiles.length
   const result = getPage(page, 5, max)
   const filesOnPage = chunkedFiles[page - 1]
@@ -106,6 +109,7 @@ export default async function Page({ params }: Props) {
                       <p>Size: {fileSize}</p>
                       <p>Date: {fileDate}</p>
                       <p>Time Ago: {fileAgo}</p>
+                      <p>Download Count: {counter[file] || 0}</p>
                     </div>
                     <div className="card-actions justify-end">
                       <a
@@ -113,6 +117,12 @@ export default async function Page({ params }: Props) {
                         href={`/api/v1/info/${file}`}
                       >
                         Info
+                      </a>
+                      <a
+                        className="btn btn-primary"
+                        href={`/api/v1/download/${file}`}
+                      >
+                        DL
                       </a>
                       <a className="btn btn-primary" href={`/files/${file}`}>
                         View
