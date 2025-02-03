@@ -16,6 +16,7 @@
       "delete": {
         "summary": "Delete file",
         "description": "Delete file from the server",
+        "tags": ["File"],
         "parameters": [
           {
             "in": "path",
@@ -60,6 +61,7 @@
       "get": {
         "summary": "Download file",
         "description": "Download file from the server",
+        "tags": ["File"],
         "parameters": [
           {
             "in": "path",
@@ -85,6 +87,7 @@
       "get": {
         "summary": "File information",
         "description": "Get file information",
+        "tags": ["File"],
         "parameters": [
           {
             "in": "path",
@@ -117,6 +120,7 @@
       "get": {
         "summary": "List files",
         "description": "List all files on the server",
+        "tags": ["File"],
         "responses": {
           "200": {
             "description": "List of files",
@@ -138,6 +142,7 @@
       "get": {
         "summary": "OpenAPI JSON Schema",
         "description": "Show OpenAPI JSON Schema",
+        "tags": ["OpenAPI"],
         "responses": {
           "200": {
             "description": "OpenAPI JSON Schema",
@@ -157,6 +162,7 @@
       "get": {
         "summary": "Raw file",
         "description": "Get raw file content",
+        "tags": ["File"],
         "parameters": [
           {
             "in": "path",
@@ -182,6 +188,7 @@
       "post": {
         "summary": "Upload file",
         "description": "Upload file to the server",
+        "tags": ["File"],
         "requestBody": {
           "required": true,
           "content": {
@@ -233,6 +240,7 @@
       "get": {
         "summary": "Get page information",
         "description": "Retrieves information about a specific page including pagination details and files on the page.",
+        "tags": ["Page"],
         "parameters": [
           {
             "name": "page",
