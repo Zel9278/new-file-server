@@ -19,6 +19,7 @@ const ImageViewer = ({ className, src, alt, width, height }: Props) => {
   const [isDragging, setIsDragging] = useState(false)
   const [initialPos, setInitialPos] = useState({ x: 0, y: 0 })
   const [initialOffset, setInitialOffset] = useState({ x: 0, y: 0 })
+  const [zoomPercentage, setZoomPercentage] = useState(100)
 
   const handleWheel = useCallback(
     (e: WheelEvent<HTMLDivElement>) => {
@@ -30,6 +31,9 @@ const ImageViewer = ({ className, src, alt, width, height }: Props) => {
 
       const scaleFactor = delta > 0 ? 0.9 : 1.1
       const newScale = Math.min(Math.max(scale * scaleFactor, 0.1), 4)
+
+      const newZoomPercentage = Math.round(newScale * 100)
+      setZoomPercentage(newZoomPercentage)
 
       setOffset((prev) => ({
         x: mouseX - (mouseX - prev.x) * (newScale / scale),
@@ -63,12 +67,26 @@ const ImageViewer = ({ className, src, alt, width, height }: Props) => {
       const mouseX = e.clientX - rect.left
       const mouseY = e.clientY - rect.top
 
-      setOffset({
-        x: initialOffset.x + (mouseX - initialPos.x) / scale,
-        y: initialOffset.y + (mouseY - initialPos.y) / scale,
-      })
+      const deltaX = mouseX - initialPos.x
+      const deltaY = mouseY - initialPos.y
+
+      if (
+        mouseX < 0 ||
+        mouseX > rect.width ||
+        mouseY < 0 ||
+        mouseY > rect.height
+      ) {
+        setIsDragging(false)
+        return
+      }
+
+      setOffset((prevOffset) => ({
+        x: prevOffset.x + deltaX,
+        y: prevOffset.y + deltaY,
+      }))
+      setInitialPos({ x: mouseX, y: mouseY })
     },
-    [isDragging, initialOffset, initialPos, scale],
+    [isDragging, initialPos],
   )
 
   const handleMouseUp = useCallback(() => {
@@ -77,6 +95,7 @@ const ImageViewer = ({ className, src, alt, width, height }: Props) => {
 
   const handleDoubleClick = useCallback(() => {
     setScale(1)
+    setZoomPercentage(100)
     setOffset({ x: 0, y: 0 })
   }, [])
 
@@ -94,13 +113,15 @@ const ImageViewer = ({ className, src, alt, width, height }: Props) => {
         className="w-full h-full object-contain"
         style={{
           transform: `translate(${offset.x}px, ${offset.y}px) scale(${scale})`,
-          transition: "transform 0.2s ease-out",
         }}
         src={src}
         alt={alt}
         width={width}
         height={height}
       />
+      <div className="absolute top-0 right-0 p-2 bg-black bg-opacity-50 text-white">
+        {zoomPercentage}%
+      </div>
     </div>
   )
 }
