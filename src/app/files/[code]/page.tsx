@@ -3,8 +3,8 @@ import path from "node:path"
 import type { Metadata } from "next"
 import { headers } from "next/headers"
 import { notFound } from "next/navigation"
-import Image from "next/image"
 import { imageSize } from "image-size"
+import ImageViewer from "@/components/ImageViewer"
 
 const DOWNLOAD_URL = `${process.env.URL}/api/v1/download/`
 const RAW_URL = `${process.env.URL}/api/v1/raw/`
@@ -129,10 +129,9 @@ export default async function Page({ params }: Props) {
 
       return (
         <>
-          <Image
+          <ImageViewer
             src={rawURL}
             alt={(await params).code}
-            className="w-full h-full object-contain"
             width={imageSizeData.width}
             height={imageSizeData.height}
           />
