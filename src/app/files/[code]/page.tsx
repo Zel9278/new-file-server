@@ -130,7 +130,7 @@ export default async function Page({ params }: Props) {
       return (
         <>
           <Image
-            src={downloadURL}
+            src={rawURL}
             alt={(await params).code}
             className="w-full h-full object-contain"
             width={imageSizeData.width}

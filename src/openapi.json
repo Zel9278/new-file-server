@@ -308,7 +308,8 @@
       "tokenAuth": {
         "type": "apiKey",
         "name": "Authorization",
-        "in": "header"
+        "in": "header",
+        "description": "API Key (Token) Authentication using the Authorization header.  Format: <token>"
       }
     },
     "schemas": {
