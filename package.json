@@ -13,7 +13,7 @@
     "openapi": "openapi-typescript ./openapi.yml --output api.d.ts"
   },
   "dependencies": {
-    "@scalar/nextjs-api-reference": "0.5.5",
+    "@scalar/nextjs-api-reference": "0.5.7",
     "@tailwindcss/postcss": "4.0.3",
     "diskusage": "1.2.0",
     "file-type": "20.0.1",
