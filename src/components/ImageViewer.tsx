@@ -18,7 +18,6 @@ const ImageViewer = ({ className, src, alt, width, height }: Props) => {
   const [offset, setOffset] = useState({ x: 0, y: 0 })
   const [isDragging, setIsDragging] = useState(false)
   const [initialPos, setInitialPos] = useState({ x: 0, y: 0 })
-  const [initialOffset, setInitialOffset] = useState({ x: 0, y: 0 })
   const [zoomPercentage, setZoomPercentage] = useState(100)
 
   const handleWheel = useCallback(
@@ -44,20 +43,16 @@ const ImageViewer = ({ className, src, alt, width, height }: Props) => {
     [scale],
   )
 
-  const handleMouseDown = useCallback(
-    (e: MouseEvent<HTMLDivElement>) => {
-      if (e.button !== 0) return
-      e.preventDefault()
-      setIsDragging(true)
-      const rect = e.currentTarget.getBoundingClientRect()
-      setInitialPos({
-        x: e.clientX - rect.left,
-        y: e.clientY - rect.top,
-      })
-      setInitialOffset(offset)
-    },
-    [offset],
-  )
+  const handleMouseDown = useCallback((e: MouseEvent<HTMLDivElement>) => {
+    if (e.button !== 0) return
+    e.preventDefault()
+    setIsDragging(true)
+    const rect = e.currentTarget.getBoundingClientRect()
+    setInitialPos({
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top,
+    })
+  }, [])
 
   const handleMouseMove = useCallback(
     (e: MouseEvent<HTMLDivElement>) => {
