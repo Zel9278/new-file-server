@@ -31,7 +31,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     console.log(`User-Agent detected: ${detectedUserAgent}`)
   }
 
-  const fileDir = path.join(process.cwd(), "files", (await params).code)
+  const filesDir = process.env.FILES_DIR || path.join(process.cwd(), "files")
+  const fileDir = path.join(filesDir, (await params).code)
   const file = fs.readdirSync(fileDir)
 
   if (!fs.existsSync(fileDir)) {
@@ -100,11 +101,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function Page({ params }: Props) {
-  if (!fs.existsSync(path.join(process.cwd(), "files", (await params).code))) {
+  const filesDir = process.env.FILES_DIR || path.join(process.cwd(), "files")
+
+  if (!fs.existsSync(path.join(filesDir, (await params).code))) {
     return notFound()
   }
 
-  const fileDir = path.join(process.cwd(), "files", (await params).code)
+  const fileDir = path.join(filesDir, (await params).code)
   const file = fs.readdirSync(fileDir)
   const fileName = file[0]
 
@@ -121,7 +124,7 @@ export default async function Page({ params }: Props) {
     case "svg":
     case "png":
     case "gif": {
-      const fileDir = path.join(process.cwd(), "files", (await params).code)
+      const fileDir = path.join(filesDir, (await params).code)
       const file = fs.readdirSync(fileDir)
       const fileName = file[0]
 

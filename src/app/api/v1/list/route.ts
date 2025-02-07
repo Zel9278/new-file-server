@@ -7,7 +7,7 @@ export async function GET() {
   const counterPath = path.join(process.cwd(), "src/.counter.json")
   const counter = JSON.parse(fs.readFileSync(counterPath, "utf-8"))
 
-  const filesDir = path.join(process.cwd(), "files")
+  const filesDir = process.env.FILES_DIR || path.join(process.cwd(), "files")
   const dirs = fs.readdirSync(filesDir)
   const files = dirs.filter((dir) => !["favicon.ico"].includes(dir))
   const images = files.map((dir) => {

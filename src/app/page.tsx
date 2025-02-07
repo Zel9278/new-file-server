@@ -2,6 +2,7 @@ import Link from "next/link"
 import Progressbar from "@/components/ProgressBar"
 import { check } from "diskusage"
 import byteToData from "@/utils/byteToData"
+import path from "node:path"
 
 async function getStrageUsage(): Promise<{
   usage: number
@@ -9,7 +10,8 @@ async function getStrageUsage(): Promise<{
   used: number
   free: number
 }> {
-  const { free, total } = await check(process.cwd())
+  const filesDir = process.env.FILES_DIR || path.join(process.cwd(), "files")
+  const { free, total } = await check(filesDir)
 
   const used = total - free
   const usage = Math.round((used / total) * 100)

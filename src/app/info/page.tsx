@@ -1,6 +1,7 @@
 import Link from "next/link"
 import os from "node:os"
 import packages from "../../../package.json"
+import path from "node:path"
 
 type Package = {
   name: string
@@ -12,11 +13,14 @@ type Dependencies = {
 }
 
 const getData = async () => {
+  const filesDir = process.env.FILES_DIR || path.join(process.cwd(), "files")
+
   return {
     host: "f.c30.life",
     owner: "c30",
     hostname: os.hostname(),
     runningAs: `${os.userInfo().username}@${os.hostname()}`,
+    filesDir,
     thisVersion: packages.version,
     nodeVersion: process.version,
     pnpmVersion: packages.packageManager,
@@ -51,6 +55,7 @@ export default async function Home() {
               <li>ホスト: {data.host}</li>
               <li>オーナー: {data.owner}</li>
               <li>実行ユーザー: {data.runningAs}</li>
+              <li>ファイルを置いてる場所: {data.filesDir}</li>
               <li className="bg-zinc-500 w-full h-0.5 rounded my-1" />
               <li>このサイトバージョン: {data.thisVersion}</li>
               <li>Node.jsのバージョン: {data.nodeVersion}</li>

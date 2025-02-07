@@ -12,7 +12,7 @@ type Props = {
 export async function GET(request: NextRequest, { params }: Props) {
   const code = (await params).code
 
-  const filesDir = path.join(process.cwd(), "files")
+  const filesDir = process.env.FILES_DIR || path.join(process.cwd(), "files")
 
   if (!fs.existsSync(`${filesDir}/${code}`)) {
     return new Response("File not found", { status: 404 })

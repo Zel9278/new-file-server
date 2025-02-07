@@ -30,7 +30,7 @@ export async function POST(request: NextRequest) {
       fileData.name?.toString() ||
       `${DateTime.now().toFormat("yyyy-MM-dd_HH-mm-ss")}`
 
-    const filesDir = path.join(process.cwd(), "files")
+    const filesDir = process.env.FILES_DIR || path.join(process.cwd(), "files")
 
     return tryNewFile(fileName, filesDir, bufferStream)
   } catch (error) {

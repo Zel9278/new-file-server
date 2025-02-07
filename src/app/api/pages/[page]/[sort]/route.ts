@@ -95,11 +95,13 @@ export async function GET(request: NextRequest, { params }: Props) {
   const counterPath = path.join(process.cwd(), "src/.counter.json")
   const counter = JSON.parse(fs.readFileSync(counterPath, "utf-8"))
 
+  const filesDir = process.env.FILES_DIR || path.join(process.cwd(), "files")
+
   const files = sortFiles(
-    fs.readdirSync(path.join(process.cwd(), "files")).map((file) => {
-      const fileDir = fs.readdirSync(path.join(process.cwd(), "files", file))
+    fs.readdirSync(filesDir).map((file) => {
+      const fileDir = fs.readdirSync(path.join(filesDir, file))
       const fileStat = fs.statSync(
-        path.join(process.cwd(), "files", file, fileDir[0]),
+        path.join(filesDir, file, fileDir[0]),
       )
 
       const rawName = fileDir[0]

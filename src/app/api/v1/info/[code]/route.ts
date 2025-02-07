@@ -16,7 +16,7 @@ const IMG_EXT = [".png", ".jpg", ".jpeg", ".webp", ".gif", ".svg"]
 
 export async function GET(request: NextRequest, { params }: Props) {
   const code = (await params).code
-  const filesDir = path.join(process.cwd(), "files")
+  const filesDir = process.env.FILES_DIR || path.join(process.cwd(), "files")
 
   if (!fs.existsSync(`${filesDir}/${code}`)) {
     return new Response("File Not found", { status: 404 })
