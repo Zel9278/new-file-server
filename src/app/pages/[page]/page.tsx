@@ -9,6 +9,8 @@ import {
 } from "next/navigation"
 import useSWR from "swr"
 import type { PageResult, ShortFileInfo } from "@/types/fileserver"
+import PagesDefaultView from "@/components/pages/default"
+import PagesListView from "@/components/pages/list"
 
 type Props = {
   page: string
@@ -23,6 +25,11 @@ enum Sort {
   SizeDown = "SizeDown",
   DateUp = "DateUp",
   DateDown = "DateDown",
+}
+
+enum View {
+  Default = "Default",
+  List = "List",
 }
 
 const fetcher = <T,>(path: string): Promise<T> =>
@@ -43,8 +50,7 @@ export default function Page() {
   const searchParams = useSearchParams()
   const page = Number(params.page)
   const sortParam = searchParams.get("sort")
-
-  console.log(page, sortParam)
+  const viewParam = searchParams.get("view")
 
   const createQueryString = useCallback(
     (name: string, value: string) => {
@@ -57,6 +63,7 @@ export default function Page() {
   )
 
   const [sort, setSort] = useState<Sort>((sortParam as Sort) || Sort.CodeUp)
+  const [view, setView] = useState<View>((viewParam as View) || View.Default)
 
   const { data, error, isLoading } = useSWR<{
     filesOnPage: ShortFileInfo[]
@@ -65,7 +72,6 @@ export default function Page() {
 
   useEffect(() => {
     if (data) {
-      console.log(data)
       setFilesOnPage(data.filesOnPage)
       setResult(data.result)
     }
@@ -106,51 +112,23 @@ export default function Page() {
           <option value="DateDown">Date Down</option>
         </select>
       </div>
-      <div className="flex items-center flex-col gap-4 w-auto h-full">
-        <div className="flex flex-col gap-4">
-          <div className="flex flex-wrap gap-4 !items-center !justify-center">
-            {filesOnPage.map((file) => {
-              return (
-                <div
-                  key={file.code}
-                  className="card bg-base-200 w-96 shadow-xl"
-                >
-                  <div className="card-body p-6">
-                    <h2 className="card-title">{file.code}</h2>
-                    <div>
-                      <p>Original FileName: {file.rawName}</p>
-                      <p>Size: {file.size}</p>
-                      <p>Date: {file.date}</p>
-                      <p>Time Ago: {file.ago}</p>
-                      <p>Download Count: {file.downloads}</p>
-                    </div>
-                    <div className="card-actions justify-end">
-                      <a
-                        className="btn btn-primary"
-                        href={`/api/v1/info/${file.code}`}
-                      >
-                        Info
-                      </a>
-                      <a
-                        className="btn btn-primary"
-                        href={`/api/v1/download/${file.code}`}
-                      >
-                        DL
-                      </a>
-                      <a
-                        className="btn btn-primary"
-                        href={`/files/${file.code}`}
-                      >
-                        View
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              )
-            })}
-          </div>
-        </div>
-        <div className="join flex">
+      <select
+        defaultValue={view}
+        className="select select-xs"
+        onChange={(e) => {
+          setView(e.target.value as View)
+          router.push(
+            `/pages/${page}?${createQueryString("view", e.target.value)}`,
+          )
+        }}
+      >
+        <option value="Default">Default View</option>
+        <option value="List">List View</option>
+      </select>
+      <div className="flex items-center flex-col gap-4 w-full h-full overflow-x-auto">
+        {view === "Default" && <PagesDefaultView files={filesOnPage} />}
+        {view === "List" && <PagesListView files={filesOnPage} />}
+        <div className="join flex flex-wrap justify-center">
           {result.prev ? (
             <a
               href={`/pages/${result.prev}?${createQueryString("sort", sort)}`}
