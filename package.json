@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@scalar/nextjs-api-reference": "0.5.7",
-    "@tailwindcss/postcss": "4.0.3",
+    "@tailwindcss/postcss": "4.0.4",
     "diskusage": "1.2.0",
     "file-type": "20.0.1",
     "image-size": "1.2.0",
@@ -40,7 +40,7 @@
     "postcss": "8.5.1",
     "prettier": "3.4.2",
     "prettier-plugin-tailwindcss": "0.6.11",
-    "tailwindcss": "4.0.3",
+    "tailwindcss": "4.0.4",
     "typescript": "5.7.3"
   },
   "packageManager": "pnpm@10.2.1"
