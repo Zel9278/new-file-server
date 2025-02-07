@@ -29,7 +29,7 @@ const ImageViewer = ({ className, src, alt, width, height }: Props) => {
       const delta = e.deltaY
 
       const scaleFactor = delta > 0 ? 0.9 : 1.1
-      const newScale = Math.min(Math.max(scale * scaleFactor, 0.1), 4)
+      const newScale = Math.min(Math.max(scale * scaleFactor, 0.05), 100)
 
       const newZoomPercentage = Math.round(newScale * 100)
       setZoomPercentage(newZoomPercentage)
