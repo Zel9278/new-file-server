@@ -35,8 +35,14 @@ const ImageViewer = ({ className, src, alt, width, height }: Props) => {
       setZoomPercentage(newZoomPercentage)
 
       setOffset((prev) => ({
-        x: mouseX - (mouseX - prev.x) * (newScale / scale),
-        y: mouseY - (mouseY - prev.y) * (newScale / scale),
+        x:
+          mouseX -
+          rect.width / 2 -
+          (mouseX - rect.width / 2 - prev.x) * (newScale / scale),
+        y:
+          mouseY -
+          rect.height / 2 -
+          (mouseY - rect.height / 2 - prev.y) * (newScale / scale),
       }))
       setScale(newScale)
     },
