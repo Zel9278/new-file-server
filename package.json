@@ -16,7 +16,7 @@
     "@scalar/nextjs-api-reference": "0.5.7",
     "@tailwindcss/postcss": "4.0.4",
     "diskusage": "1.2.0",
-    "file-type": "20.0.1",
+    "file-type": "20.1.0",
     "image-size": "1.2.0",
     "luxon": "3.5.0",
     "mime": "4.0.6",
