@@ -1,6 +1,7 @@
 import Link from "next/link"
 import os from "node:os"
 import packages from "../../../package.json"
+import licenses from "@/licenses.json"
 import path from "node:path"
 
 type Package = {
@@ -10,6 +11,16 @@ type Package = {
 
 type Dependencies = {
   [key: string]: string
+}
+
+type License = {
+  name: string
+  version: string
+  author: string | null
+  repository: string
+  source: string
+  license: string
+  licenseText: string
 }
 
 const getData = async () => {
@@ -35,6 +46,8 @@ export default async function Home() {
 
   const packageList: Package[] = []
   const devPackageList: Package[] = []
+
+  const licensesList: License[] = licenses as License[]
 
   for (const [name, version] of Object.entries(deps)) {
     packageList.push({ name, version })
@@ -118,6 +131,66 @@ export default async function Home() {
                   {devPackageList.map((pkg) => (
                     <li key={pkg.name}>
                       {pkg.name}: {pkg.version}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </details>
+
+            <div className="bg-zinc-400 w-full h-0.5 rounded my-2" />
+
+            <details className="collapse collapse-arrow bg-base-200">
+              <summary className="collapse-title text-xl font-medium">
+                Licenses
+              </summary>
+              <div className="collapse-content max-h-full">
+                <ul>
+                  {licensesList.map((license) => (
+                    <li key={license.name}>
+                      <details className="collapse collapse-arrow bg-base-200">
+                        <summary className="collapse-title text-lg font-medium">
+                          {license.name}
+                        </summary>
+                        <div className="collapse-content">
+                          <ul>
+                            <li>Version: {license.version}</li>
+                            {license.author && (
+                              <li>Author: {license.author}</li>
+                            )}
+                            <li>
+                              Repository:{" "}
+                              <Link
+                                href={license.repository}
+                                className="link link-primary"
+                                target="_blank"
+                              >
+                                {license.repository}
+                              </Link>
+                            </li>
+                            <li>
+                              Source:{" "}
+                              <Link
+                                href={license.source}
+                                className="link link-primary"
+                                target="_blank"
+                              >
+                                {license.source}
+                              </Link>
+                            </li>
+                            <li>License: {license.license}</li>
+                            <li>
+                              <details className="collapse collapse-arrow bg-base-200">
+                                <summary className="collapse-title text-lg font-medium">
+                                  License Text
+                                </summary>
+                                <div className="collapse-content">
+                                  <pre>{license.licenseText}</pre>
+                                </div>
+                              </details>
+                            </li>
+                          </ul>
+                        </div>
+                      </details>
                     </li>
                   ))}
                 </ul>

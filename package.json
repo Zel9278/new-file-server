@@ -1,7 +1,8 @@
 {
-  "name": "new-files",
+  "name": "new-file-server",
   "version": "0.1.0",
   "private": true,
+  "license": "MIT",
   "scripts": {
     "dev": "next dev --port 37407",
     "build": "next build",
@@ -40,7 +41,8 @@
     "prettier": "3.4.2",
     "prettier-plugin-tailwindcss": "0.6.11",
     "tailwindcss": "4.0.4",
-    "typescript": "5.7.3"
+    "typescript": "5.7.3",
+    "webpack-license-plugin": "4.5.0"
   },
   "packageManager": "pnpm@10.2.1",
   "pnpm": {
