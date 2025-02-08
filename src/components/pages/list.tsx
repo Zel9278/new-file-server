@@ -10,8 +10,8 @@ type Props = {
 
 const PagesListView = ({ files }: Props) => {
   return (
-    <div className="overflow-x-auto">
-      <table className="table w-full">
+    <div className="overflow-x-auto w-full">
+      <table className="table">
         <thead>
           <tr>
             <th>Filename</th>

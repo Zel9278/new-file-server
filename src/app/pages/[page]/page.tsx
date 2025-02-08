@@ -57,7 +57,15 @@ export default function Page() {
       const params = new URLSearchParams(searchParams.toString())
       params.set(name, value)
 
-      return params.toString()
+      if (name === "sort" && value === Sort.CodeUp) {
+        params.delete("sort")
+      }
+      if (name === "view" && value === View.Default) {
+        params.delete("view")
+      }
+
+      const queryString = params.toString()
+      return queryString ? `?${queryString}` : ""
     },
     [searchParams],
   )
@@ -98,7 +106,7 @@ export default function Page() {
           onChange={(e) => {
             setSort(e.target.value as Sort)
             router.push(
-              `/pages/${page}?${createQueryString("sort", e.target.value)}`,
+              `/pages/${page}${createQueryString("sort", e.target.value)}`,
             )
           }}
         >
@@ -118,20 +126,20 @@ export default function Page() {
         onChange={(e) => {
           setView(e.target.value as View)
           router.push(
-            `/pages/${page}?${createQueryString("view", e.target.value)}`,
+            `/pages/${page}${createQueryString("view", e.target.value)}`,
           )
         }}
       >
         <option value="Default">Default View</option>
         <option value="List">List View</option>
       </select>
-      <div className="flex items-center flex-col gap-4 w-full h-full overflow-x-auto">
+      <div className="flex flex-col gap-4 w-full h-full overflow-x-auto">
         {view === "Default" && <PagesDefaultView files={filesOnPage} />}
         {view === "List" && <PagesListView files={filesOnPage} />}
         <div className="join flex flex-wrap justify-center">
           {result.prev ? (
             <a
-              href={`/pages/${result.prev}?${createQueryString("sort", sort)}`}
+              href={`/pages/${result.prev}${createQueryString("sort", sort)}`}
               className="join-item btn"
             >
               Prev
@@ -148,7 +156,7 @@ export default function Page() {
             ) : (
               <a
                 key={p}
-                href={`/pages/${p}?${createQueryString("sort", sort)}`}
+                href={`/pages/${p}${createQueryString("sort", sort)}`}
                 className="join-item btn"
               >
                 {p}
@@ -158,7 +166,7 @@ export default function Page() {
 
           {result.next ? (
             <a
-              href={`/pages/${result.next}?${createQueryString("sort", sort)}`}
+              href={`/pages/${result.next}${createQueryString("sort", sort)}`}
               className="join-item btn"
             >
               Next

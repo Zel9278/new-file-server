@@ -9,8 +9,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "lint": "eslint .",
-    "lint:fix": "eslint --fix .",
-    "openapi": "openapi-typescript ./openapi.yml --output api.d.ts"
+    "lint:fix": "eslint --fix ."
   },
   "dependencies": {
     "@scalar/nextjs-api-reference": "0.5.7",
@@ -47,8 +46,6 @@
   "pnpm": {
     "onlyBuiltDependencies": [
       "diskusage",
-      "diskusage",
-      "sharp",
       "sharp"
     ]
   }
