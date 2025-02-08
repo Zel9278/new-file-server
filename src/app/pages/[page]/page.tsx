@@ -133,7 +133,7 @@ export default function Page() {
         <option value="Default">Default View</option>
         <option value="List">List View</option>
       </select>
-      <div className="flex flex-col gap-4 w-full h-full overflow-x-auto">
+      <div className="flex flex-col gap-4 w-full h-full">
         {view === "Default" && <PagesDefaultView files={filesOnPage} />}
         {view === "List" && <PagesListView files={filesOnPage} />}
         <div className="join flex flex-wrap justify-center">
