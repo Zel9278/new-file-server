@@ -30,3 +30,20 @@ export type FileInfo = {
   width?: number
   height?: number
 }
+
+export type FileInfoWithSearch = {
+  code: string
+  url: string
+  rawName: string
+  type: string
+  size: string
+  rawSize: number
+  date: string
+  unixDate: number
+  ago: string | null
+  downloadCount: number
+  width?: number
+  height?: number
+  isCode: boolean
+  isRawName: boolean
+}

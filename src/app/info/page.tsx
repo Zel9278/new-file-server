@@ -33,31 +33,30 @@ const getData = async () => {
   const files = fs.readdirSync(filesDir)
 
   const typeCount: TypeCount = {}
-
-  typeCount.Total = files.length
+  const total = files.length
+  let none = 0
 
   for (const file of files) {
-    let type = path.extname(file).replace(".", "")
+    const type = path.extname(file).replace(".", "")
     if (typeCount[type]) {
       if (type === "") {
-        type = "None"
+        none += 1
+        continue
       }
       typeCount[type] += 1
     } else {
       if (type === "") {
-        type = "None"
+        none += 1
+        continue
       }
       typeCount[type] = 1
     }
   }
 
-  let sortedTypeCount: TypeCount = {}
+  const sortedTypeCount: TypeCount = {}
   for (const key of Object.keys(typeCount).sort()) {
     sortedTypeCount[key] = typeCount[key]
   }
-
-  const { Total, None, ...rest } = sortedTypeCount
-  sortedTypeCount = { Total, None, ...rest }
 
   return {
     host: "f.c30.life",
@@ -68,6 +67,8 @@ const getData = async () => {
     thisVersion: packages.version,
     nodeVersion: process.version,
     pnpmVersion: packages.packageManager,
+    total,
+    none,
     typeCount: sortedTypeCount,
   }
 }
@@ -105,11 +106,15 @@ export default async function Home() {
               <li>オーナー: {data.owner}</li>
               <li>実行ユーザー: {data.runningAs}</li>
               <li>ファイルを置いてる場所: {data.filesDir}</li>
+
               <li className="bg-zinc-500 w-full h-0.5 rounded my-1" />
+
               <li>このサイトバージョン: {data.thisVersion}</li>
               <li>Node.jsのバージョン: {data.nodeVersion}</li>
               <li>pnpmのバージョン: {data.pnpmVersion.replace("pnpm@", "")}</li>
+
               <li className="bg-zinc-500 w-full h-0.5 rounded my-1" />
+
               <li>
                 Sitemap:{" "}
                 <Link
@@ -149,6 +154,11 @@ export default async function Home() {
                 File Types
               </summary>
               <div className="collapse-content max-h-full">
+                <p>Files Total: {data.total}</p>
+                <p>No Extension: {data.none}</p>
+
+                <div className="bg-zinc-500 w-full h-0.5 rounded my-1" />
+
                 <ul>
                   {Object.entries(typeCount).map(([type, count]) => (
                     <li key={type}>

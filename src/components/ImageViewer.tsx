@@ -52,6 +52,10 @@ const ImageViewer = ({ className, src, alt, width, height }: Props) => {
   const handleMouseDown = useCallback((e: MouseEvent<HTMLDivElement>) => {
     if (e.button !== 0) return
     e.preventDefault()
+    if (document.activeElement instanceof HTMLElement) {
+      document.activeElement.blur()
+    }
+
     setIsDragging(true)
     const rect = e.currentTarget.getBoundingClientRect()
     setInitialPos({

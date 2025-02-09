@@ -1,6 +1,6 @@
 import type { Metadata } from "next"
-import Link from "next/link"
 import "@/styles/globals.css"
+import Navbar from "@/components/navbar"
 
 const siteName = process.env.NAME as string
 
@@ -18,22 +18,12 @@ export default function RootLayout({
   return (
     <html lang="ja">
       <body className="h-screen w-screen flex flex-col">
-        <header className="sticky top-0 z-10">
-          <div className="navbar bg-base-50 backdrop-blur-sm shadow-lg">
-            <div className="flex-1">
-              <Link className="btn btn-ghost text-xl text-[#bebebe]" href="/">
-                {process.env.NAME}
-              </Link>
-            </div>
-            <div className="flex-none">
-              {process.env.npm_lifecycle_event === "dev" && (
-                <p className="text-xl text-red-600 animate-bounce">
-                  Debug Build
-                </p>
-              )}
-            </div>
+        {process.env.npm_lifecycle_event === "dev" && (
+          <div className="fixed top-0 right-0 z-50 p-2 bg-black">
+            <p className="text-xl text-red-600 animate-bounce">Debug Build</p>
           </div>
-        </header>
+        )}
+        <Navbar />
         <main className="flex-grow overflow-y-auto">{children}</main>
       </body>
     </html>

@@ -301,6 +301,42 @@
           }
         }
       }
+    },
+    "/api/v1/search/{param}": {
+      "get": {
+        "summary": "Search files",
+        "description": "Search files on the server",
+        "tags": ["File"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "param",
+            "required": true,
+            "description": "Search parameter",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of files",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/FileInfoWithSearch"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No files found"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -380,6 +416,59 @@
           "downloads": {
             "type": "integer",
             "description": "Number of downloads"
+          }
+        }
+      },
+      "FileInfoWithSearch": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "File code"
+          },
+          "url": {
+            "type": "string",
+            "description": "File URL"
+          },
+          "rawName": {
+            "type": "string",
+            "description": "File name"
+          },
+          "type": {
+            "type": "string",
+            "description": "File type"
+          },
+          "size": {
+            "type": "string",
+            "description": "File size"
+          },
+          "rawSize": {
+            "type": "integer",
+            "description": "File size in bytes"
+          },
+          "date": {
+            "type": "string",
+            "description": "File date"
+          },
+          "unixDate": {
+            "type": "number",
+            "description": "File date in unix time"
+          },
+          "ago": {
+            "type": ["string", "null"],
+            "description": "File date in relative time"
+          },
+          "downloads": {
+            "type": "integer",
+            "description": "Number of downloads"
+          },
+          "isCode": {
+            "type": "boolean",
+            "description": "Whether the search term is in the file code"
+          },
+          "isRawName": {
+            "type": "boolean",
+            "description": "Whether the search term is in the file name"
           }
         }
       },

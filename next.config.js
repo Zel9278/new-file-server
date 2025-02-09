@@ -1,6 +1,5 @@
 /** @type {import('next').NextConfig} */
 
-const path = require("node:path")
 const LicensePlugin = require("webpack-license-plugin")
 
 const nextConfig = {
