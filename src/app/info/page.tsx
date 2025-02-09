@@ -3,6 +3,7 @@ import os from "node:os"
 import packages from "../../../package.json"
 import licenses from "@/licenses.json"
 import path from "node:path"
+import fs from "node:fs"
 
 type Package = {
   name: string
@@ -23,8 +24,40 @@ type License = {
   licenseText: string
 }
 
+type TypeCount = {
+  [key: string]: number
+}
+
 const getData = async () => {
   const filesDir = process.env.FILES_DIR || path.join(process.cwd(), "files")
+  const files = fs.readdirSync(filesDir)
+
+  const typeCount: TypeCount = {}
+
+  typeCount.Total = files.length
+
+  for (const file of files) {
+    let type = path.extname(file).replace(".", "")
+    if (typeCount[type]) {
+      if (type === "") {
+        type = "None"
+      }
+      typeCount[type] += 1
+    } else {
+      if (type === "") {
+        type = "None"
+      }
+      typeCount[type] = 1
+    }
+  }
+
+  let sortedTypeCount: TypeCount = {}
+  for (const key of Object.keys(typeCount).sort()) {
+    sortedTypeCount[key] = typeCount[key]
+  }
+
+  const { Total, None, ...rest } = sortedTypeCount
+  sortedTypeCount = { Total, None, ...rest }
 
   return {
     host: "f.c30.life",
@@ -35,6 +68,7 @@ const getData = async () => {
     thisVersion: packages.version,
     nodeVersion: process.version,
     pnpmVersion: packages.packageManager,
+    typeCount: sortedTypeCount,
   }
 }
 
@@ -48,6 +82,8 @@ export default async function Home() {
   const devPackageList: Package[] = []
 
   const licensesList: License[] = licenses as License[]
+
+  const typeCount: TypeCount = data.typeCount
 
   for (const [name, version] of Object.entries(deps)) {
     packageList.push({ name, version })
@@ -105,6 +141,23 @@ export default async function Home() {
                 </Link>
               </li>
             </ul>
+
+            <div className="bg-zinc-400 w-full h-0.5 rounded my-2" />
+
+            <details className="collapse collapse-arrow bg-base-200">
+              <summary className="collapse-title text-xl font-medium">
+                File Types
+              </summary>
+              <div className="collapse-content max-h-full">
+                <ul>
+                  {Object.entries(typeCount).map(([type, count]) => (
+                    <li key={type}>
+                      {type}: {count}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </details>
 
             <div className="bg-zinc-400 w-full h-0.5 rounded my-2" />
 

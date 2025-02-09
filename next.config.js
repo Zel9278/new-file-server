@@ -24,13 +24,15 @@ const nextConfig = {
       loader: "node-loader",
     })
 
-    config.plugins.push(
-      new LicensePlugin({
-        outputFilename: "../src/licenses.json",
-        unacceptableLicenseTest: (licenseType) =>
-          licenseType.includes("GPL") || licenseType.includes("AGPL"),
-      }),
-    )
+    if (process.env.npm_lifecycle_event !== "dev") {
+      config.plugins.push(
+        new LicensePlugin({
+          outputFilename: "../src/licenses.json",
+          unacceptableLicenseTest: (licenseType) =>
+            licenseType.includes("GPL") || licenseType.includes("AGPL"),
+        }),
+      )
+    }
 
     return config
   },
