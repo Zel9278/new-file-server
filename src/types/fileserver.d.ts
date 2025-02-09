@@ -1,3 +1,5 @@
+/* File API */
+
 export type PageResult = {
   prev: number | null
   next: number | null
@@ -47,3 +49,49 @@ export type FileInfoWithSearch = {
   isCode: boolean
   isRawName: boolean
 }
+
+/* File API */
+
+/* Info API */
+
+export type Package = {
+  name: string
+  version: string
+}
+
+export type Dependencies = {
+  [key: string]: string
+}
+
+export type License = {
+  name: string
+  version: string
+  author: string | null
+  repository: string
+  source: string
+  license: string
+  licenseText: string
+}
+
+export type TypeCount = {
+  [key: string]: number
+}
+
+export type ServerInfoData = {
+  host: string
+  owner: string
+  hostname: string
+  runningAs: string
+  filesDir: string
+  thisVersion: string
+  nodeVersion: string
+  pnpmVersion: string
+  total: number
+  none: number
+  typeCount: TypeCount
+  packageList: Package[]
+  devPackageList: Package[]
+  licensesList: License[]
+}
+
+/* Info API */

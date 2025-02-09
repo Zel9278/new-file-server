@@ -337,6 +337,25 @@
           }
         }
       }
+    },
+    "/api/info": {
+      "get": {
+        "summary": "Server information",
+        "description": "Get server information",
+        "tags": ["Server"],
+        "responses": {
+          "200": {
+            "description": "Server information",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerInfoData"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -372,7 +391,8 @@
               "type": "integer"
             }
           }
-        }
+        },
+        "required": ["now", "max", "pages"]
       },
       "FileInfo": {
         "type": "object",
@@ -410,14 +430,26 @@
             "description": "File date in unix time"
           },
           "ago": {
-            "type": ["string", "null"],
+            "type": "string",
+            "nullable": true,
             "description": "File date in relative time"
           },
           "downloads": {
             "type": "integer",
             "description": "Number of downloads"
           }
-        }
+        },
+        "required": [
+          "code",
+          "url",
+          "rawName",
+          "type",
+          "size",
+          "rawSize",
+          "date",
+          "unixDate",
+          "downloads"
+        ]
       },
       "FileInfoWithSearch": {
         "type": "object",
@@ -455,7 +487,8 @@
             "description": "File date in unix time"
           },
           "ago": {
-            "type": ["string", "null"],
+            "type": "string",
+            "nullable": true,
             "description": "File date in relative time"
           },
           "downloads": {
@@ -470,7 +503,20 @@
             "type": "boolean",
             "description": "Whether the search term is in the file name"
           }
-        }
+        },
+        "required": [
+          "code",
+          "url",
+          "rawName",
+          "type",
+          "size",
+          "rawSize",
+          "date",
+          "unixDate",
+          "downloads",
+          "isCode",
+          "isRawName"
+        ]
       },
       "ShortFileInfo": {
         "type": "object",
@@ -496,14 +542,147 @@
             "description": "File date"
           },
           "ago": {
-            "type": ["string", "null"],
+            "type": "string",
+            "nullable": true,
             "description": "File date in relative time"
           },
           "downloads": {
             "type": "integer",
             "description": "Number of downloads"
           }
+        },
+        "required": ["rawName", "code", "size", "rawSize", "date", "downloads"]
+      },
+      "Package": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "version": {
+            "type": "string"
+          }
+        },
+        "required": ["name", "version"]
+      },
+      "Dependencies": {
+        "type": "object",
+        "additionalProperties": {
+          "type": "string"
         }
+      },
+      "License": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "version": {
+            "type": "string"
+          },
+          "author": {
+            "type": "string",
+            "nullable": true
+          },
+          "repository": {
+            "type": "string"
+          },
+          "source": {
+            "type": "string"
+          },
+          "license": {
+            "type": "string"
+          },
+          "licenseText": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "version",
+          "repository",
+          "source",
+          "license",
+          "licenseText"
+        ]
+      },
+      "TypeCount": {
+        "type": "object",
+        "additionalProperties": {
+          "type": "integer"
+        }
+      },
+      "ServerInfoData": {
+        "type": "object",
+        "properties": {
+          "host": {
+            "type": "string"
+          },
+          "owner": {
+            "type": "string"
+          },
+          "hostname": {
+            "type": "string"
+          },
+          "runningAs": {
+            "type": "string"
+          },
+          "filesDir": {
+            "type": "string"
+          },
+          "thisVersion": {
+            "type": "string"
+          },
+          "nodeVersion": {
+            "type": "string"
+          },
+          "pnpmVersion": {
+            "type": "string"
+          },
+          "total": {
+            "type": "integer"
+          },
+          "none": {
+            "type": "integer"
+          },
+          "typeCount": {
+            "$ref": "#/components/schemas/TypeCount"
+          },
+          "packageList": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Package"
+            }
+          },
+          "devPackageList": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Package"
+            }
+          },
+          "licensesList": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/License"
+            }
+          }
+        },
+        "required": [
+          "host",
+          "owner",
+          "hostname",
+          "runningAs",
+          "filesDir",
+          "thisVersion",
+          "nodeVersion",
+          "pnpmVersion",
+          "total",
+          "none",
+          "typeCount",
+          "packageList",
+          "devPackageList",
+          "licensesList"
+        ]
       }
     }
   }

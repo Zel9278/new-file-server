@@ -1,98 +1,40 @@
+"use client"
+
 import Link from "next/link"
-import os from "node:os"
-import packages from "../../../package.json"
-import licenses from "@/licenses.json"
-import path from "node:path"
-import fs from "node:fs"
+import type {
+  ServerInfoData,
+  License,
+  Package,
+  TypeCount,
+} from "@/types/fileserver"
+import useSWR from "swr"
+import { notFound } from "next/navigation"
 
-type Package = {
-  name: string
-  version: string
-}
+const fetcher = <T,>(path: string): Promise<T> =>
+  fetch(path).then((res) => res.json())
 
-type Dependencies = {
-  [key: string]: string
-}
+export default function Home() {
+  const { data, error, isLoading } = useSWR<ServerInfoData>(
+    "/api/info",
+    fetcher,
+  )
 
-type License = {
-  name: string
-  version: string
-  author: string | null
-  repository: string
-  source: string
-  license: string
-  licenseText: string
-}
-
-type TypeCount = {
-  [key: string]: number
-}
-
-const getData = async () => {
-  const filesDir = process.env.FILES_DIR || path.join(process.cwd(), "files")
-  const files = fs.readdirSync(filesDir)
-
-  const typeCount: TypeCount = {}
-  const total = files.length
-  let none = 0
-
-  for (const file of files) {
-    const type = path.extname(file).replace(".", "")
-    if (typeCount[type]) {
-      if (type === "") {
-        none += 1
-        continue
-      }
-      typeCount[type] += 1
-    } else {
-      if (type === "") {
-        none += 1
-        continue
-      }
-      typeCount[type] = 1
-    }
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-full">
+        <span className="loading loading-infinity loading-xl" />
+      </div>
+    )
   }
 
-  const sortedTypeCount: TypeCount = {}
-  for (const key of Object.keys(typeCount).sort()) {
-    sortedTypeCount[key] = typeCount[key]
-  }
+  if (error) return <div>failed to load</div>
+  if (!data) return notFound()
 
-  return {
-    host: "f.c30.life",
-    owner: "c30",
-    hostname: os.hostname(),
-    runningAs: `${os.userInfo().username}@${os.hostname()}`,
-    filesDir,
-    thisVersion: packages.version,
-    nodeVersion: process.version,
-    pnpmVersion: packages.packageManager,
-    total,
-    none,
-    typeCount: sortedTypeCount,
-  }
-}
-
-export default async function Home() {
-  const data = await getData()
-
-  const deps: Dependencies = packages.dependencies
-  const devDeps: Dependencies = packages.devDependencies
-
-  const packageList: Package[] = []
-  const devPackageList: Package[] = []
-
-  const licensesList: License[] = licenses as License[]
+  const packageList: Package[] = data.packageList as Package[]
+  const devPackageList: Package[] = data.devPackageList as Package[]
+  const licensesList: License[] = data.licensesList as License[]
 
   const typeCount: TypeCount = data.typeCount
-
-  for (const [name, version] of Object.entries(deps)) {
-    packageList.push({ name, version })
-  }
-
-  for (const [name, version] of Object.entries(devDeps)) {
-    devPackageList.push({ name, version })
-  }
 
   return (
     <>
