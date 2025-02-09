@@ -40,7 +40,7 @@
               "text/plain": {
                 "schema": {
                   "type": "string",
-                  "example": "done"
+                  "examples": ["done"]
                 }
               }
             }
@@ -150,7 +150,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "example": "Return OpenAPI JSON Schema"
+                  "examples": ["Return OpenAPI JSON Schema"]
                 }
               }
             }
@@ -219,16 +219,16 @@
               "text/plain": {
                 "schema": {
                   "type": "string",
-                  "example": "https://example.com/files/abc123"
+                  "examples": ["https://example.com/files/abc123"]
                 }
               }
             }
           },
-          "401": {
-            "description": "Unauthorized, missing or invalid token"
-          },
           "400": {
             "description": "No file found"
+          },
+          "401": {
+            "description": "Unauthorized, missing or invalid token"
           },
           "500": {
             "description": "Internal Server Error"
@@ -372,12 +372,10 @@
         "type": "object",
         "properties": {
           "prev": {
-            "type": "integer",
-            "nullable": true
+            "type": ["integer", "nullable"]
           },
           "next": {
-            "type": "integer",
-            "nullable": true
+            "type": ["integer", "nullable"]
           },
           "now": {
             "type": "integer"
@@ -430,8 +428,7 @@
             "description": "File date in unix time"
           },
           "ago": {
-            "type": "string",
-            "nullable": true,
+            "type": ["string", "nullable"],
             "description": "File date in relative time"
           },
           "downloads": {
@@ -487,8 +484,7 @@
             "description": "File date in unix time"
           },
           "ago": {
-            "type": "string",
-            "nullable": true,
+            "type": ["string", "nullable"],
             "description": "File date in relative time"
           },
           "downloads": {
@@ -542,8 +538,7 @@
             "description": "File date"
           },
           "ago": {
-            "type": "string",
-            "nullable": true,
+            "type": ["string", "nullable"],
             "description": "File date in relative time"
           },
           "downloads": {
@@ -581,8 +576,7 @@
             "type": "string"
           },
           "author": {
-            "type": "string",
-            "nullable": true
+            "type": ["string", "nullable"]
           },
           "repository": {
             "type": "string"
