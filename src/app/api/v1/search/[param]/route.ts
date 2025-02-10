@@ -74,5 +74,12 @@ export async function GET(request: NextRequest, { params }: Props) {
     return new Response("No files found", { status: 404 })
   }
 
-  return Response.json(imagesFiltered)
+  return Response.json(imagesFiltered, {
+    headers: {
+      "Content-Type": "application/json",
+      "Cache-Control": "public, no-cache, no-store, must-revalidate",
+      Pragma: "no-cache",
+      Expires: "0",
+    },
+  })
 }

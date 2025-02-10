@@ -56,5 +56,12 @@ export async function GET(request: NextRequest, { params }: Props) {
     info.thumbnail = `${process.env.URL}/api/v1/thumbnail/${code}`
   }
 
-  return Response.json(info)
+  return Response.json(info, {
+    headers: {
+      "Content-Type": "application/json",
+      "Cache-Control": "public, no-cache, no-store, must-revalidate",
+      Pragma: "no-cache",
+      Expires: "0",
+    },
+  })
 }

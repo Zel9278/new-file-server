@@ -50,5 +50,12 @@ export async function GET() {
     return info
   })
 
-  return Response.json(images)
+  return Response.json(images, {
+    headers: {
+      "Content-Type": "application/json",
+      "Cache-Control": "public, no-cache, no-store, must-revalidate",
+      Pragma: "no-cache",
+      Expires: "0",
+    },
+  })
 }
