@@ -20,7 +20,9 @@ export async function GET(request: NextRequest, { params }: Props) {
   const counterPath = path.join(process.cwd(), "src/.counter.json")
   const counter = JSON.parse(fs.readFileSync(counterPath, "utf-8"))
 
-  const fileDir = fs.readdirSync(`${filesDir}/${code}`)[0]
+  const fileDir = fs
+    .readdirSync(`${filesDir}/${code}`)
+    .filter((file) => file !== "thumbnail.png")[0]
   const file = fs.readFileSync(`${filesDir}/${code}/${fileDir}`)
 
   counter[code] = (counter[code] || 0) + 1

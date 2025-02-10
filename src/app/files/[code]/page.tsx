@@ -8,6 +8,7 @@ import ImageViewer from "@/components/ImageViewer"
 
 const DOWNLOAD_URL = `${process.env.URL}/api/v1/download/`
 const RAW_URL = `${process.env.URL}/api/v1/raw/`
+const THUMBNAIL_URL = `${process.env.URL}/api/v1/thumbnail/`
 const USER_AGENTS = [
   "SummalyBot",
   "Pleroma",
@@ -60,7 +61,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     },
   }
 
-  if ((await params).code.match(/.mp4/)) {
+  if ((await params).code.match(/.mp4|.mkv|.mov|.avi|.webm/)) {
     metadata = {
       ...metadata,
       twitter: {
@@ -71,6 +72,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         site: process.env.NAME,
         creator: process.env.AUTHOR,
         creatorId: process.env.AUTHOR_ID,
+        images: `${THUMBNAIL_URL}${(await params).code}`,
         players: [
           {
             playerUrl: `${RAW_URL}${(await params).code}`,
@@ -80,6 +82,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
           },
         ],
       },
+    }
+    metadata.openGraph = {
+      ...metadata.openGraph,
+      images: `${THUMBNAIL_URL}${(await params).code}`,
     }
   } else if ((await params).code.match(/.jpg|.jpeg|.png|.gif/)) {
     metadata = {
@@ -143,10 +149,13 @@ export default async function Page({ params }: Props) {
     }
     case "mp4":
     case "mkv":
+    case "mov":
+    case "avi":
+    case "webm":
       return (
         <>
           <video className="w-full h-full object-contain" controls>
-            <source src={downloadURL} type="video/mp4" />
+            <source src={downloadURL} type={`video/${cleanedFileExtension}`} />
             <track
               src={`${downloadURL}.vtt`}
               kind="captions"
@@ -163,7 +172,7 @@ export default async function Page({ params }: Props) {
       return (
         <>
           <audio className="w-full h-full object-contain" controls>
-            <source src={downloadURL} />
+            <source src={downloadURL} type={`audio/${cleanedFileExtension}`} />
             <track
               src={`${downloadURL}.vtt`}
               kind="captions"

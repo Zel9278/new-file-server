@@ -20,7 +20,7 @@ export async function GET(request: NextRequest, { params }: Props) {
 
   const fileDir = fs
     .readdirSync(`${filesDir}/${code}`)
-    .filter((file) => file !== "thumbnail.png")[0]
+    .filter((file) => file === "thumbnail.png")[0]
   const file = fs.readFileSync(`${filesDir}/${code}/${fileDir}`)
   const fileType = mime.getType(path.extname(fileDir).replace(".", ""))
 

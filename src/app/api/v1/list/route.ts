@@ -2,6 +2,10 @@ import fs from "node:fs"
 import path from "node:path"
 import byteToData from "@/utils/byteToData"
 import { DateTime } from "luxon"
+import imageSize from "image-size"
+import type { FileInfo } from "@/types/fileserver"
+
+const IMG_EXT = [".png", ".jpg", ".jpeg", ".webp", ".gif", ".svg"]
 
 export async function GET() {
   const counterPath = path.join(process.cwd(), "src/.counter.json")
@@ -11,11 +15,13 @@ export async function GET() {
   const dirs = fs.readdirSync(filesDir)
   const files = dirs.filter((dir) => !["favicon.ico"].includes(dir))
   const images = files.map((dir) => {
-    const file = fs.readdirSync(`${filesDir}/${dir}`)[0]
+    const file = fs
+      .readdirSync(`${filesDir}/${dir}`)
+      .filter((file) => file !== "thumbnail.png")[0]
     const fileStat = fs.statSync(`${filesDir}/${dir}/${file}`)
     const downloadCount = counter[dir] || 0
 
-    return {
+    const info: FileInfo = {
       code: dir,
       url: `${process.env.URL}/files/${dir}`,
       rawName: file,
@@ -29,6 +35,19 @@ export async function GET() {
       ago: DateTime.fromJSDate(fileStat.mtime).setLocale("en").toRelative(),
       downloadCount,
     }
+
+    if (IMG_EXT.includes(path.extname(file))) {
+      const imageSizeData = imageSize(path.join(filesDir, dir, file))
+
+      info.width = imageSizeData.width
+      info.height = imageSizeData.height
+    }
+
+    if (fs.existsSync(path.join(filesDir, dir, "thumbnail.png"))) {
+      info.thumbnail = `${process.env.URL}/api/v1/thumbnail/${dir}`
+    }
+
+    return info
   })
 
   return Response.json(images)

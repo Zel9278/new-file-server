@@ -25,7 +25,9 @@ export async function GET(request: NextRequest, { params }: Props) {
   const counterPath = path.join(process.cwd(), "src/.counter.json")
   const counter = JSON.parse(fs.readFileSync(counterPath, "utf-8"))
 
-  const fileDir = fs.readdirSync(`${filesDir}/${code}`)[0]
+  const fileDir = fs
+    .readdirSync(`${filesDir}/${code}`)
+    .filter((file) => file !== "thumbnail.png")[0]
   const fileStat = fs.statSync(`${filesDir}/${code}/${fileDir}`)
 
   const info: FileInfo = {
@@ -48,6 +50,10 @@ export async function GET(request: NextRequest, { params }: Props) {
 
     info.width = imageSizeData.width
     info.height = imageSizeData.height
+  }
+
+  if (fs.existsSync(path.join(filesDir, code, "thumbnail.png"))) {
+    info.thumbnail = `${process.env.URL}/api/v1/thumbnail/${code}`
   }
 
   return Response.json(info)

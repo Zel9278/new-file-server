@@ -137,15 +137,22 @@ export default function Page() {
         {view === "Default" && <PagesDefaultView files={filesOnPage} />}
         {view === "List" && <PagesListView files={filesOnPage} />}
         <div className="join flex flex-wrap justify-center">
+          <a
+            href={`/pages/1${createQueryString("sort", sort)}`}
+            className="join-item btn"
+          >
+            {"<<"}
+          </a>
+
           {result.prev ? (
             <a
               href={`/pages/${result.prev}${createQueryString("sort", sort)}`}
               className="join-item btn"
             >
-              Prev
+              {"<"}
             </a>
           ) : (
-            <span className="join-item btn btn-disabled">Prev</span>
+            <span className="join-item btn btn-disabled">{"<"}</span>
           )}
 
           {result.pages.map((p) =>
@@ -169,11 +176,18 @@ export default function Page() {
               href={`/pages/${result.next}${createQueryString("sort", sort)}`}
               className="join-item btn"
             >
-              Next
+              {">"}
             </a>
           ) : (
-            <span className="join-item btn btn-disabled">Next</span>
+            <span className="join-item btn btn-disabled">{">"}</span>
           )}
+
+          <a
+            href={`/pages/${result.max}${createQueryString("sort", sort)}`}
+            className="join-item btn"
+          >
+            {">>"}
+          </a>
         </div>
       </div>
     </>

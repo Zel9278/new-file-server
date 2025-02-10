@@ -184,6 +184,32 @@
         }
       }
     },
+    "/api/v1/thumbnail/{code}": {
+      "get": {
+        "summary": "Thumbnail",
+        "description": "Get thumbnail for video files",
+        "tags": ["File"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "code",
+            "required": true,
+            "description": "File code",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "File content"
+          },
+          "404": {
+            "description": "File not found"
+          }
+        }
+      }
+    },
     "/api/v1/upload": {
       "post": {
         "summary": "Upload file",
@@ -431,9 +457,21 @@
             "type": ["string", "nullable"],
             "description": "File date in relative time"
           },
-          "downloads": {
+          "downloadCount": {
             "type": "integer",
             "description": "Number of downloads"
+          },
+          "width": {
+            "type": ["integer", "nullable"],
+            "description": "Image width"
+          },
+          "height": {
+            "type": ["integer", "nullable"],
+            "description": "Image height"
+          },
+          "thumbnail": {
+            "type": ["string", "nullable"],
+            "description": "Thumbnail URL"
           }
         },
         "required": [
@@ -445,7 +483,7 @@
           "rawSize",
           "date",
           "unixDate",
-          "downloads"
+          "downloadCount"
         ]
       },
       "FileInfoWithSearch": {
@@ -487,9 +525,21 @@
             "type": ["string", "nullable"],
             "description": "File date in relative time"
           },
-          "downloads": {
+          "downloadCount": {
             "type": "integer",
             "description": "Number of downloads"
+          },
+          "width": {
+            "type": ["integer", "nullable"],
+            "description": "Image width"
+          },
+          "height": {
+            "type": ["integer", "nullable"],
+            "description": "Image height"
+          },
+          "thumbnail": {
+            "type": ["string", "nullable"],
+            "description": "Thumbnail URL"
           },
           "isCode": {
             "type": "boolean",
@@ -509,7 +559,7 @@
           "rawSize",
           "date",
           "unixDate",
-          "downloads",
+          "downloadCount",
           "isCode",
           "isRawName"
         ]

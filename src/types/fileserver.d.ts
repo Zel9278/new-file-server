@@ -31,6 +31,7 @@ export type FileInfo = {
   downloadCount: number
   width?: number
   height?: number
+  thumbnail?: string
 }
 
 export type FileInfoWithSearch = {
@@ -46,6 +47,7 @@ export type FileInfoWithSearch = {
   downloadCount: number
   width?: number
   height?: number
+  thumbnail?: string
   isCode: boolean
   isRawName: boolean
 }

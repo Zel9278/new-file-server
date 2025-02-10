@@ -3,6 +3,7 @@ import discordPreloader from "@/utils/discord-preloader"
 import path from "node:path"
 import fs from "node:fs/promises"
 import { DateTime } from "luxon"
+import ffmpeg from "fluent-ffmpeg"
 
 export async function POST(request: NextRequest) {
   if (request.headers.get("Authorization") !== process.env.AUTH_TOKEN) {
@@ -49,9 +50,11 @@ async function tryNewFile(
     let fileDir: string
     let filePath: string
     let url: string
+    let extName: string
 
     while (true) {
-      fileCode = Math.random().toString(36).slice(2, 6) + path.extname(fileName)
+      extName = path.extname(fileName)
+      fileCode = Math.random().toString(36).slice(2, 6) + extName
       fileDir = path.join(filesDir, fileCode)
       filePath = path.join(fileDir, fileName)
       url = `${process.env.URL}/files/${fileCode}`
@@ -66,6 +69,26 @@ async function tryNewFile(
 
     await fs.mkdir(fileDir, { recursive: true })
     await fs.writeFile(filePath, bufferStream)
+
+    if (
+      extName === ".mp4" ||
+      extName === ".webm" ||
+      extName === ".mov" ||
+      extName === ".avi" ||
+      extName === ".mkv"
+    ) {
+      await new Promise((resolve, reject) => {
+        ffmpeg(filePath)
+          .on("end", resolve)
+          .on("error", reject)
+          .screenshots({
+            timestamps: ["50%"],
+            count: 1,
+            folder: fileDir,
+            filename: "thumbnail.png",
+          })
+      })
+    }
 
     discordPreloader("upload", url)
 
