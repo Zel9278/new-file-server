@@ -33,6 +33,9 @@ export async function GET(request: NextRequest, { params }: Props) {
     headers: {
       "Content-Type": "application/octet-stream",
       "Content-Disposition": `attachment; filename*=UTF-8''${encodeURIComponent(fileDir)}`,
+      "Cache-Control": "public, no-cache, no-store, must-revalidate",
+      Pragma: "no-cache",
+      Expires: "0",
     },
   })
 }

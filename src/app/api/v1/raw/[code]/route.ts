@@ -28,6 +28,9 @@ export async function GET(request: NextRequest, { params }: Props) {
     headers: {
       "Content-Type": fileType || "application/octet-stream",
       "Content-Disposition": "inline",
+      "Cache-Control": "public, no-cache, no-store, must-revalidate",
+      Pragma: "no-cache",
+      Expires: "0",
     },
   })
 }
