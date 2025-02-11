@@ -115,9 +115,10 @@ const ImageViewer = ({ className, src, alt, width, height }: Props) => {
       onDoubleClick={handleDoubleClick}
     >
       <Image
-        className="w-full h-full object-contain"
+        className="w-full h-full object-contain "
         style={{
           transform: `translate(${offset.x}px, ${offset.y}px) scale(${scale})`,
+          imageRendering: "pixelated",
         }}
         src={src}
         alt={alt}
