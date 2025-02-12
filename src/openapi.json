@@ -382,6 +382,37 @@
           }
         }
       }
+    },
+    "/api/v1/ping": {
+      "post": {
+        "summary": "Ping server",
+        "description": "Ping the server to check if it is online",
+        "tags": ["Server"],
+        "responses": {
+          "200": {
+            "description": "Server is online",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ms": {
+                      "type": "integer",
+                      "description": "Response time in milliseconds"
+                    },
+                    "msg": {
+                      "type": "string",
+                      "description": "Response message",
+                      "examples": ["pong!"]
+                    }
+                  },
+                  "required": ["ms", "msg"]
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
