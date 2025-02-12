@@ -2,7 +2,7 @@ import type { Metadata } from "next"
 import "@/styles/globals.css"
 import Navbar from "@/components/navbar"
 
-const siteName = process.env.NAME as string
+const siteName = process.env.NEXT_PUBLIC_NAME as string
 
 export const metadata: Metadata = {
   title: {
