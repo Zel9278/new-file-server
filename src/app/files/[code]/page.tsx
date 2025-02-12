@@ -61,7 +61,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     },
   }
 
-  if ((await params).code.match(/.mp4|.mkv|.mov|.avi|.webm/)) {
+  if ((await params).code.match(/.mp4|.mov|.avi|.webm/)) {
     metadata = {
       ...metadata,
       twitter: {
@@ -148,16 +148,15 @@ export default async function Page({ params }: Props) {
       )
     }
     case "mp4":
-    case "mkv":
     case "mov":
     case "avi":
     case "webm":
       return (
         <>
           <video className="w-full h-full object-contain" controls>
-            <source src={downloadURL} type={`video/${cleanedFileExtension}`} />
+            <source src={rawURL} type={`video/${cleanedFileExtension}`} />
             <track
-              src={`${downloadURL}.vtt`}
+              src={`${rawURL}.vtt`}
               kind="captions"
               srcLang="en"
               label="English"
