@@ -1,27 +1,6 @@
 import Link from "next/link"
-import Progressbar from "@/components/ProgressBar"
-import { check } from "diskusage"
-import byteToData from "@/utils/byteToData"
-import path from "node:path"
-
-async function getStrageUsage(): Promise<{
-  usage: number
-  total: number
-  used: number
-  free: number
-}> {
-  const filesDir = process.env.FILES_DIR || path.join(process.cwd(), "files")
-  const { free, total } = await check(filesDir)
-
-  const used = total - free
-  const usage = Math.round((used / total) * 100)
-
-  return { usage, total, used, free }
-}
 
 export default async function Home() {
-  const { usage, total, used, free } = await getStrageUsage()
-
   return (
     <>
       <div className="flex justify-center items-center flex-col gap-2 w-auto h-full">
@@ -43,16 +22,6 @@ export default async function Home() {
               API Doc
             </button>
           </Link>
-        </div>
-        <div>
-          <h2>Storage Usage</h2>
-          <div className="flex items-center">
-            <Progressbar value={usage} className="w-full mx-2" />
-            <p>{usage}%</p>
-          </div>
-          <p>
-            {byteToData(used)} / {byteToData(total)} | {byteToData(free)} free
-          </p>
         </div>
       </div>
     </>

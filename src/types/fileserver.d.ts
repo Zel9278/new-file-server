@@ -79,6 +79,14 @@ export type TypeCount = {
   [key: string]: number
 }
 
+export type Storage = {
+  usage: number
+  total: number
+  used: number
+  free: number
+  formatted: string
+}
+
 export type ServerInfoData = {
   host: string
   owner: string
@@ -94,6 +102,7 @@ export type ServerInfoData = {
   packageList: Package[]
   devPackageList: Package[]
   licensesList: License[]
+  storage: Storage
 }
 
 /* Info API */

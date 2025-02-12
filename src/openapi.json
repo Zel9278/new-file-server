@@ -656,6 +656,29 @@
           "type": "integer"
         }
       },
+      "Storage": {
+        "type": "object",
+        "properties": {
+          "usage": {
+            "type": "integer"
+          },
+          "total": {
+            "type": "integer"
+          },
+          "used": {
+            "type": "integer"
+          },
+          "free": {
+            "type": "integer"
+          },
+          "formatted": {
+            "type": "string",
+            "description": "Formatted storage usage",
+            "examples": ["0 GB/128 GB | 128 GB free"]
+          }
+        },
+        "required": ["usage", "total", "used", "free", "formatted"]
+      },
       "ServerInfoData": {
         "type": "object",
         "properties": {
@@ -709,6 +732,9 @@
             "items": {
               "$ref": "#/components/schemas/License"
             }
+          },
+          "storage": {
+            "$ref": "#/components/schemas/Storage"
           }
         },
         "required": [
@@ -725,7 +751,8 @@
           "typeCount",
           "packageList",
           "devPackageList",
-          "licensesList"
+          "licensesList",
+          "storage"
         ]
       }
     }

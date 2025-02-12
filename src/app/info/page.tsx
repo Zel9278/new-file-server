@@ -6,9 +6,11 @@ import type {
   License,
   Package,
   TypeCount,
+  Storage,
 } from "@/types/fileserver"
 import useSWR from "swr"
 import { notFound } from "next/navigation"
+import Progressbar from "@/components/ProgressBar"
 
 const fetcher = <T,>(path: string): Promise<T> =>
   fetch(path).then((res) => res.json())
@@ -36,6 +38,8 @@ export default function Home() {
 
   const typeCount: TypeCount = data.typeCount
 
+  const storage: Storage = data.storage
+
   return (
     <>
       <main>
@@ -54,6 +58,16 @@ export default function Home() {
               <li>このサイトバージョン: {data.thisVersion}</li>
               <li>Node.jsのバージョン: {data.nodeVersion}</li>
               <li>pnpmのバージョン: {data.pnpmVersion.replace("pnpm@", "")}</li>
+
+              <li className="bg-zinc-500 w-full h-0.5 rounded my-1" />
+
+              <li>ストレージ: {storage.formatted}</li>
+              <li>
+                <div className="flex items-center">
+                  <Progressbar value={storage.usage} className="w-full " />
+                  <span className="ml-2">{storage.usage}%</span>
+                </div>
+              </li>
 
               <li className="bg-zinc-500 w-full h-0.5 rounded my-1" />
 

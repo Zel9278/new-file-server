@@ -8,15 +8,35 @@ import type {
   License,
   Package,
   ServerInfoData,
+  Storage,
   TypeCount,
 } from "@/types/fileserver"
+import { check } from "diskusage"
+import byteToData from "@/utils/byteToData"
 
-export function GET() {
+async function getStrageUsage(): Promise<{
+  usage: number
+  total: number
+  used: number
+  free: number
+}> {
+  const filesDir = process.env.FILES_DIR || path.join(process.cwd(), "files")
+  const { free, total } = await check(filesDir)
+
+  const used = total - free
+  const usage = Math.round((used / total) * 100)
+
+  return { usage, total, used, free }
+}
+
+export async function GET() {
+  const { usage, total, used, free } = await getStrageUsage()
+
   const filesDir = process.env.FILES_DIR || path.join(process.cwd(), "files")
   const files = fs.readdirSync(filesDir)
 
   const typeCount: TypeCount = {}
-  const total = files.length
+  const fileTotal = files.length
   let none = 0
 
   for (const file of files) {
@@ -57,6 +77,14 @@ export function GET() {
     devPackageList.push({ name, version })
   }
 
+  const storage: Storage = {
+    usage,
+    total,
+    used,
+    free,
+    formatted: `${byteToData(used)} / ${byteToData(total)} | ${byteToData(free)} free`,
+  }
+
   const responseData: ServerInfoData = {
     host: "f.c30.life",
     owner: "c30",
@@ -66,15 +94,21 @@ export function GET() {
     thisVersion: packages.version,
     nodeVersion: process.version,
     pnpmVersion: packages.packageManager,
-    total,
+    total: fileTotal,
     none,
     typeCount: sortedTypeCount,
     packageList,
     devPackageList,
     licensesList,
+    storage,
   }
 
   return Response.json(responseData, {
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+      "Cache-Control": "public, no-cache, no-store, must-revalidate",
+      Pragma: "no-cache",
+      Expires: "0",
+    },
   })
 }
