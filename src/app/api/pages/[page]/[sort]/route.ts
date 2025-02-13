@@ -99,10 +99,10 @@ export async function GET(request: NextRequest, { params }: Props) {
 
   const files = sortFiles(
     fs.readdirSync(filesDir).map((file) => {
-      const fileDir = fs.readdirSync(path.join(filesDir, file))
-      const fileStat = fs.statSync(
-        path.join(filesDir, file, fileDir[0]),
-      )
+      const fileDir = fs
+        .readdirSync(path.join(filesDir, file))
+        .filter((file) => file !== "thumbnail.png")
+      const fileStat = fs.statSync(path.join(filesDir, file, fileDir[0]))
 
       const rawName = fileDir[0]
       const fileSize = byteToData(fileStat.size)
