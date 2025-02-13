@@ -23,12 +23,19 @@ export async function GET(request: NextRequest, { params }: Props) {
     .filter((file) => file !== "thumbnail.png")[0]
   const filePath = `${filesDir}/${code}/${fileDir}`
   const fileType = mime.getType(path.extname(fileDir).replace(".", ""))
-  const fileSize = fs.statSync(filePath).size
+  const fileSize = (await fs.promises.stat(filePath)).size
 
   if (fileType === "video/mp4" || fileType === "video/webm") {
     const range = request.headers.get("range")
 
     if (range) {
+      const rangePattern = /^bytes=\d*-\d*$/
+      if (!rangePattern.test(range)) {
+        return new Response(null, {
+          status: 416,
+          headers: { "Content-Range": `bytes */${fileSize}` },
+        })
+      }
       const [rangeStart, rangeEnd] = range.replace(/bytes=/, "").split("-")
       const start: number = Number.parseInt(rangeStart, 10)
       let end: number = rangeEnd ? Number.parseInt(rangeEnd, 10) : fileSize - 1
@@ -42,19 +49,25 @@ export async function GET(request: NextRequest, { params }: Props) {
       if (end >= fileSize || end < start) {
         end = fileSize - 1
       }
-
       const chunksize = end - start + 1
 
       const fileStream = fs.createReadStream(filePath, {
         start,
         end,
+        highWaterMark: 1024 * 64,
       })
 
       const readableStream = new ReadableStream({
         start(controller) {
           fileStream.on("data", (chunk) => controller.enqueue(chunk))
           fileStream.on("end", () => controller.close())
-          fileStream.on("error", (err) => controller.error(err))
+          fileStream.on("error", (err) => {
+            controller.error(err)
+            fileStream.destroy()
+          })
+        },
+        cancel() {
+          fileStream.destroy()
         },
       })
 
@@ -90,7 +103,13 @@ export async function GET(request: NextRequest, { params }: Props) {
     start(controller) {
       fileStream.on("data", (chunk) => controller.enqueue(chunk))
       fileStream.on("end", () => controller.close())
-      fileStream.on("error", (err) => controller.error(err))
+      fileStream.on("error", (err) => {
+        controller.error(err)
+        fileStream.destroy()
+      })
+    },
+    cancel() {
+      fileStream.destroy()
     },
   })
 
