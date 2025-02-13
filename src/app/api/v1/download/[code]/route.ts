@@ -37,6 +37,5 @@ export async function GET(request: NextRequest, { params }: Props) {
       Pragma: "no-cache",
       Expires: "0",
     },
-    status: 304,
   })
 }

@@ -492,6 +492,10 @@
             "type": "integer",
             "description": "Number of downloads"
           },
+          "checksum": {
+            "type": "string",
+            "description": "File checksum"
+          },
           "width": {
             "type": ["integer", "nullable"],
             "description": "Image width"
@@ -514,7 +518,8 @@
           "rawSize",
           "date",
           "unixDate",
-          "downloadCount"
+          "downloadCount",
+          "checksum"
         ]
       },
       "FileInfoWithSearch": {
@@ -560,6 +565,10 @@
             "type": "integer",
             "description": "Number of downloads"
           },
+          "checksum": {
+            "type": "string",
+            "description": "File checksum"
+          },
           "width": {
             "type": ["integer", "nullable"],
             "description": "Image width"
@@ -591,6 +600,7 @@
           "date",
           "unixDate",
           "downloadCount",
+          "checksum",
           "isCode",
           "isRawName"
         ]

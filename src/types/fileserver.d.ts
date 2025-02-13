@@ -29,6 +29,7 @@ export type FileInfo = {
   unixDate: number
   ago: string | null
   downloadCount: number
+  checksum: string
   width?: number
   height?: number
   thumbnail?: string
@@ -45,6 +46,7 @@ export type FileInfoWithSearch = {
   unixDate: number
   ago: string | null
   downloadCount: number
+  checksum: string
   width?: number
   height?: number
   thumbnail?: string

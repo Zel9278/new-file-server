@@ -68,7 +68,6 @@ export async function GET(request: NextRequest, { params }: Props) {
       const readableStream = new ReadableStream({
         async start(controller) {
           try {
-            // メモリ効率を改善するためにpipe-likeアプローチを使用
             const reader = fileStream.on("readable", async () => {
               let chunk
               while (null !== (chunk = fileStream.read())) {
