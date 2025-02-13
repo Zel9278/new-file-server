@@ -171,9 +171,9 @@ export default async function Page({ params }: Props) {
       return (
         <>
           <audio className="w-full h-full object-contain" controls>
-            <source src={downloadURL} type={`audio/${cleanedFileExtension}`} />
+            <source src={rawURL} type={`audio/${cleanedFileExtension}`} />
             <track
-              src={`${downloadURL}.vtt`}
+              src={`${rawURL}.vtt`}
               kind="captions"
               srcLang="en"
               label="English"

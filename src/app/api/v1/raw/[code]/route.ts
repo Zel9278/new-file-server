@@ -25,7 +25,15 @@ export async function GET(request: NextRequest, { params }: Props) {
   const fileType = mime.getType(path.extname(fileDir).replace(".", ""))
   const fileSize = (await fs.promises.stat(filePath)).size
 
-  if (fileType === "video/mp4" || fileType === "video/webm") {
+  if (
+    fileType === "video/mp4" ||
+    fileType === "video/webm" ||
+    fileType === "audio/mp3" ||
+    fileType === "audio/mpeg" ||
+    fileType === "audio/ogg" ||
+    fileType === "audio/wav" ||
+    fileType === "audio/webm"
+  ) {
     const range = request.headers.get("range")
 
     if (range) {
@@ -60,13 +68,18 @@ export async function GET(request: NextRequest, { params }: Props) {
       const readableStream = new ReadableStream({
         start(controller) {
           fileStream.on("data", (chunk) => controller.enqueue(chunk))
-          fileStream.on("end", () => controller.close())
+          fileStream.on("end", () => {
+            console.log("Stream End")
+            controller.close()
+          })
           fileStream.on("error", (err) => {
+            console.error("Stream Error:", err)
             controller.error(err)
             fileStream.destroy()
           })
         },
         cancel() {
+          console.log("Stream cancel")
           fileStream.destroy()
         },
       })
@@ -102,13 +115,18 @@ export async function GET(request: NextRequest, { params }: Props) {
   const readableStream = new ReadableStream({
     start(controller) {
       fileStream.on("data", (chunk) => controller.enqueue(chunk))
-      fileStream.on("end", () => controller.close())
+      fileStream.on("end", () => {
+        console.log("Stream End")
+        controller.close()
+      })
       fileStream.on("error", (err) => {
+        console.error("Stream Error:", err)
         controller.error(err)
         fileStream.destroy()
       })
     },
     cancel() {
+      console.log("Stream cancel")
       fileStream.destroy()
     },
   })
