@@ -62,24 +62,36 @@ export async function GET(request: NextRequest, { params }: Props) {
       const fileStream = fs.createReadStream(filePath, {
         start,
         end,
-        highWaterMark: 1024 * 64,
+        highWaterMark: 1024 * 16,
       })
 
       const readableStream = new ReadableStream({
-        start(controller) {
-          fileStream.on("data", (chunk) => controller.enqueue(chunk))
-          fileStream.on("end", () => {
-            console.log("Stream End")
-            controller.close()
-          })
-          fileStream.on("error", (err) => {
-            console.error("Stream Error:", err)
+        async start(controller) {
+          try {
+            // メモリ効率を改善するためにpipe-likeアプローチを使用
+            const reader = fileStream.on("readable", async () => {
+              let chunk
+              while (null !== (chunk = fileStream.read())) {
+                controller.enqueue(chunk)
+              }
+            })
+
+            fileStream.once("end", () => {
+              controller.close()
+              reader.removeAllListeners()
+            })
+
+            fileStream.once("error", (err) => {
+              controller.error(err)
+              fileStream.destroy()
+              reader.removeAllListeners()
+            })
+          } catch (err) {
             controller.error(err)
             fileStream.destroy()
-          })
+          }
         },
         cancel() {
-          console.log("Stream cancel")
           fileStream.destroy()
         },
       })
@@ -101,7 +113,9 @@ export async function GET(request: NextRequest, { params }: Props) {
     }
   }
 
-  const fileStream = fs.createReadStream(filePath)
+  const fileStream = fs.createReadStream(filePath, {
+    highWaterMark: 1024 * 16,
+  })
 
   const headers = {
     "Content-Type": fileType || "application/octet-stream",
@@ -113,17 +127,27 @@ export async function GET(request: NextRequest, { params }: Props) {
   }
 
   const readableStream = new ReadableStream({
-    start(controller) {
-      fileStream.on("data", (chunk) => controller.enqueue(chunk))
-      fileStream.on("end", () => {
-        console.log("Stream End")
-        controller.close()
-      })
-      fileStream.on("error", (err) => {
+    async start(controller) {
+      try {
+        fileStream.on("data", (chunk) => {
+          controller.enqueue(chunk)
+        })
+
+        fileStream.on("end", () => {
+          console.log("Stream End")
+          controller.close()
+        })
+
+        fileStream.on("error", (err) => {
+          console.error("Stream Error:", err)
+          controller.error(err)
+          fileStream.destroy()
+        })
+      } catch (err) {
         console.error("Stream Error:", err)
         controller.error(err)
         fileStream.destroy()
-      })
+      }
     },
     cancel() {
       console.log("Stream cancel")
