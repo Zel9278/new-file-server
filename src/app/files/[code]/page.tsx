@@ -5,6 +5,7 @@ import { headers } from "next/headers"
 import { notFound } from "next/navigation"
 import { imageSize } from "image-size"
 import ImageViewer from "@/components/ImageViewer"
+import Waveform from "@/components/Waveform"
 
 const DOWNLOAD_URL = `${process.env.URL}/api/v1/download/`
 const RAW_URL = `${process.env.URL}/api/v1/raw/`
@@ -170,16 +171,7 @@ export default async function Page({ params }: Props) {
     case "ogg":
       return (
         <>
-          <audio className="w-full h-full object-contain" controls>
-            <source src={rawURL} type={`audio/${cleanedFileExtension}`} />
-            <track
-              src={`${rawURL}.vtt`}
-              kind="captions"
-              srcLang="en"
-              label="English"
-              default
-            />
-          </audio>
+          <Waveform audioURL={rawURL} />
         </>
       )
     case "txt":
