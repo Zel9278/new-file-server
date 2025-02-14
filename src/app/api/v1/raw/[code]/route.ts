@@ -99,36 +99,9 @@ export async function GET(request: NextRequest, { params }: Props) {
     "Content-Length": fileSize.toString(),
   }
 
-  const readableStream = new ReadableStream({
-    async start(controller) {
-      try {
-        fileStream.on("data", (chunk) => {
-          controller.enqueue(chunk)
-        })
+  const readable: ReadableStream = Readable.toWeb(fileStream) as ReadableStream
 
-        fileStream.on("end", () => {
-          console.log("Stream End")
-          controller.close()
-        })
-
-        fileStream.on("error", (err) => {
-          console.error("Stream Error:", err)
-          controller.error(err)
-          fileStream.destroy()
-        })
-      } catch (err) {
-        console.error("Stream Error:", err)
-        controller.error(err)
-        fileStream.destroy()
-      }
-    },
-    cancel() {
-      console.log("Stream cancel")
-      fileStream.destroy()
-    },
-  })
-
-  return new Response(readableStream, {
+  return new Response(readable, {
     headers,
   })
 }
