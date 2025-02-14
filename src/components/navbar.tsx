@@ -13,9 +13,13 @@ export default function Navbar() {
   const [searchResults, setSearchResults] = useState<FileInfoWithSearch[]>([])
   const [isFocused, setIsFocused] = useState(false)
 
+  const escapeRegExp = (string: string) => {
+    return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
+  }
+
   const highlightSearch = (text: string) => {
     if (!search) return text
-    const parts = text.split(new RegExp(`(${search})`, "gi"))
+    const parts = text.split(new RegExp(`(${escapeRegExp(search)})`, "gi"))
     return parts.map((part) =>
       part.toLowerCase() === search?.toLowerCase() ? (
         <span
