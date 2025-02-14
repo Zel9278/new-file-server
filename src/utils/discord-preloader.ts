@@ -1,4 +1,4 @@
-type DiscordPreloaderType = "upload" | "delete"
+type DiscordPreloaderType = "upload" | "delete" | "rename"
 
 function DiscordPreloader(type: DiscordPreloaderType, text: string) {
   if (!process.env.DISCORD_WEBHOOK) return
@@ -14,6 +14,11 @@ function DiscordPreloader(type: DiscordPreloaderType, text: string) {
     case "delete":
       messageData = {
         content: `:outbox_tray: File deleted\n${text}\nFrom ${process.env.NEXT_PUBLIC_NAME}`,
+      }
+      break
+    case "rename":
+      messageData = {
+        content: `:pencil2: File renamed\n${text}\nFrom ${process.env.NEXT_PUBLIC_NAME}`,
       }
       break
   }

@@ -262,6 +262,84 @@
         }
       }
     },
+    "/api/v1/rename/{code}": {
+      "put": {
+        "summary": "Rename file",
+        "description": "Rename a file on the server",
+        "tags": ["File"],
+        "parameters": [
+          {
+            "name": "code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The code of the file to rename."
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The new name for the file."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Done",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "example": ["done"]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Name not provided",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "examples": ["Name not provided"]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "examples": ["Unauthorized"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "File not found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "examples": ["File not found"]
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "tokenAuth": []
+          }
+        ]
+      }
+    },
     "/api/pages/{page}/{type}": {
       "get": {
         "summary": "Get page information",
