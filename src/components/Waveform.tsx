@@ -9,7 +9,7 @@ type WaveformProps = {
 export default function Waveform({ audioURL }: WaveformProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const audioRef = useRef<HTMLAudioElement>(null)
-  const [audioContext, setAudioContext] = useState<AudioContext | null>(null)
+  const [, setAudioContext] = useState<AudioContext | null>(null)
   const [analyser, setAnalyser] = useState<AnalyserNode | null>(null)
   const [isPlaying, setIsPlaying] = useState(false)
 
