@@ -93,7 +93,13 @@ export async function GET(request: NextRequest, { params }: Props) {
   }
 
   const counterPath = path.join(process.cwd(), "src/.counter.json")
-  const counter = JSON.parse(fs.readFileSync(counterPath, "utf-8"))
+  let counter: Record<string, number> = {}
+
+  try {
+    counter = JSON.parse(fs.readFileSync(counterPath, "utf-8"))
+  } catch {
+    fs.writeFileSync(counterPath, JSON.stringify({}, null, 2))
+  }
 
   const filesDir = process.env.FILES_DIR || path.join(process.cwd(), "files")
 
