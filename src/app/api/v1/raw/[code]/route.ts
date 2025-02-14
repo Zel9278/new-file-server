@@ -2,6 +2,7 @@ import fs from "node:fs"
 import path from "node:path"
 import type { NextRequest } from "next/server"
 import mime from "mime"
+import { Readable } from "node:stream"
 
 type Props = {
   params: Promise<{
@@ -62,38 +63,11 @@ export async function GET(request: NextRequest, { params }: Props) {
       const fileStream = fs.createReadStream(filePath, {
         start,
         end,
-        highWaterMark: 1024 * 16,
       })
 
-      const readableStream = new ReadableStream({
-        async start(controller) {
-          try {
-            const reader = fileStream.on("readable", async () => {
-              let chunk
-              while (null !== (chunk = fileStream.read())) {
-                controller.enqueue(chunk)
-              }
-            })
-
-            fileStream.once("end", () => {
-              controller.close()
-              reader.removeAllListeners()
-            })
-
-            fileStream.once("error", (err) => {
-              controller.error(err)
-              fileStream.destroy()
-              reader.removeAllListeners()
-            })
-          } catch (err) {
-            controller.error(err)
-            fileStream.destroy()
-          }
-        },
-        cancel() {
-          fileStream.destroy()
-        },
-      })
+      const readable: ReadableStream = Readable.toWeb(
+        fileStream,
+      ) as ReadableStream
 
       const headers = {
         "Content-Disposition": "inline",
@@ -105,7 +79,7 @@ export async function GET(request: NextRequest, { params }: Props) {
         "Content-Type": fileType,
       }
 
-      return new Response(readableStream, {
+      return new Response(readable, {
         headers,
         status: 206,
       })
