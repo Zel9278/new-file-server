@@ -5,7 +5,7 @@ import { DateTime } from "luxon"
 import type { NextRequest } from "next/server"
 import type { FileInfo, FileInfoWithSearch } from "@/types/fileserver"
 import imageSize from "image-size"
-import crypto from "node:crypto"
+import { cacheCheckSum } from "@/utils/cacheCheckSum"
 
 type Props = {
   params: Promise<{
@@ -30,9 +30,7 @@ export async function GET(request: NextRequest, { params }: Props) {
       .filter((file) => file !== "thumbnail.png")[0]
     const fileStat = fs.statSync(`${filesDir}/${dir}/${file}`)
     const downloadCount = counter[dir] || 0
-
-    const checksum = crypto.createHash("md5")
-    checksum.update(fs.readFileSync(`${filesDir}/${dir}/${file}`))
+    const checksum = cacheCheckSum(`${filesDir}/${dir}/${file}`) || ""
 
     const info: FileInfo = {
       code: dir,
@@ -47,7 +45,7 @@ export async function GET(request: NextRequest, { params }: Props) {
       unixDate: fileStat.mtime.getTime(),
       ago: DateTime.fromJSDate(fileStat.mtime).setLocale("en").toRelative(),
       downloadCount,
-      checksum: checksum.digest("hex"),
+      checksum,
     }
 
     if (IMG_EXT.includes(path.extname(file))) {

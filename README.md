@@ -4,7 +4,7 @@
 
 1. `git clone https://github.com/Zel9278/new-file-server` for clone repository
 2. `cd new-file-server` for change directory
-3. make "files" directory
+3. make "files" directory or select directory with .env
 4. `pnpm i` for install packages
 5. edit .env (Next Section)
 6. `pnpm build` for build pages

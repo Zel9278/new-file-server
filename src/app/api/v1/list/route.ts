@@ -4,7 +4,7 @@ import byteToData from "@/utils/byteToData"
 import { DateTime } from "luxon"
 import imageSize from "image-size"
 import type { FileInfo } from "@/types/fileserver"
-import crypto from "node:crypto"
+import { cacheCheckSum } from "@/utils/cacheCheckSum"
 
 const IMG_EXT = [".png", ".jpg", ".jpeg", ".webp", ".gif", ".svg"]
 
@@ -21,9 +21,7 @@ export async function GET() {
       .filter((file) => file !== "thumbnail.png")[0]
     const fileStat = fs.statSync(`${filesDir}/${dir}/${file}`)
     const downloadCount = counter[dir] || 0
-
-    const checksum = crypto.createHash("md5")
-    checksum.update(fs.readFileSync(`${filesDir}/${dir}/${file}`))
+    const checksum = cacheCheckSum(`${filesDir}/${dir}/${file}`) || ""
 
     const info: FileInfo = {
       code: dir,
@@ -38,7 +36,7 @@ export async function GET() {
       unixDate: fileStat.mtime.getTime(),
       ago: DateTime.fromJSDate(fileStat.mtime).setLocale("en").toRelative(),
       downloadCount,
-      checksum: checksum.digest("hex"),
+      checksum,
     }
 
     if (IMG_EXT.includes(path.extname(file))) {

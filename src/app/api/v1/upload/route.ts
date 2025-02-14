@@ -4,6 +4,7 @@ import path from "node:path"
 import fs from "node:fs/promises"
 import { DateTime } from "luxon"
 import ffmpeg from "fluent-ffmpeg"
+import { cacheCheckSum } from "@/utils/cacheCheckSum"
 
 export async function POST(request: NextRequest) {
   if (request.headers.get("Authorization") !== process.env.AUTH_TOKEN) {
@@ -90,6 +91,7 @@ async function tryNewFile(
       })
     }
 
+    cacheCheckSum(filePath)
     discordPreloader("upload", url)
 
     return new Response(url, { status: 200 })
