@@ -50,7 +50,7 @@ export default function Waveform({ audioURL }: WaveformProps) {
       audioContextRef.current = null
       setAnalyser(null)
     }
-  }, [audioURL])
+  }, [audioURL, analyser])
 
   useEffect(() => {
     if (!canvasRef.current || !analyser || !isPlaying) return
