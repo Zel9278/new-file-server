@@ -37,9 +37,6 @@ export async function GET(request: NextRequest, { params }: Props) {
       fileType === "audio/webm"
     ) {
       const range = request.headers.get("range")
-
-      console.log(range)
-
       if (range) {
         const rangePattern = /^bytes=\d*-\d*$/
 
@@ -95,8 +92,6 @@ export async function GET(request: NextRequest, { params }: Props) {
           "Content-Type": fileType,
           Connection: "keep-alive",
         }
-
-        console.log(headers)
 
         clearTimeout(timeoutId)
         return new Response(readable, {

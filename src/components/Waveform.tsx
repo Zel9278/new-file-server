@@ -9,30 +9,46 @@ type WaveformProps = {
 export default function Waveform({ audioURL }: WaveformProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const audioRef = useRef<HTMLAudioElement>(null)
-  const [, setAudioContext] = useState<AudioContext | null>(null)
+  const audioContextRef = useRef<AudioContext | null>(null)
+  const sourceRef = useRef<MediaElementAudioSourceNode | null>(null)
   const [analyser, setAnalyser] = useState<AnalyserNode | null>(null)
   const [isPlaying, setIsPlaying] = useState(false)
 
-  useEffect(() => {
+  const initAudioContext = () => {
     if (!audioRef.current || !canvasRef.current) return
+    if (audioContextRef.current) return
 
     const ctx = canvasRef.current.getContext("2d")
     if (!ctx) return
 
-    const newAudioContext = new AudioContext()
-    const source = newAudioContext.createMediaElementSource(audioRef.current)
-    const newAnalyser = newAudioContext.createAnalyser()
+    audioContextRef.current = new AudioContext()
+    if (!sourceRef.current) {
+      sourceRef.current = audioContextRef.current.createMediaElementSource(
+        audioRef.current,
+      )
+    }
+    const newAnalyser = audioContextRef.current.createAnalyser()
     newAnalyser.fftSize = 2048
-    source.connect(newAnalyser)
-    newAnalyser.connect(newAudioContext.destination)
+    sourceRef.current.connect(newAnalyser)
+    newAnalyser.connect(audioContextRef.current.destination)
 
-    setAudioContext(newAudioContext)
     setAnalyser(newAnalyser)
+  }
 
+  useEffect(() => {
     return () => {
-      source.disconnect()
-      newAnalyser.disconnect()
-      newAudioContext.close()
+      if (sourceRef.current) {
+        sourceRef.current.disconnect()
+      }
+      if (audioContextRef.current) {
+        audioContextRef.current.close()
+      }
+      if (analyser) {
+        analyser.disconnect()
+      }
+      sourceRef.current = null
+      audioContextRef.current = null
+      setAnalyser(null)
     }
   }, [audioURL])
 
@@ -101,7 +117,10 @@ export default function Waveform({ audioURL }: WaveformProps) {
           ref={audioRef}
           controls
           src={audioURL}
-          onPlay={() => setIsPlaying(true)}
+          onPlay={() => {
+            initAudioContext()
+            setIsPlaying(true)
+          }}
           onPause={() => setIsPlaying(false)}
           className="w-full"
         />
