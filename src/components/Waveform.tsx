@@ -13,26 +13,50 @@ export default function Waveform({ audioURL }: WaveformProps) {
   const sourceRef = useRef<MediaElementAudioSourceNode | null>(null)
   const [analyser, setAnalyser] = useState<AnalyserNode | null>(null)
   const [isPlaying, setIsPlaying] = useState(false)
+  const [isInitialized, setIsInitialized] = useState(false)
 
-  const initAudioContext = () => {
+  const initAudioContext = async () => {
     if (!audioRef.current || !canvasRef.current) return
-    if (audioContextRef.current) return
-
     const ctx = canvasRef.current.getContext("2d")
     if (!ctx) return
 
-    audioContextRef.current = new AudioContext()
-    if (!sourceRef.current) {
-      sourceRef.current = audioContextRef.current.createMediaElementSource(
-        audioRef.current,
-      )
-    }
-    const newAnalyser = audioContextRef.current.createAnalyser()
-    newAnalyser.fftSize = 2048
-    sourceRef.current.connect(newAnalyser)
-    newAnalyser.connect(audioContextRef.current.destination)
+    try {
+      if (!audioContextRef.current) {
+        audioContextRef.current = new AudioContext()
+      }
 
-    setAnalyser(newAnalyser)
+      if (audioContextRef.current.state === "suspended") {
+        await audioContextRef.current.resume()
+      }
+
+      if (!sourceRef.current) {
+        sourceRef.current = audioContextRef.current.createMediaElementSource(
+          audioRef.current,
+        )
+
+        const newAnalyser = audioContextRef.current.createAnalyser()
+        newAnalyser.fftSize = 2048
+        sourceRef.current.connect(newAnalyser)
+        newAnalyser.connect(audioContextRef.current.destination)
+
+        setAnalyser(newAnalyser)
+      }
+
+      setIsInitialized(true)
+    } catch (error) {
+      console.error("Audio initialization failed:", error)
+    }
+  }
+
+  const handlePlay = async () => {
+    if (!isInitialized) {
+      await initAudioContext()
+    }
+    setIsPlaying(true)
+  }
+
+  const handlePause = () => {
+    setIsPlaying(false)
   }
 
   useEffect(() => {
@@ -49,6 +73,7 @@ export default function Waveform({ audioURL }: WaveformProps) {
       sourceRef.current = null
       audioContextRef.current = null
       setAnalyser(null)
+      setIsInitialized(false)
     }
   }, [audioURL, analyser])
 
@@ -117,11 +142,8 @@ export default function Waveform({ audioURL }: WaveformProps) {
           ref={audioRef}
           controls
           src={audioURL}
-          onPlay={() => {
-            initAudioContext()
-            setIsPlaying(true)
-          }}
-          onPause={() => setIsPlaying(false)}
+          onPlay={handlePlay}
+          onPause={handlePause}
           className="w-full"
         />
       </div>
