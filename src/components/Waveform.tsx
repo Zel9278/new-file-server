@@ -21,8 +21,7 @@ export default function Waveform({ audioURL }: WaveformProps) {
 
     try {
       if (!audioContextRef.current) {
-        audioContextRef.current = new (window.AudioContext ||
-          (window as any).webkitAudioContext)()
+        audioContextRef.current = new window.AudioContext()
       }
 
       if (audioContextRef.current.state === "suspended") {
@@ -71,7 +70,7 @@ export default function Waveform({ audioURL }: WaveformProps) {
         audioContextRef.current = null
       }
     }
-  }, [audioURL])
+  }, [audioURL, analyser])
 
   useEffect(() => {
     if (!canvasRef.current || !analyser || !isPlaying) return

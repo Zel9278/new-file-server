@@ -15,6 +15,12 @@ const STREAMABLE_TYPES = new Set([
   "audio/webm",
 ])
 
+type Props = {
+  params: Promise<{
+    code: string
+  }>
+}
+
 interface RangeParams {
   start: number
   end: number
@@ -66,13 +72,12 @@ async function createStreamResponse(
   })
 }
 
-export async function GET(
-  request: NextRequest,
-  { params }: { params: { code: string } },
-) {
+export async function GET(request: NextRequest, { params }: Props) {
   try {
+    const code = (await params).code
+
     const filesDir = process.env.FILES_DIR || path.join(process.cwd(), "files")
-    const codeDir = path.join(filesDir, params.code)
+    const codeDir = path.join(filesDir, code)
 
     if (!fs.existsSync(codeDir)) {
       return new Response("File not found", { status: 404 })
