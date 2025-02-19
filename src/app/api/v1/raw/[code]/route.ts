@@ -68,6 +68,10 @@ async function createStreamResponse(
       "Accept-Ranges": "bytes",
       "Content-Length": chunksize.toString(),
       "Content-Type": fileType,
+      "Content-Disposition": "inline",
+      "Cache-Control": "public, no-cache, no-store, must-revalidate",
+      Pragma: "no-cache",
+      Expires: "0",
     },
   })
 }
@@ -107,6 +111,10 @@ export async function GET(request: NextRequest, { params }: Props) {
         "Content-Type": fileType,
         "Content-Length": fileSize.toString(),
         "Accept-Ranges": "bytes",
+        "Content-Disposition": "inline",
+        "Cache-Control": "public, no-cache, no-store, must-revalidate",
+        Pragma: "no-cache",
+        Expires: "0",
       },
     })
   } catch (error) {
