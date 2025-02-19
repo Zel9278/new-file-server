@@ -15,6 +15,7 @@
   "dependencies": {
     "@scalar/nextjs-api-reference": "0.5.9",
     "@tailwindcss/postcss": "4.0.7",
+    "chalk": "5.4.1",
     "diskusage": "1.2.0",
     "file-type": "20.1.0",
     "fluent-ffmpeg": "2.1.3",
