@@ -21,7 +21,8 @@ export default function Waveform({ audioURL }: WaveformProps) {
 
     try {
       if (!audioContextRef.current) {
-        audioContextRef.current = new window.AudioContext()
+        audioContextRef.current = new (window.AudioContext ||
+          (window as any).webkitAudioContext)()
       }
 
       if (audioContextRef.current.state === "suspended") {
@@ -56,6 +57,8 @@ export default function Waveform({ audioURL }: WaveformProps) {
   }
 
   useEffect(() => {
+    initAudioContext()
+
     return () => {
       if (sourceRef.current) {
         sourceRef.current.disconnect()
@@ -70,60 +73,61 @@ export default function Waveform({ audioURL }: WaveformProps) {
         audioContextRef.current = null
       }
     }
-  }, [audioURL, analyser])
+  }, [audioURL])
 
   useEffect(() => {
-    if (!canvasRef.current || !analyser || !isPlaying) return
-    const canvas = canvasRef.current
-    const ctx = canvas.getContext("2d")
-    if (!ctx) return
+    let animationFrameId: number
 
-    const resizeCanvas = () => {
-      canvas.width = canvas.offsetWidth
-      canvas.height = canvas.offsetHeight
-    }
-    resizeCanvas()
-    window.addEventListener("resize", resizeCanvas)
+    const drawWaveform = () => {
+      if (!canvasRef.current || !analyser || !isPlaying) return
+      const canvas = canvasRef.current
+      const ctx = canvas.getContext("2d")
+      if (!ctx) return
 
-    const bufferLength = analyser.frequencyBinCount
-    const dataArray = new Uint8Array(bufferLength)
+      const bufferLength = analyser.frequencyBinCount
+      const dataArray = new Uint8Array(bufferLength)
 
-    const draw = () => {
-      if (!isPlaying) return
-      requestAnimationFrame(draw)
-      analyser.getByteTimeDomainData(dataArray)
+      const resizeCanvas = () => {
+        canvas.width = canvas.offsetWidth
+        canvas.height = canvas.offsetHeight
+      }
+      resizeCanvas()
+      window.addEventListener("resize", resizeCanvas)
 
-      ctx.fillStyle = "black"
-      ctx.fillRect(0, 0, canvas.width, canvas.height)
+      const draw = () => {
+        if (!isPlaying) return
+        animationFrameId = requestAnimationFrame(draw)
+        analyser.getByteTimeDomainData(dataArray)
 
-      ctx.lineWidth = 2
-      ctx.strokeStyle = "lime"
-      ctx.beginPath()
+        ctx.fillStyle = "rgb(15, 23, 42)"
+        ctx.fillRect(0, 0, canvas.width, canvas.height)
 
-      const sliceWidth = canvas.width / bufferLength
-      let x = 0
+        ctx.lineWidth = 2
+        ctx.strokeStyle = "rgb(34, 197, 94)"
+        ctx.beginPath()
 
-      for (let i = 0; i < bufferLength; i++) {
-        const v = dataArray[i] / 128.0
-        const y = (v * canvas.height) / 2
+        const sliceWidth = canvas.width / bufferLength
+        let x = 0
 
-        if (i === 0) {
-          ctx.moveTo(x, y)
-        } else {
-          ctx.lineTo(x, y)
+        for (let i = 0; i < bufferLength; i++) {
+          const v = dataArray[i] / 128.0
+          const y = (v * canvas.height) / 2
+          ctx[i === 0 ? "moveTo" : "lineTo"](x, y)
+          x += sliceWidth
         }
 
-        x += sliceWidth
+        ctx.stroke()
       }
 
-      ctx.lineTo(canvas.width, canvas.height / 2)
-      ctx.stroke()
+      draw()
     }
 
-    draw()
+    drawWaveform()
 
     return () => {
-      window.removeEventListener("resize", resizeCanvas)
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId)
+      }
     }
   }, [isPlaying, analyser])
 
