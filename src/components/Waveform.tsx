@@ -13,7 +13,6 @@ export default function Waveform({ audioURL }: WaveformProps) {
   const sourceRef = useRef<MediaElementAudioSourceNode | null>(null)
   const [analyser, setAnalyser] = useState<AnalyserNode | null>(null)
   const [isPlaying, setIsPlaying] = useState(false)
-  const [isInitialized, setIsInitialized] = useState(false)
 
   const initAudioContext = async () => {
     if (!audioRef.current || !canvasRef.current) return
@@ -22,36 +21,34 @@ export default function Waveform({ audioURL }: WaveformProps) {
 
     try {
       if (!audioContextRef.current) {
-        audioContextRef.current = new AudioContext()
+        audioContextRef.current = new (window.AudioContext ||
+          (window as any).webkitAudioContext)()
       }
 
       if (audioContextRef.current.state === "suspended") {
         await audioContextRef.current.resume()
       }
 
-      if (!sourceRef.current) {
-        sourceRef.current = audioContextRef.current.createMediaElementSource(
+      if (!sourceRef.current && audioContextRef.current) {
+        const source = audioContextRef.current.createMediaElementSource(
           audioRef.current,
         )
-
         const newAnalyser = audioContextRef.current.createAnalyser()
         newAnalyser.fftSize = 2048
-        sourceRef.current.connect(newAnalyser)
+
+        source.connect(newAnalyser)
         newAnalyser.connect(audioContextRef.current.destination)
 
+        sourceRef.current = source
         setAnalyser(newAnalyser)
       }
-
-      setIsInitialized(true)
     } catch (error) {
       console.error("Audio initialization failed:", error)
     }
   }
 
   const handlePlay = async () => {
-    if (!isInitialized) {
-      await initAudioContext()
-    }
+    await initAudioContext()
     setIsPlaying(true)
   }
 
@@ -63,19 +60,18 @@ export default function Waveform({ audioURL }: WaveformProps) {
     return () => {
       if (sourceRef.current) {
         sourceRef.current.disconnect()
-      }
-      if (audioContextRef.current) {
-        audioContextRef.current.close()
+        sourceRef.current = null
       }
       if (analyser) {
         analyser.disconnect()
+        setAnalyser(null)
       }
-      sourceRef.current = null
-      audioContextRef.current = null
-      setAnalyser(null)
-      setIsInitialized(false)
+      if (audioContextRef.current) {
+        audioContextRef.current.close()
+        audioContextRef.current = null
+      }
     }
-  }, [audioURL, analyser])
+  }, [audioURL])
 
   useEffect(() => {
     if (!canvasRef.current || !analyser || !isPlaying) return
@@ -84,8 +80,8 @@ export default function Waveform({ audioURL }: WaveformProps) {
     if (!ctx) return
 
     const resizeCanvas = () => {
-      canvas.width = window.innerWidth
-      canvas.height = window.innerHeight * 0.8
+      canvas.width = canvas.offsetWidth
+      canvas.height = canvas.offsetHeight
     }
     resizeCanvas()
     window.addEventListener("resize", resizeCanvas)
@@ -137,7 +133,7 @@ export default function Waveform({ audioURL }: WaveformProps) {
       <div className="flex-grow relative">
         <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />
       </div>
-      <div className="h-16 mt-2">
+      <div className="h-16">
         <audio
           ref={audioRef}
           controls

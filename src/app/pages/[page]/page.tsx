@@ -23,6 +23,8 @@ enum Sort {
   CodeDown = "CodeDown",
   SizeUp = "SizeUp",
   SizeDown = "SizeDown",
+  DLUp = "DownloadUp",
+  DLDown = "DownloadDown",
   DateUp = "DateUp",
   DateDown = "DateDown",
 }
@@ -116,6 +118,8 @@ export default function Page() {
           <option value="CodeDown">Code Down</option>
           <option value="SizeUp">Size Up</option>
           <option value="SizeDown">Size Down</option>
+          <option value="DownloadUp">Download Up</option>
+          <option value="DownloadDown">Download Down</option>
           <option value="DateUp">Date Up</option>
           <option value="DateDown">Date Down</option>
         </select>

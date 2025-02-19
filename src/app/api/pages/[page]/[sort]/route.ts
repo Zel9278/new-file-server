@@ -15,6 +15,8 @@ type Props = {
       | "CodeDown"
       | "SizeUp"
       | "SizeDown"
+      | "DownloadUp"
+      | "DownloadDown"
       | "DateUp"
       | "DateDown"
   }>
@@ -75,6 +77,10 @@ function sortFiles(files: ShortFileInfo[], sort: string) {
       return files.sort((a, b) => b.rawSize - a.rawSize)
     case "SizeDown":
       return files.sort((a, b) => a.rawSize - b.rawSize)
+    case "DownloadUp":
+      return files.sort((a, b) => b.downloads - a.downloads)
+    case "DownloadDown":
+      return files.sort((a, b) => a.downloads - b.downloads)
     case "DateUp":
       return files.sort((a, b) => b.date.localeCompare(a.date))
     case "DateDown":
