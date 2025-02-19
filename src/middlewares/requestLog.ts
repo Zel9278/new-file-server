@@ -1,5 +1,5 @@
 import isBrowser from "@/utils/checkBrowserRegex"
-import { Middleware } from "./middlewareChain"
+import type { Middleware } from "./middlewareChain"
 import chalk from "chalk"
 
 chalk.level = 3
@@ -15,7 +15,7 @@ export const requestLogMiddleware: Middleware = async (req, _event, next) => {
 
   console.log(
     chalk.gray(`[${new Date().toISOString()}]`) +
-      chalk.cyan(` [Request ]     `) +
+      chalk.cyan(" [Request ]     ") +
       chalk.green(`${req.method} `) +
       chalk.white(`${req.url}`) +
       chalk.gray(` | ${userAgent}`),
@@ -25,7 +25,7 @@ export const requestLogMiddleware: Middleware = async (req, _event, next) => {
 
   console.log(
     chalk.gray(`[${new Date().toISOString()}]`) +
-      chalk.magenta(` [Response] `) +
+      chalk.magenta(" [Response] ") +
       chalk.hex(response.status === 200 ? "#00FF00" : "#FF0000")(
         `${response.status} `,
       ) +

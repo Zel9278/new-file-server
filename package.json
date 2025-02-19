@@ -36,6 +36,7 @@
     "@types/react": "19.0.10",
     "@types/react-dom": "19.0.4",
     "autoprefixer": "10.4.20",
+    "biome": "0.3.3",
     "daisyui": "5.0.0-beta.8",
     "eslint": "9.20.1",
     "eslint-config-next": "15.1.7",
@@ -50,6 +51,7 @@
   "packageManager": "pnpm@10.4.1",
   "pnpm": {
     "onlyBuiltDependencies": [
+      "core-js",
       "diskusage",
       "sharp"
     ]

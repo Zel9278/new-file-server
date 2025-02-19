@@ -1,5 +1,5 @@
 import isBrowser from "@/utils/checkBrowserRegex"
-import { Middleware } from "./middlewareChain"
+import type { Middleware } from "./middlewareChain"
 import { NextResponse } from "next/server"
 
 const USER_AGENTS = [

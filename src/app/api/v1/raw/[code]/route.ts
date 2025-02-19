@@ -29,13 +29,13 @@ interface RangeParams {
 
 function parseRange(range: string, fileSize: number): RangeParams {
   const [rangeStart, rangeEnd] = range.replace(/bytes=/, "").split("-")
-  let start = parseInt(rangeStart, 10)
-  let end = rangeEnd ? parseInt(rangeEnd, 10) : fileSize - 1
+  let start = Number.parseInt(rangeStart, 10)
+  let end = rangeEnd ? Number.parseInt(rangeEnd, 10) : fileSize - 1
 
-  if (!isNaN(start) && isNaN(end)) {
+  if (!Number.isNaN(start) && Number.isNaN(end)) {
     end = fileSize - 1
   }
-  if (isNaN(start) && !isNaN(end)) {
+  if (Number.isNaN(start) && !Number.isNaN(end)) {
     start = fileSize - end
     end = fileSize - 1
   }

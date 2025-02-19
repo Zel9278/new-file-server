@@ -22,7 +22,7 @@ export default function Waveform({ audioURL }: WaveformProps) {
     try {
       if (!audioContextRef.current) {
         audioContextRef.current = new (window.AudioContext ||
-          (window as any).webkitAudioContext)()
+          window.webkitAudioContext)()
       }
 
       if (audioContextRef.current.state === "suspended") {
@@ -56,6 +56,7 @@ export default function Waveform({ audioURL }: WaveformProps) {
     setIsPlaying(false)
   }
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     initAudioContext()
 
@@ -140,11 +141,19 @@ export default function Waveform({ audioURL }: WaveformProps) {
         <audio
           ref={audioRef}
           controls
-          src={audioURL}
           onPlay={handlePlay}
           onPause={handlePause}
           className="w-full"
-        />
+        >
+          <source src={audioURL} type={`audio/${audioURL.split(".").pop()}`} />
+          <track
+            src={`${audioURL}.vtt`}
+            kind="captions"
+            srcLang="en"
+            label="English"
+            default
+          />
+        </audio>
       </div>
     </div>
   )

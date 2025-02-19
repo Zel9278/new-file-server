@@ -1,4 +1,8 @@
-import { NextFetchEvent, NextRequest, NextResponse } from "next/server"
+import {
+  type NextFetchEvent,
+  type NextRequest,
+  NextResponse,
+} from "next/server"
 import { middlewareChain } from "@/middlewares"
 
 export function middleware(req: NextRequest, event: NextFetchEvent) {
