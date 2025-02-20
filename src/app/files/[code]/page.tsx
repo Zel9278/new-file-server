@@ -175,6 +175,7 @@ export default async function Page({ params }: Props) {
         </>
       )
     case "txt":
+    case "pdf":
       return (
         <>
           <div className="w-full h-full object-contain">
