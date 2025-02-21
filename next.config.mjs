@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 
-const LicensePlugin = require("webpack-license-plugin")
+import LicensePlugin from "webpack-license-plugin"
 
 const nextConfig = {
   reactStrictMode: true,
@@ -37,4 +37,4 @@ const nextConfig = {
   },
 }
 
-module.exports = nextConfig
+export default nextConfig

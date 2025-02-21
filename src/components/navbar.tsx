@@ -52,8 +52,8 @@ export default function Navbar() {
   }, [data, error])
 
   return (
-    <header className="sticky top-0 z-10">
-      <div className="navbar bg-base-50 shadow-lg">
+    <header className="sticky top-0 bg-base-100 z-50">
+      <div className="navbar shadow-lg">
         <div className="navbar-start">
           <Link className="btn btn-ghost text-xl text-current" href="/">
             {process.env.NEXT_PUBLIC_NAME}

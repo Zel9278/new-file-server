@@ -6,6 +6,7 @@ import { notFound } from "next/navigation"
 import { imageSize } from "image-size"
 import ImageViewer from "@/components/ImageViewer"
 import Waveform from "@/components/Waveform"
+import Markdown from "@/components/MarkdownViewer"
 
 const DOWNLOAD_URL = `${process.env.URL}/api/v1/download/`
 const RAW_URL = `${process.env.URL}/api/v1/raw/`
@@ -187,6 +188,8 @@ export default async function Page({ params }: Props) {
           </div>
         </>
       )
+    case "md":
+      return <Markdown id={(await params).code} />
     default:
       return (
         <>

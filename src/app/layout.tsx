@@ -1,4 +1,4 @@
-import type { Metadata } from "next"
+import type { Metadata, Viewport } from "next"
 import "@/styles/globals.css"
 import Navbar from "@/components/navbar"
 
@@ -10,6 +10,12 @@ export const metadata: Metadata = {
     template: `%s - ${siteName}`,
   },
   description: process.env.DESCRIPTION as string,
+}
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
 }
 
 export default function RootLayout({
