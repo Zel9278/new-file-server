@@ -72,7 +72,7 @@ function makeTocElement(
   headingNumbereds: string | Headings,
 ): JSX.Element {
   return (
-    <ul className="pl-4">
+    <ul>
       {headings.map((heading, index) => {
         const headingNumbered = headingNumbereds[index]
 

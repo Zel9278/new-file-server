@@ -1,9 +1,21 @@
-@import url("https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&family=Kosugi+Maru&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&family=Fira+Code:wght@300..700&family=Kosugi+Maru&display=swap");
 @import "tailwindcss";
 @plugin "daisyui";
 
-* {
+p,
+span,
+li,
+ol,
+ul {
   font-family: "Exo 2", "Kosugi Maru", serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
+pre,
+code {
+  font-family: "Fira Code", monospace;
   font-optical-sizing: auto;
   font-weight: 400;
   font-style: normal;
