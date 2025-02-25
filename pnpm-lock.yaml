@@ -17,15 +17,6 @@ importers:
       '@tailwindcss/postcss':
         specifier: 4.0.8
         version: 4.0.8
-      '@types/hast':
-        specifier: 3.0.4
-        version: 3.0.4
-      '@types/mdast':
-        specifier: 4.0.4
-        version: 4.0.4
-      '@types/unist':
-        specifier: 3.0.3
-        version: 3.0.3
       chalk:
         specifier: 5.4.1
         version: 5.4.1
@@ -111,9 +102,15 @@ importers:
       '@types/fluent-ffmpeg':
         specifier: 2.1.27
         version: 2.1.27
+      '@types/hast':
+        specifier: 3.0.4
+        version: 3.0.4
       '@types/luxon':
         specifier: 3.4.2
         version: 3.4.2
+      '@types/mdast':
+        specifier: 4.0.4
+        version: 4.0.4
       '@types/node':
         specifier: 22.13.5
         version: 22.13.5
@@ -123,6 +120,9 @@ importers:
       '@types/react-dom':
         specifier: 19.0.4
         version: 19.0.4(@types/react@19.0.10)
+      '@types/unist':
+        specifier: 3.0.3
+        version: 3.0.3
       autoprefixer:
         specifier: 10.4.20
         version: 10.4.20(postcss@8.5.3)
