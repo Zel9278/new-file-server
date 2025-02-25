@@ -2,7 +2,7 @@ import fs from "node:fs"
 import path from "node:path"
 import byteToData from "@/utils/byteToData"
 import { DateTime } from "luxon"
-import imageSize from "image-size"
+import { imageSize } from "image-size"
 import type { FileInfo } from "@/types/fileserver"
 import { cacheCheckSum } from "@/utils/cacheCheckSum"
 
@@ -15,7 +15,7 @@ export async function GET() {
   const filesDir = process.env.FILES_DIR || path.join(process.cwd(), "files")
   const dirs = fs.readdirSync(filesDir)
   const files = dirs.filter((dir) => !["favicon.ico"].includes(dir))
-  const images = files.map((dir) => {
+  const images = files.map(async (dir) => {
     const file = fs
       .readdirSync(`${filesDir}/${dir}`)
       .filter((file) => file !== "thumbnail.png")[0]
@@ -40,10 +40,12 @@ export async function GET() {
     }
 
     if (IMG_EXT.includes(path.extname(file))) {
-      const imageSizeData = imageSize(path.join(filesDir, dir, file))
+      const imageSizeData = imageSize(
+        fs.readFileSync(`${filesDir}/${dir}/${file}`),
+      )
 
-      info.width = imageSizeData.width
-      info.height = imageSizeData.height
+      info.width = (await imageSizeData).width
+      info.height = (await imageSizeData).height
     }
 
     if (fs.existsSync(path.join(filesDir, dir, "thumbnail.png"))) {

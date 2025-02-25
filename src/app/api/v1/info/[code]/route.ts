@@ -3,7 +3,7 @@ import path from "node:path"
 import type { NextRequest } from "next/server"
 import byteToData from "@/utils/byteToData"
 import { DateTime } from "luxon"
-import imageSize from "image-size"
+import { imageSize } from "image-size"
 import type { FileInfo } from "@/types/fileserver"
 import crypto from "node:crypto"
 
@@ -51,10 +51,12 @@ export async function GET(request: NextRequest, { params }: Props) {
   }
 
   if (IMG_EXT.includes(path.extname(fileDir))) {
-    const imageSizeData = imageSize(path.join(filesDir, code, fileDir))
+    const imageSizeData = imageSize(
+      fs.readFileSync(`${filesDir}/${code}/${fileDir}`),
+    )
 
-    info.width = imageSizeData.width
-    info.height = imageSizeData.height
+    info.width = (await imageSizeData).width
+    info.height = (await imageSizeData).height
   }
 
   if (fs.existsSync(path.join(filesDir, code, "thumbnail.png"))) {

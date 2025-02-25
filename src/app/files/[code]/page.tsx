@@ -136,15 +136,17 @@ export default async function Page({ params }: Props) {
       const file = fs.readdirSync(fileDir)
       const fileName = file[0]
 
-      const imageSizeData = imageSize(path.join(fileDir, fileName))
+      const imageSizeData = imageSize(
+        fs.readFileSync(path.join(fileDir, fileName)),
+      )
 
       return (
         <>
           <ImageViewer
             src={rawURL}
             alt={(await params).code}
-            width={imageSizeData.width}
-            height={imageSizeData.height}
+            width={(await imageSizeData).width}
+            height={(await imageSizeData).height}
           />
         </>
       )

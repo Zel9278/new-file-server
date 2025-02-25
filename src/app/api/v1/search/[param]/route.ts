@@ -4,7 +4,7 @@ import byteToData from "@/utils/byteToData"
 import { DateTime } from "luxon"
 import type { NextRequest } from "next/server"
 import type { FileInfo, FileInfoWithSearch } from "@/types/fileserver"
-import imageSize from "image-size"
+import { imageSize } from "image-size"
 import { cacheCheckSum } from "@/utils/cacheCheckSum"
 
 type Props = {
@@ -30,43 +30,47 @@ export async function GET(request: NextRequest, { params }: Props) {
   const filesDir = process.env.FILES_DIR || path.join(process.cwd(), "files")
   const dirs = fs.readdirSync(filesDir)
   const files = dirs.filter((dir) => !["favicon.ico"].includes(dir))
-  const images: FileInfo[] = files.map((dir) => {
-    const file = fs
-      .readdirSync(`${filesDir}/${dir}`)
-      .filter((file) => file !== "thumbnail.png")[0]
-    const fileStat = fs.statSync(`${filesDir}/${dir}/${file}`)
-    const downloadCount = counter[dir] || 0
-    const checksum = cacheCheckSum(`${filesDir}/${dir}/${file}`) || ""
+  const images: FileInfo[] = await Promise.all(
+    files.map(async (dir) => {
+      const file = fs
+        .readdirSync(`${filesDir}/${dir}`)
+        .filter((file) => file !== "thumbnail.png")[0]
+      const fileStat = fs.statSync(`${filesDir}/${dir}/${file}`)
+      const downloadCount = counter[dir] || 0
+      const checksum = cacheCheckSum(`${filesDir}/${dir}/${file}`) || ""
 
-    const info: FileInfo = {
-      code: dir,
-      url: `${process.env.URL}/files/${dir}`,
-      rawName: file,
-      type: path.extname(`${filesDir}/${file}`).replace(".", ""),
-      size: byteToData(fileStat.size),
-      rawSize: fileStat.size,
-      date: DateTime.fromJSDate(fileStat.mtime)
-        .setLocale("en")
-        .toFormat("yyyy-MM-dd HH:mm:ss"),
-      unixDate: fileStat.mtime.getTime(),
-      ago: DateTime.fromJSDate(fileStat.mtime).setLocale("en").toRelative(),
-      downloadCount,
-      checksum,
-    }
+      const info: FileInfo = {
+        code: dir,
+        url: `${process.env.URL}/files/${dir}`,
+        rawName: file,
+        type: path.extname(`${filesDir}/${file}`).replace(".", ""),
+        size: byteToData(fileStat.size),
+        rawSize: fileStat.size,
+        date: DateTime.fromJSDate(fileStat.mtime)
+          .setLocale("en")
+          .toFormat("yyyy-MM-dd HH:mm:ss"),
+        unixDate: fileStat.mtime.getTime(),
+        ago: DateTime.fromJSDate(fileStat.mtime).setLocale("en").toRelative(),
+        downloadCount,
+        checksum,
+      }
 
-    if (IMG_EXT.includes(path.extname(file))) {
-      const imageSizeData = imageSize(path.join(filesDir, dir, file))
+      if (IMG_EXT.includes(path.extname(file))) {
+        const imageSizeData = imageSize(
+          fs.readFileSync(`${filesDir}/${dir}/${file}`),
+        )
 
-      info.width = imageSizeData.width
-      info.height = imageSizeData.height
-    }
+        info.width = (await imageSizeData).width
+        info.height = (await imageSizeData).height
+      }
 
-    if (fs.existsSync(path.join(filesDir, dir, "thumbnail.png"))) {
-      info.thumbnail = `${process.env.URL}/api/v1/thumbnail/${dir}`
-    }
+      if (fs.existsSync(path.join(filesDir, dir, "thumbnail.png"))) {
+        info.thumbnail = `${process.env.URL}/api/v1/thumbnail/${dir}`
+      }
 
-    return info
-  })
+      return info
+    }),
+  )
 
   const imagesFiltered: FileInfoWithSearch[] = []
 
