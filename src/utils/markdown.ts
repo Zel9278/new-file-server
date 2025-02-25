@@ -28,7 +28,15 @@ const linkProcessor: Plugin<[], Root> = () => {
         typeof node.properties.src === "string"
       ) {
         const src = node.properties.src
-        node.properties.src = `https://f.c30.life/api/image?url=${src}`
+        const proxyUrl = `https://f.c30.life/api/image?url=${src}`
+
+        node.properties = {
+          ...node.properties,
+          src: proxyUrl,
+          "data-original-src": src,
+          class: "cursor-pointer transition-transform hover:scale-[1.02]",
+          "data-viewer": "true",
+        }
       }
 
       if (

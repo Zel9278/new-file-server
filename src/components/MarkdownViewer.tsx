@@ -5,6 +5,8 @@ import DOMPurify from "isomorphic-dompurify"
 import parse from "html-react-parser"
 import { notFound } from "next/navigation"
 import TocLink from "./TocLink"
+import { ImageViewerProvider } from "@/contexts/ImageViewerContext"
+import { ImageViewerHandler } from "@/components/ImageViewerHandler"
 import "highlight.js/styles/github-dark.css"
 
 type MarkdownProps = {
@@ -48,7 +50,10 @@ export default async function Markdown({ id }: MarkdownProps) {
             </svg>
           </label>
           <div className="blog-content">
-            {parse(DOMPurify.sanitize(postData.processedContent))}
+            <ImageViewerProvider>
+              {parse(DOMPurify.sanitize(postData.processedContent))}
+              <ImageViewerHandler />
+            </ImageViewerProvider>
           </div>
         </div>
         <div className="drawer-side">

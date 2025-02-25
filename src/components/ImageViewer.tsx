@@ -22,7 +22,15 @@ const ImageViewer = ({ className, src, alt, width, height }: Props) => {
 
   const handleWheel = useCallback(
     (e: WheelEvent<HTMLDivElement>) => {
-      e.preventDefault()
+      e.currentTarget.addEventListener(
+        "wheel",
+        (e) => {
+          if (e.cancelable) {
+            e.preventDefault()
+          }
+        },
+        { passive: false },
+      )
       const rect = e.currentTarget.getBoundingClientRect()
       const mouseX = e.clientX - rect.left
       const mouseY = e.clientY - rect.top
@@ -114,17 +122,23 @@ const ImageViewer = ({ className, src, alt, width, height }: Props) => {
       onMouseLeave={handleMouseUp}
       onDoubleClick={handleDoubleClick}
     >
-      <Image
-        className="w-full h-full object-contain "
-        style={{
-          transform: `translate(${offset.x}px, ${offset.y}px) scale(${scale})`,
-          imageRendering: "pixelated",
-        }}
-        src={src}
-        alt={alt}
-        width={width}
-        height={height}
-      />
+      <div className="absolute inset-0 flex items-center justify-center">
+        <Image
+          className="object-contain"
+          style={{
+            transform: `translate(${offset.x}px, ${offset.y}px) scale(${scale})`,
+            imageRendering: "pixelated",
+            width: width ? `${width}px` : "auto",
+            height: height ? `${height}px` : "auto",
+            maxWidth: "100%",
+            maxHeight: "100%",
+          }}
+          src={src}
+          alt={alt}
+          width={width}
+          height={height}
+        />
+      </div>
       <div className="absolute top-0 right-0 p-2 bg-black bg-opacity-50 text-white">
         {zoomPercentage}%
       </div>
