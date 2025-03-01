@@ -12,8 +12,8 @@ importers:
         specifier: 0.4.33
         version: 0.4.33(@hyperjump/browser@1.2.0)(react@19.0.0)(tailwindcss@4.0.9)(typescript@5.7.3)
       '@scalar/nextjs-api-reference':
-        specifier: 0.5.10
-        version: 0.5.10(next@15.2.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react@19.0.0)
+        specifier: 0.5.12
+        version: 0.5.12(next@15.2.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react@19.0.0)
       '@tailwindcss/postcss':
         specifier: 4.0.9
         version: 4.0.9
@@ -634,8 +634,8 @@ packages:
     resolution: {integrity: sha512-q6pMNq6Aa446PM3rCqOMWv+dICpTpOmpI5v1Ex49z9+lCXQjmXA6xYRkO8+HWBcfOdk+KGFJJYuTKSkKF6C3cQ==}
     engines: {node: '>=18'}
 
-  '@scalar/nextjs-api-reference@0.5.10':
-    resolution: {integrity: sha512-3X0aQXBSg8KnMaornNF+ojCIhAoI2YzGJCBiEW7EQU0nj/bIXvWAJ/quL+ghibY4tWusu6+33pRdG1rpEKw9Tw==}
+  '@scalar/nextjs-api-reference@0.5.12':
+    resolution: {integrity: sha512-hhub6bkmqGUysLIXHxqMPlgM6OkZn7+SDwaUP8xYb4x2XIPV0+3fhtdeTaivGbi429W5Ii+0N55Pik2aT9syNg==}
     engines: {node: '>=18'}
     peerDependencies:
       next: ^15.0.0
@@ -653,10 +653,6 @@ packages:
     resolution: {integrity: sha512-wsKZtL4B3Fmbv24B1zzeWdsEr6F60fLmToOFLA1b9QGQ6TAtIvLgKQWQ65eh5Vfx93nQb/iekamfErqHRHtEhA==}
     engines: {node: '>=18'}
 
-  '@scalar/openapi-types@0.1.8':
-    resolution: {integrity: sha512-iufA5/6hPCmRIVD2eh7qGpoKvoA08Gw/qUb2JECifBtAwA93fo7+1k9uHK440f2LMJsbxIzA+nv7RS0BmfiO/g==}
-    engines: {node: '>=18'}
-
   '@scalar/openapi-types@0.1.9':
     resolution: {integrity: sha512-HQQudOSQBU7ewzfnBW9LhDmBE2XOJgSfwrh5PlUB7zJup/kaRkBGNgV2wMjNz9Af/uztiU/xNrO179FysmUT+g==}
     engines: {node: '>=18'}
@@ -671,10 +667,6 @@ packages:
 
   '@scalar/themes@0.9.70':
     resolution: {integrity: sha512-9orX967NcgytbMEIVTMtKbeAyba5SBdOAXw2e5DK07f2Z4sub95h94gLiqhWqRLngwpwK2XZy19vZT/BbVjgZA==}
-    engines: {node: '>=18'}
-
-  '@scalar/types@0.0.34':
-    resolution: {integrity: sha512-q01ctijmHArM5KOny2zU+sHfhpsgOAENrDENecK2TsQNn5FYLmFZouMKeW2M6F7KFLPZnFxUiL/rT88b6Rp/Kg==}
     engines: {node: '>=18'}
 
   '@scalar/types@0.0.36':
@@ -4367,9 +4359,9 @@ snapshots:
     transitivePeerDependencies:
       - '@hyperjump/browser'
 
-  '@scalar/nextjs-api-reference@0.5.10(next@15.2.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react@19.0.0)':
+  '@scalar/nextjs-api-reference@0.5.12(next@15.2.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react@19.0.0)':
     dependencies:
-      '@scalar/types': 0.0.34
+      '@scalar/types': 0.0.36
       next: 15.2.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       react: 19.0.0
 
@@ -4403,8 +4395,6 @@ snapshots:
       leven: 4.0.0
       yaml: 2.7.0
 
-  '@scalar/openapi-types@0.1.8': {}
-
   '@scalar/openapi-types@0.1.9': {}
 
   '@scalar/postman-to-openapi@0.1.32(@hyperjump/browser@1.2.0)':
@@ -4421,11 +4411,6 @@ snapshots:
   '@scalar/themes@0.9.70':
     dependencies:
       '@scalar/types': 0.0.36
-
-  '@scalar/types@0.0.34':
-    dependencies:
-      '@scalar/openapi-types': 0.1.8
-      '@unhead/schema': 1.11.19
 
   '@scalar/types@0.0.36':
     dependencies:
