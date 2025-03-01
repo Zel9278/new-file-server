@@ -55,7 +55,7 @@
     "@types/unist": "3.0.3",
     "autoprefixer": "10.4.20",
     "biome": "0.3.3",
-    "daisyui": "5.0.0-beta.9",
+    "daisyui": "5.0.0",
     "eslint": "9.21.0",
     "eslint-config-next": "15.2.0",
     "node-loader": "2.1.0",
