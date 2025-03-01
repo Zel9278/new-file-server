@@ -13,7 +13,7 @@
     "lint:fix": "eslint --fix ."
   },
   "dependencies": {
-    "@scalar/api-reference-react": "0.4.31",
+    "@scalar/api-reference-react": "0.4.33",
     "@scalar/nextjs-api-reference": "0.5.10",
     "@tailwindcss/postcss": "4.0.9",
     "chalk": "5.4.1",
