@@ -157,8 +157,8 @@ importers:
         specifier: 5.8.2
         version: 5.8.2
       webpack-license-plugin:
-        specifier: 4.5.0
-        version: 4.5.0(webpack@5.98.0)
+        specifier: 4.5.1
+        version: 4.5.1(webpack@5.98.0)
 
 packages:
 
@@ -3616,8 +3616,8 @@ packages:
     resolution: {integrity: sha512-VwddBukDzu71offAQR975unBIGqfKZpM+8ZX6ySk8nYhVoo5CYaZyzt3YBvYtRtO+aoGlqxPg/B87NGVZ/fu6g==}
     engines: {node: '>=12'}
 
-  webpack-license-plugin@4.5.0:
-    resolution: {integrity: sha512-qtxmKEtbW8evdZE0kkB9Kcy1o0Y6g08e3/HXrsopRwM/eHPKb8aAqrZWFDkDlV/jwPSYfp1eWu+Ek2ju812NYQ==}
+  webpack-license-plugin@4.5.1:
+    resolution: {integrity: sha512-WbjMSMPHzFePCSQJqP0qFskGPSwdf3JxIoXa1SK3d1hCXQee7KUrIb+riyXUId71kcHOSyE12pTyrhMl1ozszA==}
     engines: {node: '>=16.0.0'}
     peerDependencies:
       webpack: '>=4.0.0 < 6.0.0'
@@ -8016,7 +8016,7 @@ snapshots:
 
   webidl-conversions@7.0.0: {}
 
-  webpack-license-plugin@4.5.0(webpack@5.98.0):
+  webpack-license-plugin@4.5.1(webpack@5.98.0):
     dependencies:
       chalk: 5.4.1
       lodash: 4.17.21
