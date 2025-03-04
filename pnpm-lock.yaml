@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@scalar/api-reference-react':
-        specifier: 0.4.35
-        version: 0.4.35(@hyperjump/browser@1.2.0)(react@19.0.0)(tailwindcss@4.0.9)(typescript@5.8.2)
+        specifier: 0.4.36
+        version: 0.4.36(@hyperjump/browser@1.2.0)(react@19.0.0)(tailwindcss@4.0.9)(typescript@5.8.2)
       '@scalar/nextjs-api-reference':
         specifier: 0.5.12
         version: 0.5.12(next@15.2.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react@19.0.0)
@@ -600,18 +600,18 @@ packages:
   '@rushstack/eslint-patch@1.10.5':
     resolution: {integrity: sha512-kkKUDVlII2DQiKy7UstOR1ErJP8kUKAQ4oa+SQtM0K+lPdmmjj0YnnxBgtTVYH7mUKtbsxeFC9y0AmK7Yb78/A==}
 
-  '@scalar/api-client@2.2.55':
-    resolution: {integrity: sha512-8icQpf8oiPTJgYCom2wKg/U4UwTrkMUXtssynX2WknbdROb09gpvEiYsBg3VQBZY/rEw0PeLvz7+JO8OYLwAOg==}
+  '@scalar/api-client@2.2.56':
+    resolution: {integrity: sha512-ilY0geYUg90xVameaQ3IJm1/gO9MOmvcQEm98/IfizoYJ5P9aFnXphwEvR+K0xeSD6QYXdaz4ir5UB31Jkuueg==}
     engines: {node: '>=18'}
 
-  '@scalar/api-reference-react@0.4.35':
-    resolution: {integrity: sha512-GHYsefMi76z0sdUyT/PqvlDyof6zihNRz5fFryeDSkLZJHntIasnu5TA9lBauQBuQCalz6Hx2Rrnb+Iomzi2pA==}
+  '@scalar/api-reference-react@0.4.36':
+    resolution: {integrity: sha512-8mlQTSeEz1nUoxBLOo+Y+PPL8DRaagI1WSfHsP2ixTf9WwCi5koPvCAs4miGYbyjcNEolQPopo2qHesn6s+5QA==}
     engines: {node: '>=18'}
     peerDependencies:
       react: ^18.0.0 || ^19.0.0
 
-  '@scalar/api-reference@1.25.126':
-    resolution: {integrity: sha512-Z8zfUeaenJrumhnQIKWuNzup3WsEbsLZdSgIPFtETRKPFyLGB8/qruboMbua0xo7NuytAit0FCMvK3u42DvTUQ==}
+  '@scalar/api-reference@1.25.127':
+    resolution: {integrity: sha512-wDCDhkskVdAUbRdHB4LuFkR45nhbe3PW4yeXgkaWZqJOsh6/kpq+cgLVX4nET1lcHhnjYGWppBtqRx2fclXDjQ==}
     engines: {node: '>=18'}
 
   '@scalar/code-highlight@0.0.23':
@@ -4186,7 +4186,7 @@ snapshots:
 
   '@rushstack/eslint-patch@1.10.5': {}
 
-  '@scalar/api-client@2.2.55(@hyperjump/browser@1.2.0)(tailwindcss@4.0.9)(typescript@5.8.2)':
+  '@scalar/api-client@2.2.56(@hyperjump/browser@1.2.0)(tailwindcss@4.0.9)(typescript@5.8.2)':
     dependencies:
       '@headlessui/tailwindcss': 0.2.2(tailwindcss@4.0.9)
       '@headlessui/vue': 1.7.23(vue@3.5.13(typescript@5.8.2))
@@ -4237,9 +4237,9 @@ snapshots:
       - typescript
       - universal-cookie
 
-  '@scalar/api-reference-react@0.4.35(@hyperjump/browser@1.2.0)(react@19.0.0)(tailwindcss@4.0.9)(typescript@5.8.2)':
+  '@scalar/api-reference-react@0.4.36(@hyperjump/browser@1.2.0)(react@19.0.0)(tailwindcss@4.0.9)(typescript@5.8.2)':
     dependencies:
-      '@scalar/api-reference': 1.25.126(@hyperjump/browser@1.2.0)(tailwindcss@4.0.9)(typescript@5.8.2)
+      '@scalar/api-reference': 1.25.127(@hyperjump/browser@1.2.0)(tailwindcss@4.0.9)(typescript@5.8.2)
       react: 19.0.0
     transitivePeerDependencies:
       - '@hyperjump/browser'
@@ -4258,11 +4258,11 @@ snapshots:
       - typescript
       - universal-cookie
 
-  '@scalar/api-reference@1.25.126(@hyperjump/browser@1.2.0)(tailwindcss@4.0.9)(typescript@5.8.2)':
+  '@scalar/api-reference@1.25.127(@hyperjump/browser@1.2.0)(tailwindcss@4.0.9)(typescript@5.8.2)':
     dependencies:
       '@floating-ui/vue': 1.1.6(vue@3.5.13(typescript@5.8.2))
       '@headlessui/vue': 1.7.23(vue@3.5.13(typescript@5.8.2))
-      '@scalar/api-client': 2.2.55(@hyperjump/browser@1.2.0)(tailwindcss@4.0.9)(typescript@5.8.2)
+      '@scalar/api-client': 2.2.56(@hyperjump/browser@1.2.0)(tailwindcss@4.0.9)(typescript@5.8.2)
       '@scalar/code-highlight': 0.0.23
       '@scalar/components': 0.13.28(typescript@5.8.2)
       '@scalar/oas-utils': 0.2.110(@hyperjump/browser@1.2.0)
