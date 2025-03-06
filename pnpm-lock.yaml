@@ -12,8 +12,8 @@ importers:
         specifier: 0.4.36
         version: 0.4.36(@hyperjump/browser@1.2.0)(react@19.0.0)(tailwindcss@4.0.10)(typescript@5.8.2)
       '@scalar/nextjs-api-reference':
-        specifier: 0.5.12
-        version: 0.5.12(next@15.2.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react@19.0.0)
+        specifier: 0.5.13
+        version: 0.5.13(next@15.2.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react@19.0.0)
       '@tailwindcss/postcss':
         specifier: 4.0.10
         version: 4.0.10
@@ -634,8 +634,8 @@ packages:
     resolution: {integrity: sha512-K2Gnbpo4aHHcadY+4i3gzmG3XGs6AbhvbP6wOPm8ubb+ZeFkRs79AUJcNTXQ6IWq0TuGNsFUmMxmc1Bvxns4uQ==}
     engines: {node: '>=18'}
 
-  '@scalar/nextjs-api-reference@0.5.12':
-    resolution: {integrity: sha512-hhub6bkmqGUysLIXHxqMPlgM6OkZn7+SDwaUP8xYb4x2XIPV0+3fhtdeTaivGbi429W5Ii+0N55Pik2aT9syNg==}
+  '@scalar/nextjs-api-reference@0.5.13':
+    resolution: {integrity: sha512-QmKN5EA3RGvWZYO8y4ESHjcryxH8TikaJLRGthdwqtd8v6J3vVL+NDSXx98wqE9ACT+u5Ed4VjMj69pvH+mC1w==}
     engines: {node: '>=18'}
     peerDependencies:
       next: ^15.0.0
@@ -671,6 +671,10 @@ packages:
 
   '@scalar/types@0.0.36':
     resolution: {integrity: sha512-Mfv9IptUoGqDJC40xg9nfI9/3brov59tKw2lq8tPpbmXItyG9EplckHPRUf2bYKGOOQPfySUATpEgHqOBiJt7g==}
+    engines: {node: '>=18'}
+
+  '@scalar/types@0.0.37':
+    resolution: {integrity: sha512-aLaT8mXfWo+kfvaAseKsxPbxrkylZ1x5q7j2E+VWmaM0GlL/dIXrndMLuo+bwyLTRiR7O/uso+RlfcAT2Zx2gg==}
     engines: {node: '>=18'}
 
   '@scalar/use-codemirror@0.11.73':
@@ -4359,9 +4363,9 @@ snapshots:
     transitivePeerDependencies:
       - '@hyperjump/browser'
 
-  '@scalar/nextjs-api-reference@0.5.12(next@15.2.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react@19.0.0)':
+  '@scalar/nextjs-api-reference@0.5.13(next@15.2.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react@19.0.0)':
     dependencies:
-      '@scalar/types': 0.0.36
+      '@scalar/types': 0.0.37
       next: 15.2.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       react: 19.0.0
 
@@ -4416,6 +4420,12 @@ snapshots:
     dependencies:
       '@scalar/openapi-types': 0.1.9
       '@unhead/schema': 1.11.20
+
+  '@scalar/types@0.0.37':
+    dependencies:
+      '@scalar/openapi-types': 0.1.9
+      '@unhead/schema': 1.11.20
+      zod: 3.24.2
 
   '@scalar/use-codemirror@0.11.73(typescript@5.8.2)':
     dependencies:
