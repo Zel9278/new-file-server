@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@scalar/api-reference-react": "0.4.39",
-    "@scalar/nextjs-api-reference": "0.5.13",
+    "@scalar/nextjs-api-reference": "0.5.15",
     "@tailwindcss/postcss": "4.0.12",
     "chalk": "5.4.1",
     "diskusage": "1.2.0",
