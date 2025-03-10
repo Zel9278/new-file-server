@@ -12,8 +12,8 @@ importers:
         specifier: 0.4.40
         version: 0.4.40(@hyperjump/browser@1.2.0)(react@19.0.0)(tailwindcss@4.0.12)(typescript@5.8.2)
       '@scalar/nextjs-api-reference':
-        specifier: 0.5.15
-        version: 0.5.15(next@15.1.7(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react@19.0.0)
+        specifier: 0.6.0
+        version: 0.6.0(next@15.1.7(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react@19.0.0)
       '@tailwindcss/postcss':
         specifier: 4.0.12
         version: 4.0.12
@@ -626,6 +626,10 @@ packages:
     resolution: {integrity: sha512-FQYMVd9BzBwJJH6y/AElj8q/vRloll4KGl4gvoJ3zJOaF6GmrQe6YxqV9D/eO2vFr/w8F+K2LOF2JY6EPcZySA==}
     engines: {node: '>=18'}
 
+  '@scalar/core@0.1.1':
+    resolution: {integrity: sha512-7qnZp8ykrXoKScFIZcwt638CuFFyj7G3SsgVfD5liNgb533K8/lhWqdmp1vK2u4BKKJ9GBAPKMlWZE/+yA8WTw==}
+    engines: {node: '>=18'}
+
   '@scalar/draggable@0.1.11':
     resolution: {integrity: sha512-EQW9N1+mDORhsbjdtCI3XDvmUKsuKw1uf6r3kT1Mm2zQKT+rWwA0ChsAkEN6OG62C0YumMuXpH71h1seAWptxw==}
     engines: {node: '>=18'}
@@ -638,8 +642,8 @@ packages:
     resolution: {integrity: sha512-KfiscHdzjGCSJuNqkZ/j4jD6yv9XxCFujK+16rpafalwVq8enjW1QgkWJ2SmvcLscX5Q9ELSNpUEb7RazmH3IQ==}
     engines: {node: '>=18'}
 
-  '@scalar/nextjs-api-reference@0.5.15':
-    resolution: {integrity: sha512-+4E3vyJLlK+ZuccuOn0yufh2nv10FfA4y1qJw5/Djjo0n9j3zyT7lzp7oRq0APVSY658LpPwKMJChulTeOoO0A==}
+  '@scalar/nextjs-api-reference@0.6.0':
+    resolution: {integrity: sha512-kjmCMZNimrF8PotSF/+ufRIOHVhv3Mx4a92J6dznr0oWyOauuWq2PAbdNNofiwO/CuJk8iD5X4MUbxcgiUkmgA==}
     engines: {node: '>=18'}
     peerDependencies:
       next: ^15.0.0
@@ -675,6 +679,10 @@ packages:
 
   '@scalar/types@0.0.39':
     resolution: {integrity: sha512-oAMBWC5B0I8IViCuaV1ydoUAm7KJSwHZfCuLMea15tSKh0/wj9H1KQvDJF8gE/cUVwjQvj4q94GB22kBT4XGNQ==}
+    engines: {node: '>=18'}
+
+  '@scalar/types@0.0.40':
+    resolution: {integrity: sha512-0J6o+yZzgZEvl3KhvLTAGiXXyrCeEPKvs9gUWQDf1Rb5NfFxF0lA10ougCQCwVJIguWNEzZfOUiSoAFzGy2EqQ==}
     engines: {node: '>=18'}
 
   '@scalar/use-codemirror@0.11.77':
@@ -4342,6 +4350,10 @@ snapshots:
       - supports-color
       - typescript
 
+  '@scalar/core@0.1.1':
+    dependencies:
+      '@scalar/types': 0.0.40
+
   '@scalar/draggable@0.1.11(typescript@5.8.2)':
     dependencies:
       vue: 3.5.13(typescript@5.8.2)
@@ -4362,9 +4374,10 @@ snapshots:
     transitivePeerDependencies:
       - '@hyperjump/browser'
 
-  '@scalar/nextjs-api-reference@0.5.15(next@15.1.7(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react@19.0.0)':
+  '@scalar/nextjs-api-reference@0.6.0(next@15.1.7(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react@19.0.0)':
     dependencies:
-      '@scalar/types': 0.0.39
+      '@scalar/core': 0.1.1
+      '@scalar/types': 0.0.40
       next: 15.1.7(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       react: 19.0.0
 
@@ -4416,6 +4429,12 @@ snapshots:
       '@scalar/types': 0.0.39
 
   '@scalar/types@0.0.39':
+    dependencies:
+      '@scalar/openapi-types': 0.1.9
+      '@unhead/schema': 1.11.20
+      zod: 3.24.2
+
+  '@scalar/types@0.0.40':
     dependencies:
       '@scalar/openapi-types': 0.1.9
       '@unhead/schema': 1.11.20
