@@ -78,8 +78,8 @@ importers:
         specifier: 16.0.1
         version: 16.0.1
       remark-link-card-plus:
-        specifier: 0.3.0
-        version: 0.3.0
+        specifier: 0.3.1
+        version: 0.3.1
       remark-parse:
         specifier: 11.0.0
         version: 11.0.0
@@ -3109,8 +3109,8 @@ packages:
   remark-html@16.0.1:
     resolution: {integrity: sha512-B9JqA5i0qZe0Nsf49q3OXyGvyXuZFDzAP2iOFLEumymuYJITVpiH1IgsTEwTpdptDmZlMDMWeDmSawdaJIGCXQ==}
 
-  remark-link-card-plus@0.3.0:
-    resolution: {integrity: sha512-w5jlhY4FuJjiIx+Y7ElcKj+SoqPk7FZHRvpDSlnYp7qf4g7dBA+CrZPG16+svC1b5qDfXsh7+k+HdBgAmFRyfA==}
+  remark-link-card-plus@0.3.1:
+    resolution: {integrity: sha512-m3BLtCcndOLrqEiV/n6WANC21BS3NrNwBKwapNgcR21JEyCFrMVmXQ6pmbZpiaazRru4jcfQGCOODooYuq0eHQ==}
     engines: {node: '>=18'}
 
   remark-parse@11.0.0:
@@ -3198,8 +3198,8 @@ packages:
   safer-buffer@2.1.2:
     resolution: {integrity: sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==}
 
-  sanitize-html@2.14.0:
-    resolution: {integrity: sha512-CafX+IUPxZshXqqRaG9ZClSlfPVjSxI0td7n07hk8QO2oO+9JDnlcL8iM8TWeOXOIBFgIOx6zioTzM53AOMn3g==}
+  sanitize-html@2.15.0:
+    resolution: {integrity: sha512-wIjst57vJGpLyBP8ioUbg6ThwJie5SuSIjHxJg53v5Fg+kUK+AXlb7bK3RNXpp315MvwM+0OBGCV6h5pPHsVhA==}
 
   sax@1.4.1:
     resolution: {integrity: sha512-+aWOz7yVScEGoKNd4PA10LZ8sk0A/z5+nXQG5giUO5rprX9jgYsTdov9qCchZiPIZezbZH+jRut8nPodFAX4Jg==}
@@ -7462,11 +7462,11 @@ snapshots:
       mdast-util-to-hast: 13.2.0
       unified: 11.0.5
 
-  remark-link-card-plus@0.3.0:
+  remark-link-card-plus@0.3.1:
     dependencies:
       file-type: 20.4.1
       open-graph-scraper: 6.9.0
-      sanitize-html: 2.14.0
+      sanitize-html: 2.15.0
       unified: 11.0.5
       unist-util-visit: 5.0.0
     transitivePeerDependencies:
@@ -7602,7 +7602,7 @@ snapshots:
 
   safer-buffer@2.1.2: {}
 
-  sanitize-html@2.14.0:
+  sanitize-html@2.15.0:
     dependencies:
       deepmerge: 4.3.1
       escape-string-regexp: 4.0.0
