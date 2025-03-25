@@ -15,7 +15,7 @@
   "dependencies": {
     "@scalar/api-reference-react": "0.6.4",
     "@scalar/nextjs-api-reference": "0.7.3",
-    "@tailwindcss/postcss": "4.0.15",
+    "@tailwindcss/postcss": "4.0.16",
     "chalk": "5.4.1",
     "diskusage": "1.2.0",
     "file-type": "20.4.1",
@@ -62,7 +62,7 @@
     "postcss": "8.5.3",
     "prettier": "3.5.3",
     "prettier-plugin-tailwindcss": "0.6.11",
-    "tailwindcss": "4.0.15",
+    "tailwindcss": "4.0.16",
     "typescript": "5.8.2",
     "webpack-license-plugin": "4.5.1"
   },
