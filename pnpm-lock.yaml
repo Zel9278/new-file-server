@@ -51,8 +51,8 @@ importers:
         specifier: 4.0.6
         version: 4.0.6
       mime-type:
-        specifier: 5.0.2
-        version: 5.0.2
+        specifier: 5.0.3
+        version: 5.0.3
       next:
         specifier: 15.2.4
         version: 15.2.4(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
@@ -2707,8 +2707,8 @@ packages:
     resolution: {integrity: sha512-sPU4uV7dYlvtWJxwwxHD0PuihVNiE7TyAbQ5SWxDCB9mUYvOgroQOwYQQOKPJ8CIbE+1ETVlOoK1UC2nU3gYvg==}
     engines: {node: '>= 0.6'}
 
-  mime-type@5.0.2:
-    resolution: {integrity: sha512-OoPLlorKUS6vYxG57bqkU3RnPdVFALUUsKG5e6hgLa9eGPa1voPrfX1OgVvKLWAOYnP9t7iDyOTzEPh7lg5fvA==}
+  mime-type@5.0.3:
+    resolution: {integrity: sha512-GR1ptYpYx+Z0orOFlIZXZrMvDxUAvOwquNt1Bymon+cw7yYf1z5WipyzsNv0rhQ18lj+F688Yet8qD+rrKRIHw==}
     engines: {node: '>= 8.6'}
 
   mime-types@2.1.35:
@@ -7074,7 +7074,7 @@ snapshots:
 
   mime-db@1.52.0: {}
 
-  mime-type@5.0.2:
+  mime-type@5.0.3:
     dependencies:
       path.js: 2.0.1
       picomatch: 4.0.2
