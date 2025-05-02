@@ -12,8 +12,8 @@ importers:
         specifier: 0.6.6
         version: 0.6.6(@hyperjump/browser@1.3.0)(react@19.1.0)(tailwindcss@4.0.17)(typescript@5.8.2)
       '@scalar/nextjs-api-reference':
-        specifier: 0.7.5
-        version: 0.7.5(next@15.2.4(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0)
+        specifier: 0.7.15
+        version: 0.7.15(next@15.2.4(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0)
       '@tailwindcss/postcss':
         specifier: 4.0.17
         version: 4.0.17
@@ -635,8 +635,8 @@ packages:
     resolution: {integrity: sha512-IZls6aG6tYNpYgxBGBstq3jxYyoMrWyC9KeC7WtYZkVImjzHjrewHen26KZ6DxgFEnLalG7jsPhyqeLl/mJ+Yw==}
     engines: {node: '>=18'}
 
-  '@scalar/core@0.2.4':
-    resolution: {integrity: sha512-XGrg2P+FrvtzLsDm6TVl1oZv4DYmkFqJ3sI/SS2mjRlfOcblHv2CcrhYTz0+y1nG3cyHlE5esHAK0+BEI032dA==}
+  '@scalar/core@0.2.14':
+    resolution: {integrity: sha512-w2oLqUVJt88ed2uHKFgg8UOFeyHDpi3QmSJqqc4CZPjAz/lKj34antHYMEG3A4Iom+06W31XQeqFO9zQ2eNsfA==}
     engines: {node: '>=18'}
 
   '@scalar/draggable@0.1.11':
@@ -651,8 +651,8 @@ packages:
     resolution: {integrity: sha512-W1mfOjiNiJC4yO32cf5FELWAIksoss/MquWjKT/E5TU1bMdF36LHMZrHAVbiHEPU7Y8RZXBl1VRkBxUonTZ/pA==}
     engines: {node: '>=18'}
 
-  '@scalar/nextjs-api-reference@0.7.5':
-    resolution: {integrity: sha512-1Pc/JCrUldhjYE6CmaXB0G64CdumzXTsaAeY+k2CeJBy1e86N+9+sY5f+8cazbWjyIrd7o3Hx1qmAvXpEv2VOw==}
+  '@scalar/nextjs-api-reference@0.7.15':
+    resolution: {integrity: sha512-SiDPJP15CWGeUUoIYVkEct91qSC9FoBP1WRCwaPFquKan/f+3EtwCDkq45ThY+aDRelVX0ypQ0oSYqljOn32fw==}
     engines: {node: '>=18'}
     peerDependencies:
       next: ^15.0.0
@@ -674,6 +674,10 @@ packages:
     resolution: {integrity: sha512-HQQudOSQBU7ewzfnBW9LhDmBE2XOJgSfwrh5PlUB7zJup/kaRkBGNgV2wMjNz9Af/uztiU/xNrO179FysmUT+g==}
     engines: {node: '>=18'}
 
+  '@scalar/openapi-types@0.2.2':
+    resolution: {integrity: sha512-fwWboUf3W5U4qWU7nj4jrs+KYilnfKyVp0d6LC1ejB2aROgWXIAscRtVaPLPaNLpTZOBsMC8XpiAPm3/SlU+mA==}
+    engines: {node: '>=18'}
+
   '@scalar/postman-to-openapi@0.1.46':
     resolution: {integrity: sha512-F485II9KaYZsXNHkjXb0/m1giFidFEGfbYTh+kYeEOuvb0X2Q6PYfF3GzZp2JJARpf2IC+/9Hl9AMTAKObuQlg==}
     engines: {node: '>=18'}
@@ -684,6 +688,10 @@ packages:
 
   '@scalar/themes@0.9.82':
     resolution: {integrity: sha512-VbzDVyF6yQMeqsr9nj+twyMXmO5k0AEmL6Zsjf3alzOAMuiN4ee5Hcssd7XE44cnUrHiwm1i578bU6949N+7lQ==}
+    engines: {node: '>=18'}
+
+  '@scalar/types@0.1.14':
+    resolution: {integrity: sha512-N7qZ9qARJfi4Gl5MEsRfwPHFWs68qDXWQ+jGi05LGExDqErAJStc4PPkEmxt44uSO4+TVx4ADxWB6xNoGMG/Zg==}
     engines: {node: '>=18'}
 
   '@scalar/types@0.1.4':
@@ -3800,6 +3808,9 @@ packages:
   zhead@2.2.4:
     resolution: {integrity: sha512-8F0OI5dpWIA5IGG5NHUg9staDwz/ZPxZtvGVf01j7vHqSyZ0raHY+78atOVxRqb73AotX22uV1pXt3gYSstGag==}
 
+  zod@3.24.1:
+    resolution: {integrity: sha512-muH7gBL9sI1nciMZV67X5fTKKBLtwpZ5VBp1vsOQzj1MhrBZ4wlVCm3gedKZWLp0Oyel8sIGfeiz54Su+OVT+A==}
+
   zod@3.24.2:
     resolution: {integrity: sha512-lY7CDW43ECgW9u1TcT3IoXHflywfVqDYze4waEz812jR/bZ8FHDsl7pFQoSZTz5N+2NqRXs8GBwnAwo3ZNxqhQ==}
 
@@ -4449,9 +4460,9 @@ snapshots:
       - supports-color
       - typescript
 
-  '@scalar/core@0.2.4':
+  '@scalar/core@0.2.14':
     dependencies:
-      '@scalar/types': 0.1.4
+      '@scalar/types': 0.1.14
 
   '@scalar/draggable@0.1.11(typescript@5.8.2)':
     dependencies:
@@ -4473,10 +4484,10 @@ snapshots:
     transitivePeerDependencies:
       - '@hyperjump/browser'
 
-  '@scalar/nextjs-api-reference@0.7.5(next@15.2.4(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0)':
+  '@scalar/nextjs-api-reference@0.7.15(next@15.2.4(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0)':
     dependencies:
-      '@scalar/core': 0.2.4
-      '@scalar/types': 0.1.4
+      '@scalar/core': 0.2.14
+      '@scalar/types': 0.1.14
       next: 15.2.4(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       react: 19.1.0
 
@@ -4513,6 +4524,10 @@ snapshots:
 
   '@scalar/openapi-types@0.1.9': {}
 
+  '@scalar/openapi-types@0.2.2':
+    dependencies:
+      zod: 3.24.1
+
   '@scalar/postman-to-openapi@0.1.46(@hyperjump/browser@1.3.0)':
     dependencies:
       '@scalar/oas-utils': 0.2.123(@hyperjump/browser@1.3.0)
@@ -4527,6 +4542,12 @@ snapshots:
   '@scalar/themes@0.9.82':
     dependencies:
       '@scalar/types': 0.1.4
+
+  '@scalar/types@0.1.14':
+    dependencies:
+      '@scalar/openapi-types': 0.2.2
+      nanoid: 5.1.5
+      zod: 3.24.1
 
   '@scalar/types@0.1.4':
     dependencies:
@@ -8317,6 +8338,8 @@ snapshots:
   yocto-queue@0.1.0: {}
 
   zhead@2.2.4: {}
+
+  zod@3.24.1: {}
 
   zod@3.24.2: {}
 
