@@ -6,7 +6,7 @@ import { notFound } from "next/navigation"
 import { imageSize } from "image-size"
 import ImageViewer from "@/components/ImageViewer"
 import Waveform from "@/components/Waveform"
-import Markdown from "@/components/MarkdownViewer"
+// import Markdown from "@/components/MarkdownViewer"
 
 const DOWNLOAD_URL = `${process.env.URL}/api/v1/download/`
 const RAW_URL = `${process.env.URL}/api/v1/raw/`
@@ -109,7 +109,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function Page({ params }: Props) {
-  const filesDir = process.env.FILES_DIR || path.join(process.cwd(), "files")
+const filesDir = process.env.FILES_DIR || path.join(process.cwd(), "files")
 
   if (!fs.existsSync(path.join(filesDir, (await params).code))) {
     return notFound()
@@ -132,10 +132,6 @@ export default async function Page({ params }: Props) {
     case "svg":
     case "png":
     case "gif": {
-      const fileDir = path.join(filesDir, (await params).code)
-      const file = fs.readdirSync(fileDir)
-      const fileName = file[0]
-
       const imageSizeData = imageSize(
         fs.readFileSync(path.join(fileDir, fileName)),
       )
@@ -145,8 +141,8 @@ export default async function Page({ params }: Props) {
           <ImageViewer
             src={rawURL}
             alt={(await params).code}
-            width={(await imageSizeData).width}
-            height={(await imageSizeData).height}
+            width={imageSizeData.width}
+            height={imageSizeData.height}
           />
         </>
       )
@@ -190,19 +186,22 @@ export default async function Page({ params }: Props) {
           </div>
         </>
       )
-    case "md":
-      return <Markdown id={(await params).code} />
+    // case "md":
+    //   return <Markdown id={(await params).code} />
     default:
       return (
         <>
           <div className="flex justify-center items-center flex-col gap-2 w-auto h-full">
             <p>{fileName}</p>
             <div className="flex gap-4">
-              <a className="btn btn-primary " href={downloadURL} download>
+              <a className="btn btn-primary" href={downloadURL} download>
                 Download
               </a>
               <a className="btn btn-primary" href={infoURL}>
                 Info
+              </a>
+              <a className="btn btn-primary" href={rawURL} target="_blank" rel="noopener noreferrer">
+                Raw
               </a>
             </div>
           </div>

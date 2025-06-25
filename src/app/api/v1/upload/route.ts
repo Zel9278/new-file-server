@@ -3,7 +3,7 @@ import discordPreloader from "@/utils/discord-preloader"
 import path from "node:path"
 import fs from "node:fs/promises"
 import { DateTime } from "luxon"
-import ffmpeg from "fluent-ffmpeg"
+import { spawn } from "node:child_process"
 import { cacheCheckSum } from "@/utils/cacheCheckSum"
 
 export async function POST(request: NextRequest) {
@@ -78,17 +78,7 @@ async function tryNewFile(
       extName === ".avi" ||
       extName === ".mkv"
     ) {
-      await new Promise((resolve, reject) => {
-        ffmpeg(filePath)
-          .on("end", resolve)
-          .on("error", reject)
-          .screenshots({
-            timestamps: ["50%"],
-            count: 1,
-            folder: fileDir,
-            filename: "thumbnail.png",
-          })
-      })
+      await generateThumbnail(filePath, path.join(fileDir, "thumbnail.png"))
     }
 
     cacheCheckSum(filePath)
@@ -99,4 +89,42 @@ async function tryNewFile(
     console.log(error)
     return new Response("Error", { status: 500 })
   }
+}
+
+/**
+ * Generate thumbnail for video file using ffmpeg
+ * @param inputPath - Path to the input video file
+ * @param outputPath - Path to save the thumbnail
+ */
+async function generateThumbnail(inputPath: string, outputPath: string): Promise<void> {
+  return new Promise((resolve, reject) => {
+    const ffmpegProcess = spawn('ffmpeg', [
+      '-i', inputPath,                    // Input file
+      '-ss', '00:00:01',                  // Seek to 1 second (instead of 50%)
+      '-vframes', '1',                    // Extract one frame
+      '-q:v', '2',                        // High quality
+      '-y',                               // Overwrite output file
+      outputPath                          // Output file
+    ])
+
+    ffmpegProcess.stderr.on('data', (data) => {
+      // FFmpeg outputs progress info to stderr, so we don't treat it as error unless process fails
+      console.log(`ffmpeg stderr: ${data}`)
+    })
+
+    ffmpegProcess.on('close', (code) => {
+      if (code === 0) {
+        console.log(`Thumbnail generated successfully: ${outputPath}`)
+        resolve()
+      } else {
+        console.error(`ffmpeg process exited with code ${code}`)
+        reject(new Error(`ffmpeg process exited with code ${code}`))
+      }
+    })
+
+    ffmpegProcess.on('error', (error) => {
+      console.error(`ffmpeg spawn error: ${error}`)
+      reject(error)
+    })
+  })
 }

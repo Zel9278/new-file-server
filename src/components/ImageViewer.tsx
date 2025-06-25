@@ -239,6 +239,7 @@ const ImageViewer = ({ className, src, alt, width, height }: Props) => {
           alt={alt}
           width={width}
           height={height}
+          priority={true}
         />
       </div>
       <div className="absolute top-0 right-0 p-2 bg-black bg-opacity-50 text-white">
