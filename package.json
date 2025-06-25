@@ -24,7 +24,7 @@
     "highlight.js": "11.11.1",
     "html-react-parser": "5.2.2",
     "image-size": "2.0.2",
-    "isomorphic-dompurify": "2.22.0",
+    "isomorphic-dompurify": "2.25.0",
     "luxon": "3.6.1",
     "mime": "4.0.7",
     "mime-type": "5.0.3",
