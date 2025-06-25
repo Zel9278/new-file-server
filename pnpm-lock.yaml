@@ -36,8 +36,8 @@ importers:
         specifier: 11.11.1
         version: 11.11.1
       html-react-parser:
-        specifier: 5.2.2
-        version: 5.2.2(@types/react@19.1.8)(react@19.1.0)
+        specifier: 5.2.5
+        version: 5.2.5(@types/react@19.1.8)(react@19.1.0)
       image-size:
         specifier: 2.0.2
         version: 2.0.2
@@ -2272,15 +2272,15 @@ packages:
   hookable@5.5.3:
     resolution: {integrity: sha512-Yc+BQe8SvoXH1643Qez1zqLRmbA5rCL+sSmk6TVos0LWVfNIB7PGncdlId77WzLGSIB5KaWgTaNTs2lNVEI6VQ==}
 
-  html-dom-parser@5.0.13:
-    resolution: {integrity: sha512-B7JonBuAfG32I7fDouUQEogBrz3jK9gAuN1r1AaXpED6dIhtg/JwiSRhjGL7aOJwRz3HU4efowCjQBaoXiREqg==}
+  html-dom-parser@5.1.1:
+    resolution: {integrity: sha512-+o4Y4Z0CLuyemeccvGN4bAO20aauB2N9tFEAep5x4OW34kV4PTarBHm6RL02afYt2BMKcr0D2Agep8S3nJPIBg==}
 
   html-encoding-sniffer@4.0.0:
     resolution: {integrity: sha512-Y22oTqIU4uuPgEemfz7NDJz6OeKf12Lsu+QC+s3BVpda64lTiMYCyGwg5ki4vFxkMwQdeZDl2adZoqUgdFuTgQ==}
     engines: {node: '>=18'}
 
-  html-react-parser@5.2.2:
-    resolution: {integrity: sha512-yA5012CJGSFWYZsgYzfr6HXJgDap38/AEP4ra8Cw+WHIi2ZRDXRX/QVYdumRf1P8zKyScKd6YOrWYvVEiPfGKg==}
+  html-react-parser@5.2.5:
+    resolution: {integrity: sha512-bRPdv8KTqG9CEQPMNGksDqmbiRfVQeOidry8pVetdh/1jQ1Edx4KX5m0lWvDD89Pt4CqTYjK1BLz6NoNVxN/Uw==}
     peerDependencies:
       '@types/react': 0.14 || 15 || 16 || 17 || 18 || 19
       react: 0.14 || 15 || 16 || 17 || 18 || 19
@@ -6592,7 +6592,7 @@ snapshots:
 
   hookable@5.5.3: {}
 
-  html-dom-parser@5.0.13:
+  html-dom-parser@5.1.1:
     dependencies:
       domhandler: 5.0.3
       htmlparser2: 10.0.0
@@ -6601,10 +6601,10 @@ snapshots:
     dependencies:
       whatwg-encoding: 3.1.1
 
-  html-react-parser@5.2.2(@types/react@19.1.8)(react@19.1.0):
+  html-react-parser@5.2.5(@types/react@19.1.8)(react@19.1.0):
     dependencies:
       domhandler: 5.0.3
-      html-dom-parser: 5.0.13
+      html-dom-parser: 5.1.1
       react: 19.1.0
       react-property: 2.0.2
       style-to-js: 1.1.16
