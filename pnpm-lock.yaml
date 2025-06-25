@@ -78,8 +78,8 @@ importers:
         specifier: 16.0.1
         version: 16.0.1
       remark-link-card-plus:
-        specifier: 0.4.1
-        version: 0.4.1
+        specifier: 0.5.0
+        version: 0.5.0
       remark-parse:
         specifier: 11.0.0
         version: 11.0.0
@@ -1287,11 +1287,6 @@ packages:
     resolution: {integrity: sha512-rq9s+JNhf0IChjtDXxllJ7g41oZk5SlXtp0LHwyA5cejwn7vKmKp4pPri6YEePv2PU65sAsegbXtIinmDFDXgQ==}
     peerDependencies:
       acorn: ^6.0.0 || ^7.0.0 || ^8.0.0
-
-  acorn@8.14.1:
-    resolution: {integrity: sha512-OvQ/2pUDKmgfCg++xsTX1wGxfTaszcHVcTctW4UJB4hibJx2HXxxO5UmVgyjMa+ZDsiaf5wWLXYpRWMmBI0QHg==}
-    engines: {node: '>=0.4.0'}
-    hasBin: true
 
   acorn@8.15.0:
     resolution: {integrity: sha512-NZyJarBfL7nWwIq+FDL6Zp/yHEhePMNnnJ0y3qfieCrmNvYct8uvtiV41UvlSe6apAfk0fY1FbWx+NwfmpvtTg==}
@@ -3295,8 +3290,8 @@ packages:
   remark-html@16.0.1:
     resolution: {integrity: sha512-B9JqA5i0qZe0Nsf49q3OXyGvyXuZFDzAP2iOFLEumymuYJITVpiH1IgsTEwTpdptDmZlMDMWeDmSawdaJIGCXQ==}
 
-  remark-link-card-plus@0.4.1:
-    resolution: {integrity: sha512-AD7u8+tXk/5Ik3XqSRiyv5P/m1dOorB+9bkJ7BgWLKnCuCAqWI+GjGS5MEkKN546i7ZKfYJC1bv8POHj4G3pOQ==}
+  remark-link-card-plus@0.5.0:
+    resolution: {integrity: sha512-hBw4wCIbMaWlgOCnTzZlDcDwIXRy5jokoXCY3FVhXgTqw1x2TAjIToYlDOKDwmN3IVw0DA4HmlegH1e96tiQrw==}
     engines: {node: '>=18'}
 
   remark-parse@11.0.0:
@@ -5367,8 +5362,6 @@ snapshots:
   acorn-jsx@5.3.2(acorn@8.15.0):
     dependencies:
       acorn: 8.15.0
-
-  acorn@8.14.1: {}
 
   acorn@8.15.0: {}
 
@@ -7796,7 +7789,7 @@ snapshots:
       mdast-util-to-hast: 13.2.0
       unified: 11.0.5
 
-  remark-link-card-plus@0.4.1:
+  remark-link-card-plus@0.5.0:
     dependencies:
       file-type: 20.5.0
       open-graph-scraper: 6.9.0
@@ -8266,7 +8259,7 @@ snapshots:
   terser@5.39.0:
     dependencies:
       '@jridgewell/source-map': 0.3.6
-      acorn: 8.14.1
+      acorn: 8.15.0
       commander: 2.20.3
       source-map-support: 0.5.21
 
@@ -8564,7 +8557,7 @@ snapshots:
       '@webassemblyjs/ast': 1.14.1
       '@webassemblyjs/wasm-edit': 1.14.1
       '@webassemblyjs/wasm-parser': 1.14.1
-      acorn: 8.14.1
+      acorn: 8.15.0
       browserslist: 4.24.4
       chrome-trace-event: 1.0.4
       enhanced-resolve: 5.18.1
