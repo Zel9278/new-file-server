@@ -78,8 +78,8 @@ importers:
         specifier: 16.0.1
         version: 16.0.1
       remark-link-card-plus:
-        specifier: 0.4.1
-        version: 0.4.1
+        specifier: 0.5.0
+        version: 0.5.0
       remark-parse:
         specifier: 11.0.0
         version: 11.0.0
@@ -3174,8 +3174,8 @@ packages:
   remark-html@16.0.1:
     resolution: {integrity: sha512-B9JqA5i0qZe0Nsf49q3OXyGvyXuZFDzAP2iOFLEumymuYJITVpiH1IgsTEwTpdptDmZlMDMWeDmSawdaJIGCXQ==}
 
-  remark-link-card-plus@0.4.1:
-    resolution: {integrity: sha512-AD7u8+tXk/5Ik3XqSRiyv5P/m1dOorB+9bkJ7BgWLKnCuCAqWI+GjGS5MEkKN546i7ZKfYJC1bv8POHj4G3pOQ==}
+  remark-link-card-plus@0.5.0:
+    resolution: {integrity: sha512-hBw4wCIbMaWlgOCnTzZlDcDwIXRy5jokoXCY3FVhXgTqw1x2TAjIToYlDOKDwmN3IVw0DA4HmlegH1e96tiQrw==}
     engines: {node: '>=18'}
 
   remark-parse@11.0.0:
@@ -7579,7 +7579,7 @@ snapshots:
       mdast-util-to-hast: 13.2.0
       unified: 11.0.5
 
-  remark-link-card-plus@0.4.1:
+  remark-link-card-plus@0.5.0:
     dependencies:
       file-type: 20.5.0
       open-graph-scraper: 6.9.0
