@@ -1,0 +1,876 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Ced's File Server API Documentation",
+    "description": "API for uploading, downloading, and deleting files",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://f.c30.life",
+      "description": "Production server"
+    }
+  ],
+  "paths": {
+    "/api/v1/delete/{code}": {
+      "delete": {
+        "summary": "Delete file",
+        "description": "Delete file from the server",
+        "tags": ["File"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "code",
+            "required": true,
+            "description": "File code",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "security": [
+          {
+            "tokenAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "File deleted",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "examples": ["done"]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized, missing or invalid token"
+          },
+          "404": {
+            "description": "No file found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/v1/download/{code}": {
+      "get": {
+        "summary": "Download file",
+        "description": "Download file from the server",
+        "tags": ["File"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "code",
+            "required": true,
+            "description": "File code",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "File content"
+          },
+          "404": {
+            "description": "File not found"
+          }
+        }
+      }
+    },
+    "/api/v1/info/{code}": {
+      "get": {
+        "summary": "File information",
+        "description": "Get file information",
+        "tags": ["File"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "code",
+            "required": true,
+            "description": "File code",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "File information",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FileInfo"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
+    "/api/v1/list": {
+      "get": {
+        "summary": "List files",
+        "description": "List all files on the server",
+        "tags": ["File"],
+        "responses": {
+          "200": {
+            "description": "List of files",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/FileInfo"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/openapi": {
+      "get": {
+        "summary": "OpenAPI JSON Schema",
+        "description": "Show OpenAPI JSON Schema",
+        "tags": ["OpenAPI"],
+        "responses": {
+          "200": {
+            "description": "OpenAPI JSON Schema",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "examples": ["Return OpenAPI JSON Schema"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/raw/{code}": {
+      "get": {
+        "summary": "Raw file",
+        "description": "Get raw file content",
+        "tags": ["File"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "code",
+            "required": true,
+            "description": "File code",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "File content"
+          },
+          "404": {
+            "description": "File not found"
+          }
+        }
+      }
+    },
+    "/api/v1/thumbnail/{code}": {
+      "get": {
+        "summary": "Thumbnail",
+        "description": "Get thumbnail for video files",
+        "tags": ["File"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "code",
+            "required": true,
+            "description": "File code",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "File content"
+          },
+          "404": {
+            "description": "File not found"
+          }
+        }
+      }
+    },
+    "/api/v1/upload": {
+      "post": {
+        "summary": "Upload file",
+        "description": "Upload file to the server",
+        "tags": ["File"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "File to upload"
+                  }
+                },
+                "required": ["file"]
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "tokenAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "URL of the uploaded file",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "examples": ["https://example.com/files/abc123"]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "No file found"
+          },
+          "401": {
+            "description": "Unauthorized, missing or invalid token"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/v1/rename/{code}": {
+      "put": {
+        "summary": "Rename file",
+        "description": "Rename a file on the server",
+        "tags": ["File"],
+        "parameters": [
+          {
+            "name": "code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The code of the file to rename."
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The new name for the file."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Done",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "example": ["done"]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Name not provided",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "examples": ["Name not provided"]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "examples": ["Unauthorized"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "File not found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "examples": ["File not found"]
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "tokenAuth": []
+          }
+        ]
+      }
+    },
+    "/api/pages/{page}/{type}": {
+      "get": {
+        "summary": "Get page information",
+        "description": "Retrieves information about a specific page including pagination details and files on the page.",
+        "tags": ["Page"],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "path",
+            "required": true,
+            "description": "The page number to retrieve",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "type",
+            "in": "path",
+            "required": true,
+            "description": "The type of files to retrieve",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "NameUp",
+                "NameDown",
+                "CodeUp",
+                "CodeDown",
+                "SizeUp",
+                "SizeDown",
+                "DateUp",
+                "DateDown"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response with page information",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "$ref": "#/components/schemas/PageResult"
+                    },
+                    "filesOnPage": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/ShortFileInfo"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid page number"
+          },
+          "404": {
+            "description": "Page not found"
+          }
+        }
+      }
+    },
+    "/api/v1/search": {
+      "get": {
+        "summary": "Search files",
+        "description": "Search files on the server",
+        "tags": ["File"],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "q",
+            "required": true,
+            "description": "Search query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of files",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/FileInfoWithSearch"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/info": {
+      "get": {
+        "summary": "Server information",
+        "description": "Get server information",
+        "tags": ["Server"],
+        "responses": {
+          "200": {
+            "description": "Server information",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerInfoData"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/ping": {
+      "post": {
+        "summary": "Ping server",
+        "description": "Ping the server to check if it is online",
+        "tags": ["Server"],
+        "responses": {
+          "200": {
+            "description": "Server is online",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ms": {
+                      "type": "integer",
+                      "description": "Response time in milliseconds"
+                    },
+                    "msg": {
+                      "type": "string",
+                      "description": "Response message",
+                      "examples": ["pong!"]
+                    }
+                  },
+                  "required": ["ms", "msg"]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "tokenAuth": {
+        "type": "apiKey",
+        "name": "Authorization",
+        "in": "header",
+        "description": "API Key (Token) Authentication using the Authorization header.  Format: <token>"
+      }
+    },
+    "schemas": {
+      "PageResult": {
+        "type": "object",
+        "properties": {
+          "prev": {
+            "type": ["integer", "nullable"]
+          },
+          "next": {
+            "type": ["integer", "nullable"]
+          },
+          "now": {
+            "type": "integer"
+          },
+          "max": {
+            "type": "integer"
+          },
+          "pages": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            }
+          }
+        },
+        "required": ["now", "max", "pages"]
+      },
+      "FileInfo": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "File code"
+          },
+          "url": {
+            "type": "string",
+            "description": "File URL"
+          },
+          "rawName": {
+            "type": "string",
+            "description": "File name"
+          },
+          "type": {
+            "type": "string",
+            "description": "File type"
+          },
+          "size": {
+            "type": "string",
+            "description": "File size"
+          },
+          "rawSize": {
+            "type": "integer",
+            "description": "File size in bytes"
+          },
+          "date": {
+            "type": "string",
+            "description": "File date"
+          },
+          "unixDate": {
+            "type": "number",
+            "description": "File date in unix time"
+          },
+          "ago": {
+            "type": ["string", "nullable"],
+            "description": "File date in relative time"
+          },
+          "downloadCount": {
+            "type": "integer",
+            "description": "Number of downloads"
+          },
+          "checksum": {
+            "type": "string",
+            "description": "File checksum"
+          },
+          "width": {
+            "type": ["integer", "nullable"],
+            "description": "Image width"
+          },
+          "height": {
+            "type": ["integer", "nullable"],
+            "description": "Image height"
+          },
+          "thumbnail": {
+            "type": ["string", "nullable"],
+            "description": "Thumbnail URL"
+          }
+        },
+        "required": [
+          "code",
+          "url",
+          "rawName",
+          "type",
+          "size",
+          "rawSize",
+          "date",
+          "unixDate",
+          "downloadCount",
+          "checksum"
+        ]
+      },
+      "FileInfoWithSearch": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "File code"
+          },
+          "url": {
+            "type": "string",
+            "description": "File URL"
+          },
+          "rawName": {
+            "type": "string",
+            "description": "File name"
+          },
+          "type": {
+            "type": "string",
+            "description": "File type"
+          },
+          "size": {
+            "type": "string",
+            "description": "File size"
+          },
+          "rawSize": {
+            "type": "integer",
+            "description": "File size in bytes"
+          },
+          "date": {
+            "type": "string",
+            "description": "File date"
+          },
+          "unixDate": {
+            "type": "number",
+            "description": "File date in unix time"
+          },
+          "ago": {
+            "type": ["string", "nullable"],
+            "description": "File date in relative time"
+          },
+          "downloadCount": {
+            "type": "integer",
+            "description": "Number of downloads"
+          },
+          "checksum": {
+            "type": "string",
+            "description": "File checksum"
+          },
+          "width": {
+            "type": ["integer", "nullable"],
+            "description": "Image width"
+          },
+          "height": {
+            "type": ["integer", "nullable"],
+            "description": "Image height"
+          },
+          "thumbnail": {
+            "type": ["string", "nullable"],
+            "description": "Thumbnail URL"
+          },
+          "isCode": {
+            "type": "boolean",
+            "description": "Whether the search term is in the file code"
+          },
+          "isRawName": {
+            "type": "boolean",
+            "description": "Whether the search term is in the file name"
+          }
+        },
+        "required": [
+          "code",
+          "url",
+          "rawName",
+          "type",
+          "size",
+          "rawSize",
+          "date",
+          "unixDate",
+          "downloadCount",
+          "checksum",
+          "isCode",
+          "isRawName"
+        ]
+      },
+      "ShortFileInfo": {
+        "type": "object",
+        "properties": {
+          "rawName": {
+            "type": "string",
+            "description": "File name"
+          },
+          "code": {
+            "type": "string",
+            "description": "File code"
+          },
+          "size": {
+            "type": "string",
+            "description": "File size"
+          },
+          "rawSize": {
+            "type": "integer",
+            "description": "File size in bytes"
+          },
+          "date": {
+            "type": "string",
+            "description": "File date"
+          },
+          "ago": {
+            "type": ["string", "nullable"],
+            "description": "File date in relative time"
+          },
+          "downloads": {
+            "type": "integer",
+            "description": "Number of downloads"
+          }
+        },
+        "required": ["rawName", "code", "size", "rawSize", "date", "downloads"]
+      },
+      "Package": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "version": {
+            "type": "string"
+          }
+        },
+        "required": ["name", "version"]
+      },
+      "Dependencies": {
+        "type": "object",
+        "additionalProperties": {
+          "type": "string"
+        }
+      },
+      "License": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "version": {
+            "type": "string"
+          },
+          "author": {
+            "type": ["string", "nullable"]
+          },
+          "repository": {
+            "type": "string"
+          },
+          "source": {
+            "type": "string"
+          },
+          "license": {
+            "type": "string"
+          },
+          "licenseText": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "version",
+          "repository",
+          "source",
+          "license",
+          "licenseText"
+        ]
+      },
+      "TypeCount": {
+        "type": "object",
+        "additionalProperties": {
+          "type": "integer"
+        }
+      },
+      "Storage": {
+        "type": "object",
+        "properties": {
+          "usage": {
+            "type": "integer"
+          },
+          "total": {
+            "type": "integer"
+          },
+          "used": {
+            "type": "integer"
+          },
+          "free": {
+            "type": "integer"
+          },
+          "formatted": {
+            "type": "string",
+            "description": "Formatted storage usage",
+            "examples": ["0 GB/128 GB | 128 GB free"]
+          }
+        },
+        "required": ["usage", "total", "used", "free", "formatted"]
+      },
+      "ServerInfoData": {
+        "type": "object",
+        "properties": {
+          "host": {
+            "type": "string"
+          },
+          "owner": {
+            "type": "string"
+          },
+          "hostname": {
+            "type": "string"
+          },
+          "runningAs": {
+            "type": "string"
+          },
+          "filesDir": {
+            "type": "string"
+          },
+          "thisVersion": {
+            "type": "string"
+          },
+          "nodeVersion": {
+            "type": "string"
+          },
+          "pnpmVersion": {
+            "type": "string"
+          },
+          "total": {
+            "type": "integer"
+          },
+          "none": {
+            "type": "integer"
+          },
+          "typeCount": {
+            "$ref": "#/components/schemas/TypeCount"
+          },
+          "packageList": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Package"
+            }
+          },
+          "devPackageList": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Package"
+            }
+          },
+          "licensesList": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/License"
+            }
+          },
+          "storage": {
+            "$ref": "#/components/schemas/Storage"
+          }
+        },
+        "required": [
+          "host",
+          "owner",
+          "hostname",
+          "runningAs",
+          "filesDir",
+          "thisVersion",
+          "nodeVersion",
+          "pnpmVersion",
+          "total",
+          "none",
+          "typeCount",
+          "packageList",
+          "devPackageList",
+          "licensesList",
+          "storage"
+        ]
+      }
+    }
+  }
+}

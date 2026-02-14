@@ -1,0 +1,56 @@
+{
+  "name": "file-server-nuxt",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare",
+    "gen:licenses": "npx tsx scripts/generate-licenses.ts"
+  },
+  "dependencies": {
+    "@nuxtjs/tailwindcss": "^6.14.0",
+    "@scalar/api-reference": "^1.43.15",
+    "chalk": "^5.6.2",
+    "daisyui": "^5.5.14",
+    "diskusage": "^1.2.0",
+    "dompurify": "^3.3.1",
+    "file-type": "^21.3.0",
+    "gray-matter": "^4.0.3",
+    "highlight.js": "^11.11.1",
+    "image-size": "^2.0.2",
+    "isomorphic-dompurify": "^2.35.0",
+    "luxon": "^3.7.2",
+    "marked": "^17.0.1",
+    "mime": "^4.1.0",
+    "nuxt": "^4.3.0",
+    "rehype-highlight": "^7.0.2",
+    "rehype-stringify": "^10.0.1",
+    "remark-gfm": "^4.0.1",
+    "remark-html": "^16.0.1",
+    "remark-parse": "^11.0.0",
+    "remark-rehype": "^11.1.2",
+    "sharp": "^0.34.5",
+    "unified": "^11.0.5",
+    "unist-util-visit": "^5.1.0",
+    "vue": "^3.5.27",
+    "vue-router": "^4.6.4"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "diskusage",
+      "sharp",
+      "vue-demi"
+    ]
+  },
+  "devDependencies": {
+    "@types/dompurify": "^3.2.0",
+    "@types/luxon": "^3.7.1",
+    "@types/node": "^25.0.10",
+    "autoprefixer": "^10.4.23",
+    "license-checker-rseidelsohn": "^4.4.2",
+    "postcss": "^8.5.6"
+  }
+}
